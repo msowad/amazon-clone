@@ -1,21 +1,20 @@
+import AddToCart from '@/src/components/AddToCart';
+import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
+import { Product } from '@/src/types/Product';
 import axios from '@/src/utils/axios';
-import { ErrorOutlineRounded, NavigateNext } from '@mui/icons-material';
+import { ErrorOutlineRounded } from '@mui/icons-material';
 import {
   Alert,
   AlertTitle,
-  Breadcrumbs,
-  Button,
   Card,
   CardContent,
   Container,
   Divider,
   Grid,
-  Link,
   List,
   ListItem,
   Rating,
-  Stack,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -25,46 +24,19 @@ import NextLink from 'next/link';
 import React from 'react';
 
 type Props = {
-  product?: {
-    id: number;
-    name: string;
-    brand: string;
-    category: string;
-    countInStock: number;
-    description: string;
-    image: string;
-    numReviews: number;
-    price: number;
-    rating: number;
-    slug: string;
-  };
+  product?: Product;
 };
 
 const Product: NextPage<Props> = ({ product }) => {
-  const breadcrumbs = [
-    <NextLink href='/' passHref key='1'>
-      <Link underline='hover' color='inherit'>
-        All Products
-      </Link>
-    </NextLink>,
-    <Typography key='2' color='text.primary'>
-      {product?.name || 'Product Not found'}
-    </Typography>,
-  ];
-
   return (
     <Layout
       title={product?.name || 'Product not found'}
       description={product?.description}
     >
-      <Stack spacing={2}>
-        <Breadcrumbs
-          separator={<NavigateNext fontSize='small' />}
-          aria-label='breadcrumb'
-        >
-          {breadcrumbs}
-        </Breadcrumbs>
-      </Stack>
+      <Breadcrumb
+        current={product?.name || 'Product Not found'}
+        links={[{ href: '/', label: 'All products' }]}
+      />
 
       {!product ? (
         <Container maxWidth='sm' sx={{ marginTop: 5 }}>
@@ -151,14 +123,15 @@ const Product: NextPage<Props> = ({ product }) => {
                       </Typography>
                     </ListItem>
                   </List>
-                  <Button
+                  <AddToCart
+                    pid={product._id}
                     disabled={product.countInStock < 1}
                     color='secondary'
                     fullWidth
                     variant='contained'
                   >
                     Add to cart
-                  </Button>
+                  </AddToCart>
                 </CardContent>
               </Card>
             </Grid>

@@ -1,8 +1,10 @@
 import { store } from '@/src/app/store';
 import createEmotionCache from '@/src/mui/createEmotionCache';
+import { MAX_SNACK } from '@/src/utils/constants';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import '../src/styles/globals.css';
@@ -23,7 +25,15 @@ export default function MyApp(props: MyAppProps) {
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <SnackbarProvider
+          maxSnack={MAX_SNACK}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </Provider>
     </CacheProvider>
   );

@@ -1,8 +1,8 @@
+import AddToCart from '@/src/components/AddToCart';
 import { Layout } from '@/src/components/Layout';
 import { Product } from '@/src/types/Product';
 import axios from '@/src/utils/axios';
 import {
-  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -43,9 +43,12 @@ const Home: NextPage<{ products: Product[] }> = ({ products }) => {
                 <Typography className='price' variant='body2'>
                   ${product.price}
                 </Typography>
-                <Button size='small' color='inherit'>
-                  Add to cart
-                </Button>
+                <AddToCart
+                  pid={product._id}
+                  disabled={product.countInStock < 1}
+                  size='small'
+                  color='inherit'
+                />
               </CardActions>
             </Card>
           </Grid>

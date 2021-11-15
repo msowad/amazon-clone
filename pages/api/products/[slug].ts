@@ -7,7 +7,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   await db.connect();
-  const product = await ProductModel.findOne({ slug: req.query.slug });
+
+  let product;
+  if (req.query.findById === 'true') {
+    product = await ProductModel.findById(req.query.slug);
+  } else {
+    product = await ProductModel.findOne({ slug: req.query.slug });
+  }
+
   await db.disconnect();
   res.send(product);
 }
