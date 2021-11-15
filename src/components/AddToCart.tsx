@@ -1,9 +1,11 @@
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/src/app/cart';
 import axios from '@/src/utils/axios';
 import NProgress from 'nprogress';
+import { useSnackbar } from 'notistack';
+import { Close } from '@mui/icons-material';
 
 interface Props {
   pid: string;
@@ -30,12 +32,27 @@ const AddToCart: React.FC<Props> = ({
   size,
 }) => {
   const dispatch = useDispatch();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const handleAddToCart = async () => {
     if (pid) {
       NProgress.start();
       const { data } = await axios.post(`/products/${pid}?findById=true`);
       dispatch(addToCart(data));
       NProgress.done();
+      enqueueSnackbar(`"${data.name}" added to cart`, {
+        variant: 'success',
+        action: (key) => (
+          <IconButton
+            onClick={() => closeSnackbar(key)}
+            key='close'
+            aria-label='close'
+            color='inherit'
+          >
+            <Close />
+          </IconButton>
+        ),
+      });
     }
   };
 
