@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/src/app/cart';
 import axios from '@/src/utils/axios';
+import NProgress from 'nprogress';
 
 interface Props {
   pid: string;
@@ -31,8 +32,10 @@ const AddToCart: React.FC<Props> = ({
   const dispatch = useDispatch();
   const handleAddToCart = async () => {
     if (pid) {
+      NProgress.start();
       const { data } = await axios.post(`/products/${pid}?findById=true`);
       dispatch(addToCart(data));
+      NProgress.done();
     }
   };
 

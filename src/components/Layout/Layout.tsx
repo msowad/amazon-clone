@@ -8,6 +8,7 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/src/mui/theme';
 import { useSelector } from 'react-redux';
 import { selectColorMode } from '@/src/app/colorMode';
+import NextNProgress from 'nextjs-progressbar';
 
 interface Props {
   title?: string;
@@ -25,6 +26,7 @@ const Layout: React.FC<Props> = ({ title, children, description }) => {
       </Head>
       <ThemeProvider theme={responsiveFontSizes(theme(darkMode))}>
         <CssBaseline />
+        <NextNProgress color={theme(darkMode).palette.secondary.light} />
         <StyledLayout>
           <Header />
           <Container className='main'>
