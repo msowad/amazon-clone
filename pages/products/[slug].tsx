@@ -1,5 +1,5 @@
 import { Layout } from '@/src/components/Layout';
-import { data } from '@/src/utils/data';
+import axios from '@/src/utils/axios';
 import { ErrorOutlineRounded, NavigateNext } from '@mui/icons-material';
 import {
   Alert,
@@ -67,7 +67,7 @@ const Product: NextPage<Props> = ({ product }) => {
       </Stack>
 
       {!product ? (
-        <Container maxWidth='sm'>
+        <Container maxWidth='sm' sx={{ marginTop: 5 }}>
           <Alert
             severity='error'
             elevation={3}
@@ -172,11 +172,11 @@ const Product: NextPage<Props> = ({ product }) => {
 export default Product;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const product = data.products.find((p) => p.slug === query.slug) || null;
+  const { data } = await axios.get(`/products/${query.slug}`);
 
   return {
     props: {
-      product,
+      product: data,
     },
   };
 };
