@@ -1,0 +1,13 @@
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+html {
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
+}
+
+.spacer {
+  flex-grow: 1;
+}
