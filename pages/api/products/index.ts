@@ -1,4 +1,5 @@
 import { db } from '@/src/server/db';
+import { ProductModel } from '@/src/server/model/Product';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -6,6 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   await db.connect();
+  const products = await ProductModel.find();
   await db.disconnect();
-  res.status(200).json({ name: 'John Doe' });
+  res.send(products);
 }
