@@ -112,11 +112,7 @@ const Cart: React.FC<Props> = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <NextLink
-                          passHref
-                          href='/product/[id]'
-                          as={`/product/${item.slug}`}
-                        >
+                        <NextLink passHref href={`/products/${item.slug}`}>
                           <a>{item.name}</a>
                         </NextLink>
                       </TableCell>
