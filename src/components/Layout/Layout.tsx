@@ -17,6 +17,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ title, children, description }) => {
   const darkMode = useSelector(selectColorMode);
+  const appTheme = theme(darkMode);
 
   return (
     <>
@@ -24,9 +25,9 @@ const Layout: React.FC<Props> = ({ title, children, description }) => {
         <title>{title ? `${title} - ` : ''}Next.js Amazon Clone</title>
         {description && <meta name='description' content={description} />}
       </Head>
-      <ThemeProvider theme={responsiveFontSizes(theme(darkMode))}>
+      <ThemeProvider theme={responsiveFontSizes(appTheme)}>
         <CssBaseline />
-        <NextNProgress color={theme(darkMode).palette.secondary.light} />
+        <NextNProgress color={appTheme.palette.secondary.light} />
         <StyledLayout>
           <Header />
           <Container className='main'>

@@ -2,9 +2,16 @@ import { styled } from '@mui/system';
 
 export const StyledLayout = styled('div')(({ theme }) => ({
   '.appbar': {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.background.paper,
     '.link': {
-      color: theme.palette.getContrastText(theme.palette.primary.main),
+      color: theme.palette.getContrastText(
+        theme.palette.mode === 'light'
+          ? theme.palette.primary.main
+          : theme.palette.background.paper
+      ),
     },
   },
   '.main': {
@@ -14,8 +21,15 @@ export const StyledLayout = styled('div')(({ theme }) => ({
     },
   },
   '.footer': {
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.getContrastText(theme.palette.primary.main),
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.background.paper,
+    color: theme.palette.getContrastText(
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.background.paper
+    ),
     '.logo-container': {
       display: 'flex',
       justifyContent: 'center',

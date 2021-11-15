@@ -64,6 +64,7 @@ const Test: React.FC<Props> = () => {
                 name='name'
                 label='Full name'
                 value={values.name}
+                variant='filled'
                 onChange={handleChange}
                 error={touched.name && Boolean(errors.name)}
                 helperText={touched.name && errors.name}
@@ -74,6 +75,7 @@ const Test: React.FC<Props> = () => {
                 fullWidth
                 required
                 name='email'
+                variant='filled'
                 label='Email'
                 value={values.email}
                 onChange={handleChange}
@@ -85,6 +87,7 @@ const Test: React.FC<Props> = () => {
                 fullWidth
                 required
                 name='password'
+                variant='filled'
                 label='Password'
                 value={values.password}
                 onChange={handleChange}
@@ -96,6 +99,7 @@ const Test: React.FC<Props> = () => {
                 fullWidth
                 required
                 name='confirmPassword'
+                variant='filled'
                 label='Confirm Password'
                 value={values.confirmPassword}
                 onChange={handleChange}

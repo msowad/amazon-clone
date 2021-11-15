@@ -54,6 +54,7 @@ const Login: React.FC<Props> = () => {
                 required
                 name='email'
                 label='Email'
+                variant='filled'
                 value={values.email}
                 onChange={handleChange}
                 error={touched.email && Boolean(errors.email)}
@@ -65,6 +66,7 @@ const Login: React.FC<Props> = () => {
                 required
                 name='password'
                 label='Password'
+                variant='filled'
                 value={values.password}
                 onChange={handleChange}
                 error={touched.password && Boolean(errors.password)}
@@ -83,7 +85,7 @@ const Login: React.FC<Props> = () => {
               <Grid container>
                 <Grid item>
                   <NextLink href='/register' passHref>
-                    <Link variant='body2'>
+                    <Link color='inherit' variant='body2'>
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </NextLink>

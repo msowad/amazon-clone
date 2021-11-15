@@ -40,20 +40,17 @@ export const lightPalette: PaletteOptions = {
     dark: yellow[800],
   },
   background: {
-    default: blueGrey[200],
-    paper: blueGrey[100],
-  },
-  error: {
-    main: red.A400,
+    default: blueGrey[100],
+    paper: blueGrey[200],
   },
 };
 
 export const darkPalette: PaletteOptions = {
   mode: 'dark',
   primary: {
-    light: blueGrey[600],
-    main: blueGrey[800],
-    dark: blueGrey[900],
+    light: blueGrey[50],
+    main: blueGrey[100],
+    dark: blueGrey[200],
   },
   secondary: {
     light: yellow[400],
@@ -61,11 +58,13 @@ export const darkPalette: PaletteOptions = {
     dark: yellow[800],
   },
   background: {
-    default: blueGrey[800],
-    paper: blueGrey[700],
+    default: blueGrey[900],
+    paper: blueGrey[800],
   },
   text: {
     primary: '#ffffff',
+    secondary: '#ffffff',
+    disabled: '#ffffff',
   },
   error: {
     main: red[300],
