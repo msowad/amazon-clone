@@ -7,6 +7,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '@/src/mui/createEmotionCache';
 import theme from '@/src/mui/theme';
 import '../src/styles/globals.css';
+import { Provider } from 'react-redux';
+import { store } from '@/src/app/store';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -23,10 +25,12 @@ export default function MyApp(props: MyAppProps) {
         <title>Amazon clone</title>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
-      <ThemeProvider theme={responsiveFontSizes(theme)}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={responsiveFontSizes(theme)}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
     </CacheProvider>
   );
 }
