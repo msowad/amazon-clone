@@ -1,7 +1,9 @@
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { selectColorMode, setMode, toggleMode } from '@/src/app/colorMode';
+import { DarkMode, LightMode } from '@mui/icons-material';
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Logo from './Logo';
 
 interface Props {
@@ -9,6 +11,13 @@ interface Props {
 }
 
 const Header: React.FC<Props> = () => {
+  const dispatch = useDispatch();
+  const darkMode = useSelector(selectColorMode);
+
+  useEffect(() => {
+    dispatch(setMode());
+  }, [dispatch]);
+
   return (
     <AppBar className='appbar' position='sticky'>
       <Toolbar className='toolbar'>
@@ -26,6 +35,9 @@ const Header: React.FC<Props> = () => {
         <Link href='/' passHref>
           <Button className='link'>login</Button>
         </Link>
+        <IconButton onClick={() => dispatch(toggleMode())} className='link'>
+          {darkMode ? <LightMode /> : <DarkMode />}
+        </IconButton>
       </Toolbar>
     </AppBar>
   );

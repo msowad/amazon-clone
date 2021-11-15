@@ -1,25 +1,73 @@
 import { blueGrey, red, yellow } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, PaletteOptions } from '@mui/material/styles';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: blueGrey[600],
-      main: blueGrey[800],
-      dark: blueGrey[900],
+export const theme = (darkMode: boolean) =>
+  createTheme({
+    typography: {
+      fontFamily: '"Poppins", "Helvetica", "Arial", sans-serif',
     },
-    secondary: {
-      light: yellow[400],
-      main: yellow[600],
-      dark: yellow[800],
+    palette: darkMode ? darkPalette : lightPalette,
+    components: {
+      MuiLink: {
+        defaultProps: {
+          color: 'inherit',
+        },
+      },
+      MuiTextField: {
+        defaultProps: {
+          variant: 'filled',
+          color: darkMode ? 'secondary' : 'primary',
+        },
+      },
+      MuiCheckbox: {
+        defaultProps: {
+          color: darkMode ? 'secondary' : 'primary',
+        },
+      },
     },
-    error: {
-      main: red.A400,
-    },
-  },
-  typography: {
-    fontFamily: '"Poppins", "Helvetica", "Arial", sans-serif',
-  },
-});
+  });
 
-export default theme;
+export const lightPalette: PaletteOptions = {
+  mode: 'light',
+  primary: {
+    light: blueGrey[600],
+    main: blueGrey[800],
+    dark: blueGrey[900],
+  },
+  secondary: {
+    light: yellow[400],
+    main: yellow[600],
+    dark: yellow[800],
+  },
+  background: {
+    default: blueGrey[200],
+    paper: blueGrey[100],
+  },
+  error: {
+    main: red.A400,
+  },
+};
+
+export const darkPalette: PaletteOptions = {
+  mode: 'dark',
+  primary: {
+    light: blueGrey[600],
+    main: blueGrey[800],
+    dark: blueGrey[900],
+  },
+  secondary: {
+    light: yellow[400],
+    main: yellow[600],
+    dark: yellow[800],
+  },
+  background: {
+    default: blueGrey[800],
+    paper: blueGrey[700],
+  },
+  text: {
+    primary: '#ffffff',
+  },
+  error: {
+    main: red[300],
+  },
+};

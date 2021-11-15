@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import colorModeReducer from './colorMode';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    colorMode: colorModeReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
