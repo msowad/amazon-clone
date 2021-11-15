@@ -51,7 +51,7 @@ const Header: React.FC<Props> = () => {
             </StyledBadge>
           </IconButton>
         </Link>
-        <Link href='/' passHref>
+        <Link href='/login' passHref>
           <Button className='link'>login</Button>
         </Link>
         <IconButton onClick={() => dispatch(toggleMode())} className='link'>

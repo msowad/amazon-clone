@@ -1,4 +1,22 @@
+import bcrypt from 'bcryptjs';
+
 export const data = {
+  users: [
+    {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@email.com',
+      password: bcrypt.hashSync('password', 10),
+      isAdmin: true,
+    },
+    {
+      id: 2,
+      name: 'Jane Doe',
+      email: 'jane@email.com',
+      password: bcrypt.hashSync('password', 10),
+      isAdmin: false,
+    },
+  ],
   // An array of product with id,name,slug,category,image,price,brand,rating,description,numReviews,countInStock
   products: [
     {
