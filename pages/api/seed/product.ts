@@ -1,4 +1,4 @@
-import { db } from '@/src/server/db';
+import db from '@/src/server/db';
 import { ProductModel } from '@/src/server/model/Product';
 import { data } from '@/src/utils/data';
 import type { NextApiRequest, NextApiResponse } from 'next';

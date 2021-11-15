@@ -12,7 +12,7 @@ const connect = async () => {
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState === 1;
     if (connection.isConnected) {
-      console.log('Mongoose is already connecting');
+      console.log('Mongoose is already connected');
       return;
     }
     await mongoose.disconnect();
@@ -35,4 +35,6 @@ const disconnect = async () => {
   }
 };
 
-export const db = { connect, disconnect };
+const db = { connect, disconnect };
+
+export default db;
