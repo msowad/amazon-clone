@@ -1,8 +1,12 @@
 import AuthWrapper from '@/src/components/AuthWrapper';
 import { Layout } from '@/src/components/Layout';
+import axios from '@/src/utils/axios';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
+import { GetServerSideProps } from 'next';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
 import * as yup from 'yup';
@@ -35,17 +39,42 @@ const initialValues = {
 };
 
 const Test: React.FC<Props> = () => {
+  const router = useRouter();
+
+  const handleRegister = async (values: any, setErrors: any) => {
+    try {
+      const { data } = await axios.post('/auth/register', values);
+      const result: any = await signIn('credentials', {
+        redirect: false,
+        callbackUrl: '/',
+        ...values,
+      });
+      if (result?.error) {
+        setErrors({
+          email: result.error,
+          password: result.error,
+        });
+      } else {
+        router.push('/');
+      }
+    } catch (error: any) {
+      const { field, message } = error.response.data;
+      if (field) {
+        setErrors({ [field]: message });
+      }
+    }
+  };
+
   return (
     <Layout title='Register'>
       <AuthWrapper title='Create new account'>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              console.log(values);
-              setSubmitting(false);
-            }, 400);
+          onSubmit={async (values, { setSubmitting, setErrors, setStatus }) => {
+            await handleRegister(values, setErrors);
+            setSubmitting(false);
+            setStatus({ success: false });
           }}
         >
           {({
@@ -89,6 +118,7 @@ const Test: React.FC<Props> = () => {
                 name='password'
                 variant='filled'
                 label='Password'
+                type='password'
                 value={values.password}
                 onChange={handleChange}
                 error={touched.password && Boolean(errors.password)}
@@ -101,6 +131,7 @@ const Test: React.FC<Props> = () => {
                 name='confirmPassword'
                 variant='filled'
                 label='Confirm Password'
+                type='password'
                 value={values.confirmPassword}
                 onChange={handleChange}
                 error={
@@ -120,7 +151,7 @@ const Test: React.FC<Props> = () => {
               </LoadingButton>
               <Grid container>
                 <Grid item>
-                  <NextLink href='/login' passHref>
+                  <NextLink href='/auth/login' passHref>
                     <Link variant='body2'>Already have an account? Login</Link>
                   </NextLink>
                 </Grid>
@@ -134,3 +165,20 @@ const Test: React.FC<Props> = () => {
 };
 
 export default Test;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

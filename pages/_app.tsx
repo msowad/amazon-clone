@@ -2,6 +2,7 @@ import { store } from '@/src/app/store';
 import createEmotionCache from '@/src/mui/createEmotionCache';
 import { MAX_SNACK } from '@/src/utils/constants';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { SnackbarProvider } from 'notistack';
@@ -32,7 +33,9 @@ export default function MyApp(props: MyAppProps) {
             horizontal: 'right',
           }}
         >
-          <Component {...pageProps} />
+          <SessionProvider>
+            <Component {...pageProps} />
+          </SessionProvider>
         </SnackbarProvider>
       </Provider>
     </CacheProvider>

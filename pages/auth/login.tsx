@@ -3,6 +3,9 @@ import { Layout } from '@/src/components/Layout';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
+import { GetServerSideProps } from 'next';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
 import * as yup from 'yup';
@@ -25,17 +28,33 @@ const initialValues = {
 };
 
 const Login: React.FC<Props> = () => {
+  const router = useRouter();
+
+  const handleLogin = async (values: any, setErrors: any) => {
+    const data: any = await signIn('credentials', {
+      redirect: false,
+      callbackUrl: '/',
+      ...values,
+    });
+    if (data?.error) {
+      setErrors({
+        email: data.error,
+        password: data.error,
+      });
+    } else {
+      router.push('/');
+    }
+  };
+
   return (
     <Layout title='Login'>
       <AuthWrapper title='Login to your account'>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              console.log(values);
-              setSubmitting(false);
-            }, 400);
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
+            await handleLogin(values, setErrors);
+            setSubmitting(false);
           }}
         >
           {({
@@ -68,6 +87,7 @@ const Login: React.FC<Props> = () => {
                 label='Password'
                 variant='filled'
                 value={values.password}
+                type='password'
                 onChange={handleChange}
                 error={touched.password && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
@@ -84,7 +104,7 @@ const Login: React.FC<Props> = () => {
               </LoadingButton>
               <Grid container>
                 <Grid item>
-                  <NextLink href='/register' passHref>
+                  <NextLink href='/auth/register' passHref>
                     <Link color='inherit' variant='body2'>
                       {"Don't have an account? Sign Up"}
                     </Link>
@@ -100,3 +120,20 @@ const Login: React.FC<Props> = () => {
 };
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
