@@ -8,11 +8,13 @@ import CheckoutStepper from '@/src/components/CheckoutStepper';
 import { Layout } from '@/src/components/Layout';
 import axios from '@/src/utils/axios';
 import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
+import { Edit } from '@mui/icons-material';
 import {
   Button,
   Card,
   CardContent,
   Grid,
+  IconButton,
   List,
   ListItem,
   Table,
@@ -82,9 +84,16 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant='h5' gutterBottom>
-                    Shipping details
-                  </Typography>
+                  <Box display='flex' justifyContent='space-between'>
+                    <Typography variant='h5' gutterBottom>
+                      Shipping details
+                    </Typography>
+                    <NextLink href='/checkout' passHref>
+                      <IconButton>
+                        <Edit />
+                      </IconButton>
+                    </NextLink>
+                  </Box>
                   <Typography variant='body1' gutterBottom>
                     Name: {shippingDetails.name}
                   </Typography>
@@ -106,9 +115,16 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant='h5' gutterBottom>
-                    Payment details
-                  </Typography>
+                  <Box display='flex' justifyContent='space-between'>
+                    <Typography variant='h5' gutterBottom>
+                      Payment details
+                    </Typography>
+                    <NextLink href='/checkout/payment' passHref>
+                      <IconButton>
+                        <Edit />
+                      </IconButton>
+                    </NextLink>
+                  </Box>
                   <Typography variant='body1' gutterBottom>
                     Payment method: {getPaymentMethodLabel(paymentMethod)}
                   </Typography>
@@ -127,7 +143,7 @@ const Confirm: React.FC<Props> = ({
                         <TableRow>
                           <TableCell>Image</TableCell>
                           <TableCell>Name</TableCell>
-                          <TableCell>Total</TableCell>
+                          <TableCell align='right'>Total</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -150,7 +166,10 @@ const Confirm: React.FC<Props> = ({
                                 <a>{item.name}</a>
                               </NextLink>
                             </TableCell>
-                            <TableCell>{item.price * item.quantity}</TableCell>
+                            <TableCell align='right'>
+                              ${item.price * item.quantity}
+                              <div>${item.price} X 3</div>
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

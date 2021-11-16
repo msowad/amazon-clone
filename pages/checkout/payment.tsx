@@ -37,7 +37,7 @@ const Payment: React.FC<Props> = ({ cachedPaymentMethod }) => {
   };
 
   return (
-    <Layout title='Complete payment'>
+    <Layout title='Choose payment method'>
       <Box sx={{ mb: 4 }}>
         <CheckoutStepper activeStep={2} enableHref />
       </Box>
@@ -73,7 +73,7 @@ const Payment: React.FC<Props> = ({ cachedPaymentMethod }) => {
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
-            Complete payment
+            Confirm
           </LoadingButton>
           <NextLink href='/checkout' passHref>
             <Button fullWidth>Edit shipping details</Button>
