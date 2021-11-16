@@ -1,8 +1,4 @@
-import {
-  selectShippingDetails,
-  ShippingDetails,
-  updateShippingDetails,
-} from '@/src/app/cart';
+import { ShippingDetails, updateShippingDetails } from '@/src/app/cart';
 import CheckoutStepper from '@/src/components/CheckoutStepper';
 import FormWrapper from '@/src/components/FormWrapper';
 import { Layout } from '@/src/components/Layout';
@@ -12,11 +8,11 @@ import { Box, Grid, Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { GetServerSideProps } from 'next';
 import { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
 interface Props {
@@ -37,7 +33,7 @@ const Checkout: React.FC<Props> = ({ session, shippingDetails }) => {
   const router = useRouter();
 
   const initialValues = {
-    name: shippingDetails?.name.length
+    name: shippingDetails?.name?.length
       ? shippingDetails?.name
       : session?.user?.name,
     address: shippingDetails?.address,
@@ -170,8 +166,19 @@ const Checkout: React.FC<Props> = ({ session, shippingDetails }) => {
 export default Checkout;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
+  const cartItems = req.cookies.cartItems
+    ? JSON.parse(req.cookies.cartItems)
+    : [];
+  if (!cartItems.length) {
+    return {
+      redirect: {
+        destination: '/cart',
+        permanent: true,
+      },
+    };
+  }
 
+  const session = await getSession({ req });
   if (!session) {
     return {
       redirect: {
