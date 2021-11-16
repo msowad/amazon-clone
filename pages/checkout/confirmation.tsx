@@ -1,25 +1,20 @@
 import {
   CartItem,
   PaymentMethod,
+  resetCart,
   ShippingDetails,
-  updateQuantity,
 } from '@/src/app/cart';
 import CheckoutStepper from '@/src/components/CheckoutStepper';
 import { Layout } from '@/src/components/Layout';
-import { Close } from '@mui/icons-material';
+import axios from '@/src/utils/axios';
+import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
 import {
-  Alert,
-  AlertTitle,
   Button,
   Card,
   CardContent,
-  CardHeader,
   Grid,
-  IconButton,
   List,
   ListItem,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -30,12 +25,12 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { GetServerSideProps } from 'next';
-import React from 'react';
+import { useRouter } from 'next/dist/client/router';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
-import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
-import axios from '@/src/utils/axios';
 import NProgress from 'nprogress';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   cartItems: CartItem[];
@@ -48,6 +43,9 @@ const Confirm: React.FC<Props> = ({
   shippingDetails,
   paymentMethod,
 }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.456 => 123.46
   const itemsPrice = round2(
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
@@ -58,12 +56,13 @@ const Confirm: React.FC<Props> = ({
 
   const handleOrder = async () => {
     NProgress.start();
-    const { data } = await axios.post('/api/orders/create', {
+    const { data } = await axios.post('/orders/create', {
       cartItems,
       shippingDetails,
       paymentMethod,
     });
-    console.log(data);
+    dispatch(resetCart());
+    router.push(`/orders/${data._id}`);
     NProgress.done();
   };
 

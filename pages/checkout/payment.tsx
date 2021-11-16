@@ -20,12 +20,13 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 interface Props {
-  cachedPaymentMethod: PaymentMethod;
+  cachedPaymentMethod: PaymentMethod | null;
 }
 
 const Payment: React.FC<Props> = ({ cachedPaymentMethod }) => {
-  const [paymentMethod, setPaymentMethod] =
-    React.useState<PaymentMethod>(cachedPaymentMethod);
+  const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>(
+    cachedPaymentMethod || 'stripe'
+  );
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -108,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
 
-  const cachedPaymentMethod = req.cookies.paymentMethod;
+  const cachedPaymentMethod = req.cookies.paymentMethod || null;
 
   return {
     props: {

@@ -131,6 +131,11 @@ export const cartSlice = createSlice({
       Cookies.set('paymentMethod', action.payload);
       state.paymentMethod = action.payload;
     },
+    resetCart: (state) => {
+      state.cartItems = [];
+      Cookies.remove('cartItems');
+      Cookies.remove('lastCartItems');
+    },
   },
 });
 
@@ -156,6 +161,7 @@ export const {
   undoRemoveFromCart,
   updateShippingDetails,
   updatePaymentMethod,
+  resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
