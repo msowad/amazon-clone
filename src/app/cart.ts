@@ -13,9 +13,12 @@ export type ShippingDetails = {
   country: string;
 };
 
+export type PaymentMethod = 'stripe' | 'cod';
+
 interface CartState {
   cartItems: CartItem[];
   shippingDetails: ShippingDetails;
+  paymentMethod: PaymentMethod;
 }
 
 const initialState: CartState = {
@@ -27,6 +30,7 @@ const initialState: CartState = {
     postalCode: '',
     country: '',
   },
+  paymentMethod: 'stripe',
 };
 
 export const cartSlice = createSlice({
@@ -123,6 +127,10 @@ export const cartSlice = createSlice({
         state.shippingDetails = action.payload;
       }
     },
+    updatePaymentMethod: (state, action: PayloadAction<PaymentMethod>) => {
+      Cookies.set('paymentMethod', action.payload);
+      state.paymentMethod = action.payload;
+    },
   },
 });
 
@@ -147,6 +155,7 @@ export const {
   updateQuantity,
   undoRemoveFromCart,
   updateShippingDetails,
+  updatePaymentMethod,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

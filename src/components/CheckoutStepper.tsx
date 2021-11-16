@@ -17,7 +17,7 @@ interface Props {
 const steps = [
   { label: 'Login' },
   { label: 'Shipping', href: '/checkout' },
-  { label: 'Payment' },
+  { label: 'Payment', href: '/checkout/payment' },
   { label: 'Place order' },
 ];
 
