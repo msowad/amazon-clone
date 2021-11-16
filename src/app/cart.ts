@@ -5,13 +5,28 @@ import { RootState } from './store';
 import { MAX_SNACK } from '@/src/utils/constants';
 
 export type CartItem = Product & { quantity: number };
+export type ShippingDetails = {
+  name: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
 
 interface CartState {
   cartItems: CartItem[];
+  shippingDetails: ShippingDetails;
 }
 
 const initialState: CartState = {
   cartItems: [],
+  shippingDetails: {
+    name: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  },
 };
 
 export const cartSlice = createSlice({
@@ -43,6 +58,9 @@ export const cartSlice = createSlice({
     setCartFromCookies: (state) => {
       if (Cookies.get('cartItems')) {
         state.cartItems = JSON.parse(Cookies.get('cartItems')!);
+      }
+      if (Cookies.get('shippingDetails')) {
+        state.shippingDetails = JSON.parse(Cookies.get('shippingDetails')!);
       }
     },
     removeFromCart: (state, action: PayloadAction<Product>) => {
@@ -98,6 +116,13 @@ export const cartSlice = createSlice({
         }
       }
     },
+    updateShippingDetails: (state, action: PayloadAction<ShippingDetails>) => {
+      const { name, address, city, postalCode, country } = action.payload;
+      if (name && address && city && postalCode && country) {
+        Cookies.set('shippingDetails', JSON.stringify(action.payload));
+        state.shippingDetails = action.payload;
+      }
+    },
   },
 });
 
@@ -105,6 +130,9 @@ export const selectCartLength = (state: RootState) =>
   state.cart.cartItems.length;
 
 export const selectCartItems = (state: RootState) => state.cart.cartItems;
+
+export const selectShippingDetails = (state: RootState) =>
+  state.cart.shippingDetails;
 
 export const selectTotalPrice = (state: RootState) =>
   state.cart.cartItems.reduce(
@@ -118,6 +146,7 @@ export const {
   removeFromCart,
   updateQuantity,
   undoRemoveFromCart,
+  updateShippingDetails,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

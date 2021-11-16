@@ -1,5 +1,6 @@
-import AuthWrapper from '@/src/components/AuthWrapper';
+import FormWrapper from '@/src/components/FormWrapper';
 import { Layout } from '@/src/components/Layout';
+import { LockOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
@@ -29,11 +30,11 @@ const initialValues = {
 
 const Login: React.FC<Props> = () => {
   const router = useRouter();
+  const { redirect } = router.query;
 
   const handleLogin = async (values: any, setErrors: any) => {
     const data: any = await signIn('credentials', {
       redirect: false,
-      callbackUrl: '/',
       ...values,
     });
     if (data?.error) {
@@ -42,13 +43,13 @@ const Login: React.FC<Props> = () => {
         password: data.error,
       });
     } else {
-      router.push('/');
+      router.push(redirect ? '/' + redirect : '/');
     }
   };
 
   return (
     <Layout title='Login'>
-      <AuthWrapper title='Login to your account'>
+      <FormWrapper title='Login to your account' icon={<LockOutlined />}>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
@@ -104,7 +105,14 @@ const Login: React.FC<Props> = () => {
               </LoadingButton>
               <Grid container>
                 <Grid item>
-                  <NextLink href='/auth/register' passHref>
+                  <NextLink
+                    href={`/auth/register${
+                      router.query.redirect
+                        ? `?redirect=${router.query.redirect}`
+                        : ''
+                    }`}
+                    passHref
+                  >
                     <Link color='inherit' variant='body2'>
                       {"Don't have an account? Sign Up"}
                     </Link>
@@ -114,7 +122,7 @@ const Login: React.FC<Props> = () => {
             </Form>
           )}
         </Formik>
-      </AuthWrapper>
+      </FormWrapper>
     </Layout>
   );
 };

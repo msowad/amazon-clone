@@ -1,6 +1,7 @@
-import AuthWrapper from '@/src/components/AuthWrapper';
+import FormWrapper from '@/src/components/FormWrapper';
 import { Layout } from '@/src/components/Layout';
 import axios from '@/src/utils/axios';
+import { GroupAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
@@ -38,15 +39,15 @@ const initialValues = {
   confirmPassword: '',
 };
 
-const Test: React.FC<Props> = () => {
+const Register: React.FC<Props> = () => {
   const router = useRouter();
+  const { redirect } = router.query;
 
   const handleRegister = async (values: any, setErrors: any) => {
     try {
-      const { data } = await axios.post('/auth/register', values);
+      await axios.post('/auth/register', values);
       const result: any = await signIn('credentials', {
         redirect: false,
-        callbackUrl: '/',
         ...values,
       });
       if (result?.error) {
@@ -55,7 +56,7 @@ const Test: React.FC<Props> = () => {
           password: result.error,
         });
       } else {
-        router.push('/');
+        router.push(redirect ? '/' + redirect : '/');
       }
     } catch (error: any) {
       const { field, message } = error.response.data;
@@ -67,14 +68,13 @@ const Test: React.FC<Props> = () => {
 
   return (
     <Layout title='Register'>
-      <AuthWrapper title='Create new account'>
+      <FormWrapper title='Create new account' icon={<GroupAdd />}>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
-          onSubmit={async (values, { setSubmitting, setErrors, setStatus }) => {
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
             await handleRegister(values, setErrors);
             setSubmitting(false);
-            setStatus({ success: false });
           }}
         >
           {({
@@ -159,12 +159,12 @@ const Test: React.FC<Props> = () => {
             </Form>
           )}
         </Formik>
-      </AuthWrapper>
+      </FormWrapper>
     </Layout>
   );
 };
 
-export default Test;
+export default Register;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
