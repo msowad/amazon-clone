@@ -20,6 +20,10 @@ const OrderSchema = new mongoose.Schema<Order>(
             type: String,
             required: true,
           },
+          slug: {
+            type: String,
+            required: true,
+          },
           price: {
             type: Number,
             required: true,

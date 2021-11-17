@@ -1,6 +1,7 @@
 interface OrderItem {
   _id: {} | string;
   name: string;
+  slug: string;
   price: number;
   image: string;
   quantity: number;

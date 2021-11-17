@@ -1,10 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { NextHandler } from 'next-connect';
-import { Session } from 'next-auth';
+
+export interface ExtendedReq {
+  user: Session['user'];
+}
 
 export async function isAuth(
-  req: NextApiRequest & { user: Session['user'] },
+  req: NextApiRequest & ExtendedReq,
   res: NextApiResponse,
   next: NextHandler
 ) {

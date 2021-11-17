@@ -134,9 +134,16 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant='h5' gutterBottom>
-                    Order items
-                  </Typography>
+                  <Box display='flex' justifyContent='space-between'>
+                    <Typography variant='h5' gutterBottom>
+                      Order items
+                    </Typography>
+                    <NextLink href='/cart' passHref>
+                      <IconButton>
+                        <Edit />
+                      </IconButton>
+                    </NextLink>
+                  </Box>
                   <TableContainer>
                     <Table>
                       <TableHead>
@@ -168,7 +175,9 @@ const Confirm: React.FC<Props> = ({
                             </TableCell>
                             <TableCell align='right'>
                               ${item.price * item.quantity}
-                              <div>${item.price} X 3</div>
+                              <div>
+                                ${item.price} X {item.quantity}
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))}

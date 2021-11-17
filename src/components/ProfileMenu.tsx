@@ -1,3 +1,4 @@
+import { HistoryRounded } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
@@ -14,6 +15,7 @@ import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
 import React from 'react';
+import NextLink from 'next/link';
 
 interface Props {
   session: Session;
@@ -91,9 +93,14 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
         <MenuItem>
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
+        <NextLink href='/orders' passHref>
+          <MenuItem>
+            <ListItemIcon>
+              <HistoryRounded fontSize='small' />
+            </ListItemIcon>
+            Order History
+          </MenuItem>
+        </NextLink>
         <Divider />
         <MenuItem>
           <ListItemIcon>
