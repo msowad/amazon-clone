@@ -29,7 +29,7 @@ export default function MyApp(props: MyAppProps) {
         <SnackbarProvider
           maxSnack={MAX_SNACK}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'right',
           }}
         >

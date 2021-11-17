@@ -1,4 +1,4 @@
-import { HistoryRounded } from '@mui/icons-material';
+import { AccountCircle, HistoryRounded } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
@@ -16,6 +16,7 @@ import { signOut } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/dist/client/router';
 
 interface Props {
   session: Session;
@@ -23,6 +24,8 @@ interface Props {
 
 const ProfileMenu: React.FC<Props> = ({ session }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,9 +37,9 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
 
   const handleSignOut = () => {
     signOut({ redirect: false });
+    router.push('/');
     enqueueSnackbar('You have been signed out.', {
       variant: 'success',
-      anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
     });
   };
 
@@ -89,10 +92,15 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
           <Typography variant='subtitle1'>{session.user?.name}</Typography>
           <Typography variant='subtitle2'>{session.user?.email}</Typography>
         </Box>
-        <Divider />
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
+        <Divider sx={{ mb: 1 }} />
+        <NextLink href='/profile' passHref>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountCircle fontSize='small' />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
+        </NextLink>
         <NextLink href='/orders' passHref>
           <MenuItem>
             <ListItemIcon>
@@ -102,18 +110,6 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
           </MenuItem>
         </NextLink>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize='small' />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize='small' />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
         <MenuItem onClick={handleSignOut}>
           <ListItemIcon>
             <Logout fontSize='small' />
