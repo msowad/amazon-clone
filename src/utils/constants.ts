@@ -1,3 +1,5 @@
+import { CookieAttributes } from 'js-cookie';
+
 export const MAX_SNACK = 3;
 
 export const PAYMENT_METHODS = [
@@ -10,3 +12,7 @@ export const PAYMENT_METHODS = [
     value: 'cod',
   },
 ];
+
+export const COOKIES_DEFAULT_OPTIONS: CookieAttributes = {
+  expires: 365,
+};

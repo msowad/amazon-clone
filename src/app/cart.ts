@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { Product } from '@/src/types/Product';
 import { RootState } from './store';
-import { MAX_SNACK } from '@/src/utils/constants';
+import { COOKIES_DEFAULT_OPTIONS, MAX_SNACK } from '@/src/utils/constants';
 
 export type CartItem = Product & { quantity: number };
 export type ShippingDetails = {
@@ -57,7 +57,11 @@ export const cartSlice = createSlice({
           state.cartItems.push(product);
         }
       }
-      Cookies.set('cartItems', JSON.stringify(state.cartItems));
+      Cookies.set(
+        'cartItems',
+        JSON.stringify(state.cartItems),
+        COOKIES_DEFAULT_OPTIONS
+      );
     },
     setCartFromCookies: (state) => {
       if (Cookies.get('cartItems')) {
@@ -75,13 +79,18 @@ export const cartSlice = createSlice({
       state.cartItems[productIndex].countInStock +=
         state.cartItems[productIndex].quantity;
       state.cartItems.splice(productIndex, 1);
-      Cookies.set('cartItems', JSON.stringify(state.cartItems));
+      Cookies.set(
+        'cartItems',
+        JSON.stringify(state.cartItems),
+        COOKIES_DEFAULT_OPTIONS
+      );
       const lastCartItems = Cookies.get('lastCartItems')
         ? JSON.parse(Cookies.get('lastCartItems')!)
         : [];
       Cookies.set(
         'lastCartItems',
-        JSON.stringify([product, ...lastCartItems.slice(0, MAX_SNACK - 1)])
+        JSON.stringify([product, ...lastCartItems.slice(0, MAX_SNACK - 1)]),
+        COOKIES_DEFAULT_OPTIONS
       );
     },
     updateQuantity: (
@@ -98,7 +107,11 @@ export const cartSlice = createSlice({
       const quantityDiff = quantity - state.cartItems[productIndex].quantity;
       state.cartItems[productIndex].quantity = quantity;
       state.cartItems[productIndex].countInStock -= quantityDiff;
-      Cookies.set('cartItems', JSON.stringify(state.cartItems));
+      Cookies.set(
+        'cartItems',
+        JSON.stringify(state.cartItems),
+        COOKIES_DEFAULT_OPTIONS
+      );
     },
     undoRemoveFromCart: (state, action: PayloadAction<string>) => {
       if (Cookies.get('lastCartItems')) {
@@ -116,19 +129,27 @@ export const cartSlice = createSlice({
             state.cartItems[productIndex].countInStock--;
             state.cartItems[productIndex].quantity++;
           }
-          Cookies.set('cartItems', JSON.stringify(state.cartItems));
+          Cookies.set(
+            'cartItems',
+            JSON.stringify(state.cartItems),
+            COOKIES_DEFAULT_OPTIONS
+          );
         }
       }
     },
     updateShippingDetails: (state, action: PayloadAction<ShippingDetails>) => {
       const { name, address, city, postalCode, country } = action.payload;
       if (name && address && city && postalCode && country) {
-        Cookies.set('shippingDetails', JSON.stringify(action.payload));
+        Cookies.set(
+          'shippingDetails',
+          JSON.stringify(action.payload),
+          COOKIES_DEFAULT_OPTIONS
+        );
         state.shippingDetails = action.payload;
       }
     },
     updatePaymentMethod: (state, action: PayloadAction<PaymentMethod>) => {
-      Cookies.set('paymentMethod', action.payload);
+      Cookies.set('paymentMethod', action.payload, COOKIES_DEFAULT_OPTIONS);
       state.paymentMethod = action.payload;
     },
     resetCart: (state) => {

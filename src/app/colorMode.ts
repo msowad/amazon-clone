@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { COOKIES_DEFAULT_OPTIONS } from '../utils/constants';
 import { RootState } from './store';
 
 export interface ColorModeState {
@@ -16,7 +17,11 @@ export const colorModeSlice = createSlice({
   reducers: {
     toggleMode: (state) => {
       state.darkMode = !state.darkMode;
-      Cookies.set('darkMode', state.darkMode ? 'ON' : 'OFF');
+      Cookies.set(
+        'darkMode',
+        state.darkMode ? 'ON' : 'OFF',
+        COOKIES_DEFAULT_OPTIONS
+      );
     },
     setMode: (state) => {
       state.darkMode = Cookies.get('darkMode') === 'ON';
