@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { createClient } from 'redis';
 
 type connectionType = { isConnected?: boolean };
 
@@ -35,6 +36,11 @@ const disconnect = async () => {
   }
 };
 
-const db = { connect, disconnect };
+const redisClient = createClient({
+  host: process.env.REDIS_HOST,
+  port: Number(process.env.REDIS_PORT),
+});
+
+const db = { connect, disconnect, redisClient };
 
 export default db;

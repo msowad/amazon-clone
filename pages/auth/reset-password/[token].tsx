@@ -1,13 +1,14 @@
 import FormWrapper from '@/src/components/FormWrapper';
 import { Layout } from '@/src/components/Layout';
+import axios from '@/src/utils/axios';
 import { LockOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Grid, Link, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { GetServerSideProps } from 'next';
 import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
-import NextLink from 'next/link';
+import { useSnackbar } from 'notistack';
 import React from 'react';
 import * as yup from 'yup';
 
@@ -16,45 +17,61 @@ interface Props {
 }
 
 const validationSchema = yup.object({
-  email: yup
+  newPassword: yup.string().required('Password is required'),
+  confirmPassword: yup
     .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: yup.string().required('Password is required'),
+    .oneOf([yup.ref('newPassword'), null], 'Passwords must match')
+    .required('Confirm Password is required'),
 });
 
 const initialValues = {
-  email: '',
-  password: '',
+  newPassword: '',
+  confirmPassword: '',
 };
 
-const Login: React.FC<Props> = () => {
+const ResetPassword: React.FC<Props> = () => {
   const router = useRouter();
-  const { redirect } = router.query;
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleLogin = async (values: any, setErrors: any) => {
-    const data: any = await signIn('credentials', {
-      redirect: false,
-      ...values,
-    });
-    if (data?.error) {
-      setErrors({
-        email: data.error,
-        password: data.error,
+  const handleSubmit = async (values: any, setErrors: any) => {
+    try {
+      const { data } = await axios.post('/auth/change-password', {
+        ...values,
+        token: router.query.token,
       });
-    } else {
-      router.push(redirect ? '/' + redirect : '/');
+
+      if (data.user) {
+        const result: any = await signIn('credentials', {
+          redirect: false,
+          email: data.user.email,
+          password: data.user.password,
+        });
+        if (result?.error) {
+          enqueueSnackbar(result.error, {
+            variant: 'error',
+          });
+        } else {
+          enqueueSnackbar('Password changed successfully', {
+            variant: 'success',
+          });
+          router.push('/');
+        }
+      }
+    } catch (error: any) {
+      enqueueSnackbar(error.response.data.message || error.message, {
+        variant: 'error',
+      });
     }
   };
 
   return (
-    <Layout title='Login'>
-      <FormWrapper title='Login to your account' icon={<LockOutlined />}>
+    <Layout title='Change password'>
+      <FormWrapper title='Change password' icon={<LockOutlined />}>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
-            await handleLogin(values, setErrors);
+            await handleSubmit(values, setErrors);
             setSubmitting(false);
           }}
         >
@@ -72,35 +89,30 @@ const Login: React.FC<Props> = () => {
                 autoFocus
                 fullWidth
                 required
-                name='email'
-                label='Email'
+                name='newPassword'
+                label='New Password'
                 variant='filled'
-                value={values.email}
+                value={values.newPassword}
                 onChange={handleChange}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
+                type='password'
+                error={touched.newPassword && Boolean(errors.newPassword)}
+                helperText={touched.newPassword && errors.newPassword}
               />
               <TextField
                 margin='normal'
                 fullWidth
                 required
-                name='password'
-                label='Password'
+                name='confirmPassword'
+                label='Confirm Password'
                 variant='filled'
-                value={values.password}
+                value={values.confirmPassword}
                 type='password'
                 onChange={handleChange}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
+                error={
+                  touched.confirmPassword && Boolean(errors.confirmPassword)
+                }
+                helperText={touched.confirmPassword && errors.confirmPassword}
               />
-              <NextLink
-                href={`/auth/forgot-password?email=${values.email}`}
-                passHref
-              >
-                <Link color='inherit' variant='body2'>
-                  Forgot password?
-                </Link>
-              </NextLink>
               <LoadingButton
                 loading={isSubmitting}
                 type='submit'
@@ -109,20 +121,8 @@ const Login: React.FC<Props> = () => {
                 variant='contained'
                 sx={{ mt: 3, mb: 2 }}
               >
-                Login
+                change password
               </LoadingButton>
-              <NextLink
-                href={`/auth/register${
-                  router.query.redirect
-                    ? `?redirect=${router.query.redirect}`
-                    : ''
-                }`}
-                passHref
-              >
-                <Link color='inherit' variant='body2'>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </NextLink>
             </Form>
           )}
         </Formik>
@@ -131,11 +131,10 @@ const Login: React.FC<Props> = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
-
   if (session) {
     return {
       redirect: {
