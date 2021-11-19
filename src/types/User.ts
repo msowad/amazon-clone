@@ -4,6 +4,8 @@ export interface User {
   email: string;
   password: string;
   isAdmin: boolean;
+  emailVerified: boolean;
+  emailVerifiedAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }

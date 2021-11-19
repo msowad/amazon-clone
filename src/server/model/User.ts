@@ -20,6 +20,14 @@ const UserSchema = new mongoose.Schema<User>(
       type: Boolean,
       default: false,
     },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerifiedAt: {
+      type: Date,
+      nullable: true,
+    },
   },
   { timestamps: true }
 );

@@ -1,7 +1,11 @@
 import nodemailer from 'nodemailer';
-import { forgotPasswordTemplate } from './html/forgotPassword';
+import { emailVerificationTemplate } from '@/src/server/mail/html/emailVerify';
 
-export const sendForgotPasswordMail = async (email: string, token: string) => {
+export const sendEmailVerificationMail = async (
+  email: string,
+  token: string,
+  userName: string
+) => {
   const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST, // 'smtp.ethereal.email'
     port: Number(process.env.MAIL_PORT), // 587
@@ -12,15 +16,15 @@ export const sendForgotPasswordMail = async (email: string, token: string) => {
     },
   });
 
-  const url = `${process.env.PASSWORD_RESET_URL}/${token}`;
+  const url = `${process.env.EMAIL_VERIFICATION_URL}/${token}`;
   const logo = `${process.env.LOGO_URL}`;
   const frontendUrl = `${process.env.FRONT_END_URL}`;
 
   const mailOptions = {
     from: process.env.MAIL_FROM_ADDRESS,
     to: email,
-    subject: 'Reset Password',
-    html: forgotPasswordTemplate(url, logo, frontendUrl),
+    subject: 'Verify email',
+    html: emailVerificationTemplate(url, logo, frontendUrl, userName),
   };
 
   transporter.sendMail(mailOptions, (err, info) => {

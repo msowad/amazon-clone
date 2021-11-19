@@ -2,6 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import { UserModel } from '@/src/server/model/User';
 import db from '@/src/server/db';
+import crypto from 'crypto';
+import { EMAIL_VERIFICATION_PREFIX } from '@/src/server/constants';
+import { sendEmailVerificationMail } from '@/src/server/mail/sendEmailVerificationMail';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,6 +34,28 @@ export default async function handler(
         password: hashedPassword,
       });
       await db.disconnect();
+
+      crypto.randomBytes(32, async (err, buffer) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+        } else {
+          const token = buffer.toString('hex');
+          const encryptedToken = crypto
+            .createHash('sha256')
+            .update(token)
+            .digest('hex');
+
+          await db.redisClient.set(
+            EMAIL_VERIFICATION_PREFIX + encryptedToken,
+            user.id,
+            'EX',
+            20 * 60
+          ); // 20 minutes
+
+          await sendEmailVerificationMail(user.email, token, user.name);
+        }
+      });
+
       res.status(201).json({
         success: true,
         data: user,
