@@ -29,10 +29,11 @@ const ForgotPassword: React.FC<Props> = ({ email }) => {
     email,
   };
 
-  const handleSubmit = async (values: any, setErrors: any) => {
+  const handleSubmit = async (values: any, setErrors: any,setFieldValue:any) => {
     try {
       const { data } = await axios.post('/auth/forgot-password', values);
       enqueueSnackbar(data.message, { variant: 'success' });
+      setFieldValue('email', '', false);
     } catch (error: any) {
       setErrors({ email: error.message });
     }
@@ -44,8 +45,8 @@ const ForgotPassword: React.FC<Props> = ({ email }) => {
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            await handleSubmit(values, setErrors);
+          onSubmit={async (values, { setSubmitting, setErrors,setFieldValue }) => {
+            await handleSubmit(values, setErrors,setFieldValue);
             setSubmitting(false);
           }}
         >
