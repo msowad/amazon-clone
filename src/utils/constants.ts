@@ -17,7 +17,5 @@ export const COOKIES_DEFAULT_OPTIONS: CookieAttributes = {
   expires: 365,
 };
 
-export const STRIPE_SUCCESS_URL = (oid: string) =>
-  `${process.env.FRONT_END_URL}/orders/${oid}?success=true`;
-export const STRIPE_CANCEL_URL = (oid: string) =>
-  `${process.env.FRONT_END_URL}/orders/${oid}?success=false`;
+export const TAX_RATE = 0.15;
+export const SHIPPING_PRICE = 15;

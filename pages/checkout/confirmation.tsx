@@ -7,6 +7,7 @@ import {
 import CheckoutStepper from '@/src/components/CheckoutStepper';
 import { Layout } from '@/src/components/Layout';
 import axios from '@/src/utils/axios';
+import { SHIPPING_PRICE, TAX_RATE } from '@/src/utils/constants';
 import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
 import { Edit } from '@mui/icons-material';
 import {
@@ -52,8 +53,8 @@ const Confirm: React.FC<Props> = ({
   const itemsPrice = round2(
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
   );
-  const shippingPrice = itemsPrice > 200 ? 0 : 15;
-  const taxPrice = round2(itemsPrice * 0.15);
+  const shippingPrice = SHIPPING_PRICE;
+  const taxPrice = round2(itemsPrice * TAX_RATE);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
   const handleOrder = async () => {
@@ -154,7 +155,7 @@ const Confirm: React.FC<Props> = ({
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {cartItems.map((item) => (
+                        {cartItems.map(item => (
                           <TableRow key={item._id}>
                             <TableCell>
                               <NextImage
@@ -260,34 +261,34 @@ const Confirm: React.FC<Props> = ({
 export default Confirm;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  if(!req.cookies.cartItems) {
+  if (!req.cookies.cartItems) {
     return {
       redirect: {
         destination: '/cart',
-        permanent: false
+        permanent: false,
       },
-    }
+    };
   }
   const cartItems = JSON.parse(req.cookies.cartItems);
 
-  if(!req.cookies.shippingDetails) {
+  if (!req.cookies.shippingDetails) {
     return {
       redirect: {
         destination: '/checkout',
-        permanent: false
+        permanent: false,
       },
-    }
+    };
   }
-  console.log("HAS SHIPPING DETAILS")
-  const shippingDetails =  JSON.parse(req.cookies.shippingDetails)
+  console.log('HAS SHIPPING DETAILS');
+  const shippingDetails = JSON.parse(req.cookies.shippingDetails);
 
-  if(!req.cookies.paymentMethod) {
+  if (!req.cookies.paymentMethod) {
     return {
       redirect: {
         destination: '/checkout/payment',
-        permanent: false
+        permanent: false,
       },
-    }
+    };
   }
   const paymentMethod = req.cookies.paymentMethod;
 

@@ -2,7 +2,6 @@ import db from '@/src/server/db';
 import { stripe } from '@/src/server/lib/stripe';
 import { OrderModel } from '@/src/server/model/Order';
 import { Order } from '@/src/types/Order';
-import { STRIPE_CANCEL_URL, STRIPE_SUCCESS_URL } from '@/src/utils/constants';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -26,26 +25,34 @@ handler.post(async (req, res) => {
     return;
   }
   // TODO: complete payment
-
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: order.items.map(item => ({
-        price: String(item.price),
         quantity: item.quantity,
-        images: [item.image],
-        name: item.name,
+        price_data: {
+          currency: 'usd',
+          unit_amount: item.price * 100,
+          product_data: {
+            name: item.name,
+            images: [item.image],
+          },
+        },
       })),
+      shipping_rates: ['shr_1K0oXaCKbMbVB5ex5I9e7yN7'],
+      mode: 'payment',
+      success_url: `${process.env.FRONT_END_URL}/orders/${order._id}?success=true`,
+      cancel_url: `${process.env.FRONT_END_URL}/orders/${order._id}?success=false`,
       payment_intent_data: {
         metadata: {
-          order_id: order._id,
+          order_id: order._id.toString(),
         },
       },
-      mode: 'payment',
-      success_url: STRIPE_SUCCESS_URL(order._id),
-      cancel_url: STRIPE_CANCEL_URL(order._id),
     });
-    res.redirect(303, session.url!);
+    res.status(200).json({
+      success: true,
+      url: session.url,
+    });
   } catch (err: any) {
     res.status(err.statusCode || 500).json(err.message);
     return;

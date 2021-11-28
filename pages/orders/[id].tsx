@@ -27,18 +27,25 @@ import {
 import { useRouter } from 'next/dist/client/router';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
+import { useSnackbar } from 'notistack';
 import React from 'react';
 
 interface Props {}
 
 const Order: React.FC<Props> = () => {
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const { isLoading, data: order } = useGetOrderDetailsQuery({
     id: router.query.id as string,
   });
 
-  const handlePayment = () => {
-    axios.post('/payment', { orderId: order?._id });
+  const handlePayment = async () => {
+    const { data } = await axios.post('/payment', { orderId: order?._id });
+    if (data.success) {
+      window.location.href = data.url;
+    } else {
+      enqueueSnackbar('Unable to process payment', { variant: 'error' });
+    }
   };
 
   return (

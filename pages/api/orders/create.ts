@@ -1,6 +1,7 @@
 import db from '@/src/server/db';
 import { isAuth } from '@/src/server/middleware/isAuth';
 import { OrderModel } from '@/src/server/model/Order';
+import { SHIPPING_PRICE, TAX_RATE } from '@/src/utils/constants';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Session } from 'next-auth';
 import nc from 'next-connect';
@@ -23,8 +24,8 @@ handler.post<ExtendedReq>(async (req, res) => {
   const itemsPrice = round2(
     cartItems.reduce((a: any, c: any) => a + c.price * c.quantity, 0)
   );
-  const shippingPrice = itemsPrice > 200 ? 0 : 15;
-  const taxPrice = round2(itemsPrice * 0.15);
+  const shippingPrice = SHIPPING_PRICE;
+  const taxPrice = round2(itemsPrice * TAX_RATE);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
   await db.connect();

@@ -28,12 +28,11 @@ handler.post(async (req, res) => {
       };
       const oid = paymentIntent.metadata.order_id;
       await db.connect();
-      const order = await OrderModel.findByIdAndUpdate(oid, {
+      await OrderModel.findByIdAndUpdate(oid, {
         isPaid: true,
         paidAt: new Date().toISOString(),
       });
       await db.disconnect();
-      console.log('webhook order:', order);
       break;
     default:
       console.log(`Unhandled event type ${event.type}.`);
