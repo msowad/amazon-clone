@@ -6,8 +6,6 @@ import { Alert, AlertTitle, CircularProgress, Container } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import moment from 'moment';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
@@ -105,19 +103,3 @@ const Index: React.FC<Props> = () => {
 };
 
 export default Index;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};

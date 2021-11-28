@@ -6,7 +6,6 @@ import { LoadingButton } from '@mui/lab';
 import { TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import * as yup from 'yup';
@@ -96,16 +95,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
 }) => {
-  const session = await getSession({ req });
-  if (session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
   return {
     props: {
       email: query.email,

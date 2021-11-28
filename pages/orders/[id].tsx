@@ -1,36 +1,24 @@
+import { PaymentMethod } from '@/src/app/cart';
 import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
 import { useGetOrderDetailsQuery } from '@/src/services/getOrders';
-import { Edit, ErrorOutlineRounded } from '@mui/icons-material';
+import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
+import { ErrorOutlineRounded } from '@mui/icons-material';
 import {
-  Container,
-  CircularProgress,
   Alert,
-  AlertTitle,
-  Grid,
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  Table,
+  AlertTitle, Card,
+  CardContent, CircularProgress, Container, Grid, List,
+  ListItem, Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Button,
-  List,
-  ListItem,
+  TableRow, Typography
 } from '@mui/material';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
-import React from 'react';
-import NextLink from 'next/link';
-import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
-import { PaymentMethod } from '@/src/app/cart';
 import NextImage from 'next/image';
+import NextLink from 'next/link';
+import React from 'react';
 
 interface Props {}
 
@@ -240,19 +228,3 @@ const Order: React.FC<Props> = () => {
 };
 
 export default Order;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};

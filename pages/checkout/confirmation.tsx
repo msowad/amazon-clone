@@ -260,14 +260,35 @@ const Confirm: React.FC<Props> = ({
 export default Confirm;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const cartItems = req.cookies.cartItems
-    ? JSON.parse(req.cookies.cartItems)
-    : [];
+  if(!req.cookies.cartItems) {
+    return {
+      redirect: {
+        destination: '/cart',
+        permanent: false
+      },
+    }
+  }
+  const cartItems = JSON.parse(req.cookies.cartItems);
 
-  const shippingDetails = req.cookies.shippingDetails
-    ? JSON.parse(req.cookies.shippingDetails)
-    : {};
+  if(!req.cookies.shippingDetails) {
+    return {
+      redirect: {
+        destination: '/checkout',
+        permanent: false
+      },
+    }
+  }
+  console.log("HAS SHIPPING DETAILS")
+  const shippingDetails =  JSON.parse(req.cookies.shippingDetails)
 
+  if(!req.cookies.paymentMethod) {
+    return {
+      redirect: {
+        destination: '/checkout/payment',
+        permanent: false
+      },
+    }
+  }
   const paymentMethod = req.cookies.paymentMethod;
 
   return {

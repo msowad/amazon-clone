@@ -5,8 +5,7 @@ import { LockOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { GetServerSideProps } from 'next';
-import { getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
 import { useSnackbar } from 'notistack';
 import React from 'react';
@@ -132,19 +131,3 @@ const ResetPassword: React.FC<Props> = () => {
 };
 
 export default ResetPassword;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-  if (session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};

@@ -171,13 +171,14 @@ export default Profile;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
-  if (!session) {
+
+  if(!session) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/auth/login',
         permanent: false,
       },
-    };
+    }
   }
 
   return {

@@ -2,10 +2,9 @@ import FormWrapper from '@/src/components/FormWrapper';
 import { Layout } from '@/src/components/Layout';
 import { LockOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Grid, Link, TextField } from '@mui/material';
+import { Link, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { GetServerSideProps } from 'next';
-import { getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
@@ -132,20 +131,3 @@ const Login: React.FC<Props> = () => {
 };
 
 export default Login;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};

@@ -166,16 +166,13 @@ const Checkout: React.FC<Props> = ({ session, shippingDetails }) => {
 export default Checkout;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const cartItems = req.cookies.cartItems
-    ? JSON.parse(req.cookies.cartItems)
-    : [];
-  if (!cartItems.length) {
+  if(!req.cookies.cartItems) {
     return {
       redirect: {
         destination: '/cart',
-        permanent: true,
+        permanent: false
       },
-    };
+    }
   }
 
   const session = await getSession({ req });
