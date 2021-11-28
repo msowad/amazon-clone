@@ -28,10 +28,12 @@
     "@mui/material": "^5.1.0",
     "@mui/x-data-grid": "^5.0.0-beta.4",
     "@reduxjs/toolkit": "^1.6.2",
+    "@stripe/stripe-js": "^1.21.1",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "formik": "^2.2.9",
     "js-cookie": "^3.0.1",
+    "micro": "^9.3.4",
     "moment": "^2.29.1",
     "mongoose": "^6.0.12",
     "next": "12.0.3",
@@ -45,6 +47,7 @@
     "react-dom": "17.0.2",
     "react-redux": "^7.2.6",
     "redis": "^3.1.2",
+    "stripe": "^8.191.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -54,6 +57,7 @@
     "@swc/core": "^1.2.113",
     "@types/bcryptjs": "^2.4.2",
     "@types/js-cookie": "^3.0.0",
+    "@types/micro": "^7.3.6",
     "@types/node": "16.11.7",
     "@types/nodemailer": "^6.4.4",
     "@types/nprogress": "^0.2.0",

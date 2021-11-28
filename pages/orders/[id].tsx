@@ -2,18 +2,27 @@ import { PaymentMethod } from '@/src/app/cart';
 import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
 import { useGetOrderDetailsQuery } from '@/src/services/getOrders';
+import axios from '@/src/utils/axios';
 import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
 import { ErrorOutlineRounded } from '@mui/icons-material';
 import {
   Alert,
-  AlertTitle, Card,
-  CardContent, CircularProgress, Container, Grid, List,
-  ListItem, Table,
+  AlertTitle,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Container,
+  Grid,
+  List,
+  ListItem,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, Typography
+  TableRow,
+  Typography,
 } from '@mui/material';
 import { useRouter } from 'next/dist/client/router';
 import NextImage from 'next/image';
@@ -27,6 +36,10 @@ const Order: React.FC<Props> = () => {
   const { isLoading, data: order } = useGetOrderDetailsQuery({
     id: router.query.id as string,
   });
+
+  const handlePayment = () => {
+    axios.post('/payment', { orderId: order?._id });
+  };
 
   return (
     <Layout
@@ -114,7 +127,7 @@ const Order: React.FC<Props> = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {order.items.map((item) => (
+                          {order.items.map(item => (
                             <TableRow key={item._id as string}>
                               <TableCell>
                                 <NextImage
@@ -204,6 +217,18 @@ const Order: React.FC<Props> = () => {
                   </Grid>
                 </ListItem>
               </List>
+              {!order.isPaid && order.paymentMethod !== 'cod' && (
+                <CardContent>
+                  <Button
+                    onClick={handlePayment}
+                    color='secondary'
+                    fullWidth
+                    variant='contained'
+                  >
+                    pay now
+                  </Button>
+                </CardContent>
+              )}
             </Card>
           </Grid>
         </Grid>

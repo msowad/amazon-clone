@@ -16,3 +16,8 @@ export const PAYMENT_METHODS = [
 export const COOKIES_DEFAULT_OPTIONS: CookieAttributes = {
   expires: 365,
 };
+
+export const STRIPE_SUCCESS_URL = (oid: string) =>
+  `${process.env.FRONT_END_URL}/orders/${oid}?success=true`;
+export const STRIPE_CANCEL_URL = (oid: string) =>
+  `${process.env.FRONT_END_URL}/orders/${oid}?success=false`;
