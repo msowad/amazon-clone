@@ -38,6 +38,7 @@ handler.post(async (req, res) => {
             images: [item.image],
           },
         },
+        tax_rates: ['txr_1K0peDCKbMbVB5exRcEfaGbA'],
       })),
       shipping_rates: ['shr_1K0oXaCKbMbVB5ex5I9e7yN7'],
       mode: 'payment',
