@@ -9,11 +9,29 @@ import cloudinary from 'cloudinary';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
+interface FieldType {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  countInStock: number;
+  brand: string;
+  id: string;
+}
+
 handler.post(async (req, res) => {
   const form = new formidable.IncomingForm();
-  await form.parse(req, async function (err, fields, files) {
-    const { name, description, price, category, countInStock, brand, id } =
-      fields;
+  form.parse(req, async function (err, fields, files) {
+    const {
+      name,
+      description,
+      price,
+      category,
+      brand,
+      countInStock,
+      id,
+    }: FieldType = fields as any;
+
     if (
       !name ||
       !price ||
@@ -42,7 +60,7 @@ handler.post(async (req, res) => {
         };
 
         if (files.image) {
-          if (product.publicId) {
+          if (product && product.publicId) {
             await cloudinary.v2.uploader.destroy(product.publicId);
           }
 
@@ -59,8 +77,7 @@ handler.post(async (req, res) => {
         }
 
         await db.connect();
-        await ProductModel.findByIdAndUpdate(
-          id,
+        await product?.update(
           result
             ? {
                 ...updateArr,
@@ -71,7 +88,7 @@ handler.post(async (req, res) => {
         );
         await db.disconnect();
 
-        res.status(201).json({
+        res.json({
           success: true,
           message: 'Product updated successfully',
         });

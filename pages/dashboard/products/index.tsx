@@ -1,6 +1,5 @@
 import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
-import { Product } from '@/src/types/Product';
-import axios from '@/src/utils/axios';
+import { useGetProductsQuery } from '@/src/services/products';
 import { AddCircle, Edit } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import {
@@ -10,7 +9,7 @@ import {
   GridValueGetterParams,
 } from '@mui/x-data-grid';
 import moment from 'moment';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
@@ -115,20 +114,25 @@ const columns: GridColDef[] = [
 ];
 
 interface Props {
-  products: Product[];
+  page: number;
+  limit: number;
 }
 
-const Products: NextPage<Props> = ({ products }) => {
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(0);
+const Products: NextPage<Props> = ({ page, limit }) => {
+  const [pageSize, setPageSize] = useState(limit);
+  const [currentPage, setCurrentPage] = useState(page - 1);
   const router = useRouter();
+
+  const { data, isFetching } = useGetProductsQuery({ limit, page });
 
   const handlePageSizeChange = (pageSize: number) => {
     setPageSize(pageSize);
+    router.push(`?limit=${pageSize}&page=${(currentPage + 1).toString()}`);
   };
 
   const handleCurrentPageChange = (currentPage: number) => {
     setCurrentPage(currentPage);
+    router.push(`?limit=${pageSize}&page=${(currentPage + 1).toString()}`);
   };
 
   return (
@@ -141,7 +145,8 @@ const Products: NextPage<Props> = ({ products }) => {
       />
 
       <DataGrid
-        rows={products}
+        rows={data?.docs || []}
+        loading={isFetching}
         columns={columns}
         onRowClick={(row) => router.push(`/dashboard/products/${row.id}/edit`)}
         disableSelectionOnClick
@@ -152,6 +157,9 @@ const Products: NextPage<Props> = ({ products }) => {
         onPageSizeChange={handlePageSizeChange}
         autoHeight
         getRowId={(row) => row._id}
+        rowCount={data?.totalDocs}
+        pagination
+        paginationMode='server'
         components={{
           Toolbar: GridToolbar,
         }}
@@ -162,10 +170,11 @@ const Products: NextPage<Props> = ({ products }) => {
 
 export default Products;
 
-export const getStaticProps = async () => {
-  const { data: products } = await axios.get('/products');
-
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
-    props: { products },
+    props: {
+      page: Number(query?.page) || 1,
+      limit: Number(query?.limit) || 10,
+    },
   };
 };

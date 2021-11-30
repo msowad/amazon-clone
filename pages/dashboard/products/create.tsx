@@ -1,5 +1,6 @@
 import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
 import ProductForm from '@/src/components/Dashboard/Product/ProductForm';
+import { useAddProductMutation } from '@/src/services/products';
 import { AllOutSharp } from '@mui/icons-material';
 import { NextPage } from 'next';
 
@@ -17,6 +18,8 @@ const initialValues = {
 };
 
 const Create: NextPage<Props> = () => {
+  const [addProduct] = useAddProductMutation();
+
   return (
     <DashboardLayout>
       <DashboardInfo
@@ -25,7 +28,7 @@ const Create: NextPage<Props> = () => {
         link='/dashboard/products'
         linkText='All products'
       />
-      <ProductForm initialValues={initialValues} />
+      <ProductForm initialValues={initialValues} handleSubmit={addProduct} />
     </DashboardLayout>
   );
 };
