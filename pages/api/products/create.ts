@@ -39,7 +39,7 @@ handler.post(async (req, res) => {
         );
 
         await db.connect();
-        const product = await ProductModel.create({
+        await ProductModel.create({
           name,
           price,
           description,
@@ -52,7 +52,10 @@ handler.post(async (req, res) => {
         });
         await db.disconnect();
 
-        res.status(201).json(product);
+        res.status(201).json({
+          success: true,
+          message: 'Product created successfully',
+        });
       } catch (err: any) {
         res.status(500).json({
           success: false,

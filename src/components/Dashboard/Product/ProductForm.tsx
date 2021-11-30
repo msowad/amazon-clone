@@ -1,5 +1,4 @@
 import Dropzone from '@/src/components/Dropzone';
-import axios from '@/src/utils/axios';
 import { LoadingButton } from '@mui/lab';
 import { Grid, TextField } from '@mui/material';
 import { Form as FormikForm, Formik } from 'formik';
@@ -18,6 +17,7 @@ interface Props {
     brand: string;
     image?: string;
   };
+  handleSubmit: (arg: FormData) => void;
 }
 
 const validationSchema = yup.object({
@@ -29,7 +29,7 @@ const validationSchema = yup.object({
   brand: yup.string().required('Brand is required'),
 });
 
-const ProductForm: React.FC<Props> = ({ initialValues }) => {
+const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [file, setFile] = useState<File | null>(null);
   const router = useRouter();
@@ -44,30 +44,25 @@ const ProductForm: React.FC<Props> = ({ initialValues }) => {
           setSubmitting(false);
           return;
         }
-        try {
-          const formData = new FormData();
-          file && formData.append('image', file);
-          router.query.id && formData.append('id', router.query.id as string);
-          formData.append('name', values.name);
-          formData.append('description', values.description);
-          formData.append('price', String(values.price));
-          formData.append('countInStock', String(values.countInStock));
-          formData.append('category', values.category);
-          formData.append('brand', values.brand);
-          await axios.post(
-            router.query.id ? '/products/update' : '/products/create',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            }
-          );
-          router.push('/dashboard/products');
-        } catch (error: any) {
-          enqueueSnackbar(error.response.data.message || error.message, {
-            variant: 'error',
+        const formData = new FormData();
+        file && formData.append('image', file);
+        router.query.id && formData.append('id', router.query.id as string);
+        formData.append('name', values.name);
+        formData.append('description', values.description);
+        formData.append('price', String(values.price));
+        formData.append('countInStock', String(values.countInStock));
+        formData.append('category', values.category);
+        formData.append('brand', values.brand);
+        const data: any = await handleSubmit(formData);
+        if (data.error?.data?.message) {
+          enqueueSnackbar(data.error.data.message, { variant: 'error' });
+        } else if (data.data?.success === true) {
+          enqueueSnackbar('Product updated successfully', {
+            variant: 'success',
           });
+          router.push('/dashboard/products');
+        } else {
+          enqueueSnackbar('Something went wrong', { variant: 'error' });
         }
         setSubmitting(false);
       }}

@@ -1,5 +1,6 @@
 import { Product } from '@/src/types/Product';
-import mongoose from 'mongoose';
+import mongoose, { PaginateModel } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const ProductSchema = new mongoose.Schema<Product>(
   {
@@ -53,6 +54,11 @@ const ProductSchema = new mongoose.Schema<Product>(
   }
 );
 
-export const ProductModel =
-  mongoose.models.Product ||
-  mongoose.model<Product & mongoose.Document>('Product', ProductSchema);
+ProductSchema.plugin(mongoosePaginate);
+
+export const ProductModel: PaginateModel<Product> =
+  (mongoose.models.Product as PaginateModel<Product>) ||
+  (mongoose.model<Product & mongoose.Document>(
+    'Product',
+    ProductSchema
+  ) as PaginateModel<Product>);
