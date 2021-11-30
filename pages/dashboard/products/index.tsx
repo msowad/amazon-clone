@@ -5,6 +5,9 @@ import { IconButton } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
+  GridFilterModel,
+  GridSortItem,
+  GridSortModel,
   GridToolbar,
   GridValueGetterParams,
 } from '@mui/x-data-grid';
@@ -116,23 +119,46 @@ const columns: GridColDef[] = [
 interface Props {
   page: number;
   limit: number;
+  field: string;
+  sort: 'desc' | 'asc';
 }
 
-const Products: NextPage<Props> = ({ page, limit }) => {
+const Products: NextPage<Props> = ({ page, limit, sort, field }) => {
   const [pageSize, setPageSize] = useState(limit);
   const [currentPage, setCurrentPage] = useState(page - 1);
+  const [sortModel, setSortModel] = useState<GridSortItem>({
+    field,
+    sort,
+  });
   const router = useRouter();
 
-  const { data, isFetching } = useGetProductsQuery({ limit, page });
+  const { data, isFetching } = useGetProductsQuery({
+    limit,
+    page,
+    field,
+    sort,
+  });
+
+  const changeRouter = () =>
+    router.push(
+      `?limit=${pageSize}&page=${currentPage + 1}&field=${
+        sortModel?.field || 'createdAt'
+      }&sort=${sortModel?.sort || 'desc'}`
+    );
 
   const handlePageSizeChange = (pageSize: number) => {
     setPageSize(pageSize);
-    router.push(`?limit=${pageSize}&page=${(currentPage + 1).toString()}`);
+    changeRouter();
   };
 
   const handleCurrentPageChange = (currentPage: number) => {
     setCurrentPage(currentPage);
-    router.push(`?limit=${pageSize}&page=${(currentPage + 1).toString()}`);
+    changeRouter();
+  };
+
+  const handleSortModelChange = (sortModel: GridSortModel) => {
+    setSortModel(sortModel[0]);
+    changeRouter();
   };
 
   return (
@@ -153,13 +179,15 @@ const Products: NextPage<Props> = ({ page, limit }) => {
         pageSize={pageSize}
         page={currentPage}
         onPageChange={handleCurrentPageChange}
-        rowsPerPageOptions={[10, 20, 50]}
+        rowsPerPageOptions={[10, 20, 50, 100]}
         onPageSizeChange={handlePageSizeChange}
         autoHeight
         getRowId={(row) => row._id}
         rowCount={data?.totalDocs}
         pagination
         paginationMode='server'
+        onSortModelChange={handleSortModelChange}
+        sortingMode='server'
         components={{
           Toolbar: GridToolbar,
         }}
@@ -175,6 +203,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     props: {
       page: Number(query?.page) || 1,
       limit: Number(query?.limit) || 10,
+      field: query?.field || 'createdAt',
+      sort: query?.sort || 'desc',
     },
   };
 };

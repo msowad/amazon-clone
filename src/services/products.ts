@@ -22,8 +22,12 @@ export const productsApi = createApi({
   }),
   tagTypes: ['Products'],
   endpoints: (build) => ({
-    getProducts: build.query<ProductResponse, { limit: number; page: number }>({
-      query: ({ page, limit }) => `/?page=${page}&limit=${limit}`,
+    getProducts: build.query<
+      ProductResponse,
+      { limit: number; page: number; field: string; sort: string }
+    >({
+      query: ({ page, limit, field, sort }) =>
+        `/?page=${page}&limit=${limit}&field=${field}&sort=${sort}`,
       providesTags: (results, error, arg) =>
         results
           ? [
