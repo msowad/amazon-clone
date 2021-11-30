@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { ordersApi } from '../services/getOrders';
+import { ordersApi } from '@/src/services/getOrders';
 import cartReducer from './cart';
 import colorModeReducer from './colorMode';
 

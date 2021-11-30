@@ -1,6 +1,6 @@
 import { selectCartLength, setCartFromCookies } from '@/src/app/cart';
-import { selectColorMode, setMode, toggleMode } from '@/src/app/colorMode';
-import { DarkMode, LightMode, ShoppingCart } from '@mui/icons-material';
+import ModeSwitch from '@/src/components/ModeSwitch';
+import { ShoppingCart } from '@mui/icons-material';
 import {
   AppBar,
   Badge,
@@ -23,12 +23,7 @@ interface Props {
 const Header: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const cartItemLength = useSelector(selectCartLength);
-  const darkMode = useSelector(selectColorMode);
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    dispatch(setMode());
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(setCartFromCookies());
@@ -64,13 +59,7 @@ const Header: React.FC<Props> = () => {
             <Button className='link'>login</Button>
           </Link>
         )}
-        <IconButton
-          sx={{ ml: 1 }}
-          onClick={() => dispatch(toggleMode())}
-          className='link'
-        >
-          {darkMode ? <LightMode /> : <DarkMode />}
-        </IconButton>
+        <ModeSwitch />
       </Toolbar>
     </AppBar>
   );

@@ -10,6 +10,8 @@ import { useRouter } from 'next/dist/client/router';
 import NextLink from 'next/link';
 import React from 'react';
 
+// TODO: check data grid pagination
+
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', flex: 1, minWidth: 100 },
   {
@@ -72,13 +74,13 @@ const Index: React.FC<Props> = () => {
         {orders?.length ? (
           <DataGrid
             rows={orders}
-            onRowClick={(row) => {
+            onRowClick={row => {
               router.push(`/orders/${row.id}`);
             }}
             columns={columns}
             disableSelectionOnClick
             pageSize={5}
-            getRowId={(row) => row._id}
+            getRowId={row => row._id}
             rowsPerPageOptions={[5]}
           />
         ) : (

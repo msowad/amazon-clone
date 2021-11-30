@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   await db.connect();
-  const products = await ProductModel.find();
+  const products = await ProductModel.find().sort({ createdAt: -1 });
   await db.disconnect();
   res.send(products);
 }

@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import '../src/styles/globals.css';
+import '@/src/styles/globals.css';
 
 const clientSideEmotionCache = createEmotionCache();
 
