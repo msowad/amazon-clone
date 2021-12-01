@@ -81,7 +81,7 @@ const useDataGrid = ({
 
   const defaultProps = {
     pageSize,
-    page: currentPage - 1,
+    page: currentPage < 1 ? 0 : currentPage - 1,
     onPageChange: handleCurrentPageChange,
     rowsPerPageOptions: [10, 20, 50, 100],
     onPageSizeChange: handlePageSizeChange,

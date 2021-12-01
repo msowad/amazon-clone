@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { PaginatedResponse } from '../types/PaginatedResponse';
-import { Product } from '../types/Product';
+import { Product } from '@/src/types/Product';
 
 export const productsApi = createApi({
+  reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({
     baseUrl:
       (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') +
