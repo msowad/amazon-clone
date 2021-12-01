@@ -12,9 +12,15 @@ interface Props {
   onChange: () => void;
   onSearch: () => void;
   value: string;
+  disableSearch?: boolean;
 }
 
-const QuickSearchToolbar: React.FC<Props> = ({ value, onChange, onSearch }) => {
+const QuickSearchToolbar: React.FC<Props> = ({
+  value,
+  onChange,
+  onSearch,
+  disableSearch,
+}) => {
   return (
     <Box
       display='flex'
@@ -27,30 +33,32 @@ const QuickSearchToolbar: React.FC<Props> = ({ value, onChange, onSearch }) => {
         <GridToolbarDensitySelector />
         <GridToolbarExport />
       </div>
-      <TextField
-        variant='outlined'
-        size='small'
-        placeholder='Search…'
-        value={value}
-        onChange={onChange}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            onSearch();
-          }
-        }}
-        InputProps={{
-          endAdornment: (
-            <IconButton
-              onClick={onSearch}
-              title='Clear'
-              aria-label='Clear'
-              size='small'
-            >
-              <Search fontSize='small' />
-            </IconButton>
-          ),
-        }}
-      />
+      {!disableSearch && (
+        <TextField
+          variant='outlined'
+          size='small'
+          placeholder='Search…'
+          value={value}
+          onChange={onChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              onSearch();
+            }
+          }}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                onClick={onSearch}
+                title='Clear'
+                aria-label='Clear'
+                size='small'
+              >
+                <Search fontSize='small' />
+              </IconButton>
+            ),
+          }}
+        />
+      )}
     </Box>
   );
 };

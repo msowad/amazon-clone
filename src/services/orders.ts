@@ -1,7 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Order } from '@/src/types/Order';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PaginatedResponse } from '../types/PaginatedResponse';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const baseUrl =
+  (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') + '/orders';
 
 const createRequest = (url: string) => ({ url: url });
 
@@ -10,13 +12,46 @@ export const ordersApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ['Orders'],
   endpoints: (builder) => ({
-    getOrders: builder.query<Order[], {}>({
-      query: () => createRequest(`/orders`),
+    getOrders: builder.query<
+      PaginatedResponse<Order[]>,
+      {
+        limit: number;
+        page: number;
+        field: string;
+        sort: string;
+        user?: boolean;
+      }
+    >({
+      query: ({ page, limit, field, sort, user = false }) =>
+        `/?page=${page}&limit=${limit}&field=${field}&sort=${sort}&user=${user}`,
+      providesTags: ['Orders'],
     }),
     getOrderDetails: builder.query<Order, { id: string }>({
-      query: ({ id }) => createRequest(`/orders/${id}`),
+      query: ({ id }) => createRequest(`/${id}`),
+      providesTags: ['Orders'],
+    }),
+    updatePaymentStatus: builder.mutation<any, { id: string }>({
+      query: (body) => ({
+        url: `/update/payment`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (result) => [{ type: 'Orders', id: result?._id }],
+    }),
+    updateDeliveryStatus: builder.mutation<any, { id: string }>({
+      query: (body) => ({
+        url: `/update/delivery`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (result) => [{ type: 'Orders', id: result?._id }],
     }),
   }),
 });
 
-export const { useGetOrdersQuery, useGetOrderDetailsQuery } = ordersApi;
+export const {
+  useGetOrdersQuery,
+  useGetOrderDetailsQuery,
+  useUpdatePaymentStatusMutation,
+  useUpdateDeliveryStatusMutation,
+} = ordersApi;

@@ -1,18 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PaginatedResponse } from '../types/PaginatedResponse';
 import { Product } from '../types/Product';
-
-export interface ProductResponse {
-  docs: Product[];
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  limit: number;
-  nextPage: number;
-  page: number;
-  pagingCounter: number;
-  prevPage: number | null;
-  totalDocs: number;
-  totalPages: number;
-}
 
 export const productsApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -23,7 +11,7 @@ export const productsApi = createApi({
   tagTypes: ['Products'],
   endpoints: (build) => ({
     getProducts: build.query<
-      ProductResponse,
+      PaginatedResponse<Product[]>,
       {
         limit: number;
         page: number;

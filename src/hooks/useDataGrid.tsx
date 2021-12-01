@@ -28,7 +28,8 @@ const useDataGrid = ({
   field,
   sort,
   search,
-}: CustomDataGridProps) => {
+  disableSearch,
+}: CustomDataGridProps & { disableSearch?: boolean }) => {
   const [pageSize, setPageSize] = useState(limit);
   const [currentPage, setCurrentPage] = useState(page - 1);
   const [sortModel, setSortModel] = useState<GridSortItem>({ field, sort });
@@ -42,13 +43,13 @@ const useDataGrid = ({
     field?: string;
     sort?: 'desc' | 'asc';
   }) => {
-    router.push(
-      `?limit=${values.pageSize || pageSize}&page=${
-        values.currentPage || currentPage
-      }&field=${values.field || sortModel?.field || 'createdAt'}&sort=${
-        values.sort || sortModel?.sort || 'desc'
-      }&search=${values.search || searchQuery}`
-    );
+    let url = `?limit=${values.pageSize || pageSize}&page=${
+      values.currentPage || currentPage
+    }&field=${values.field || sortModel?.field || 'createdAt'}&sort=${
+      values.sort || sortModel?.sort || 'desc'
+    }`;
+    !disableSearch && (url += `&search=${values.search || searchQuery}`);
+    router.push(url);
   };
 
   const handlePageSizeChange = (pageSize: number) => {
@@ -96,6 +97,7 @@ const useDataGrid = ({
         value: searchQuery,
         onChange: handleSearchQueryChange,
         onSearch: handleSearch,
+        disableSearch: disableSearch,
       },
     },
     onSortModelChange: handleSortModelChange,

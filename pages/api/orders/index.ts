@@ -1,6 +1,8 @@
 import db from '@/src/server/db';
 import { ExtendedReq, isAuth } from '@/src/server/middleware/isAuth';
 import { OrderModel } from '@/src/server/model/Order';
+import { Order } from '@/src/types/Order';
+import { FilterQuery } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -13,15 +15,17 @@ handler.get(async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
   const field = req.query.field ? (req.query.field as string) : 'createdAt';
   const sort = req.query.sort ? (req.query.sort as string) : 'desc';
-  const search = req.query.search ? (req.query.search as string) : '';
 
   await db.connect();
-  const data = await OrderModel.paginate(
-    {
-      name: { $regex: search, $options: 'i' },
-    },
-    { page, limit, sort: { [field]: sort } }
-  );
+  const filter =
+    req.query.user === 'true'
+      ? ({ user: req.user.id } as FilterQuery<Order>)
+      : {};
+  const data = await OrderModel.paginate(filter, {
+    page,
+    limit,
+    sort: { [field]: sort },
+  });
   await db.disconnect();
 
   await res.status(200).json(data);

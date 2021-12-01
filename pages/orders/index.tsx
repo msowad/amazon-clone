@@ -1,16 +1,13 @@
 import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
+import useDataGrid, { CustomDataGridProps } from '@/src/hooks/useDataGrid';
 import { useGetOrdersQuery } from '@/src/services/orders';
-import { ErrorOutlineRounded } from '@mui/icons-material';
-import { Alert, AlertTitle, CircularProgress, Container } from '@mui/material';
 import { Box } from '@mui/system';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import moment from 'moment';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import NextLink from 'next/link';
 import React from 'react';
-
-// TODO: check data grid pagination
 
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', flex: 1, minWidth: 100 },
@@ -61,47 +58,39 @@ interface Props {
   //
 }
 
-const Index: React.FC<Props> = () => {
+const Orders: React.FC<CustomDataGridProps> = (props) => {
   const router = useRouter();
+  const { defaultProps } = useDataGrid({ ...props, disableSearch: true });
 
-  const { isLoading, data: orders } = useGetOrdersQuery({});
+  const { data, isFetching } = useGetOrdersQuery({ ...props, user: true });
 
   return (
     <Layout title='Order history'>
       <Breadcrumb links={[{ href: '/', label: 'Home' }]} current='orders' />
 
       <Box sx={{ height: 400, width: '100%', mt: 5 }}>
-        {orders?.length ? (
-          <DataGrid
-            rows={orders}
-            onRowClick={(row) => {
-              router.push(`/orders/${row.id}`);
-            }}
-            columns={columns}
-            disableSelectionOnClick
-            pageSize={5}
-            getRowId={(row) => row._id}
-            rowsPerPageOptions={[5]}
-          />
-        ) : (
-          <Container maxWidth='sm' sx={{ marginTop: 5, textAlign: 'center' }}>
-            {isLoading ? (
-              <CircularProgress />
-            ) : (
-              <Alert
-                severity='error'
-                elevation={3}
-                icon={<ErrorOutlineRounded fontSize='large' />}
-              >
-                <AlertTitle>No orders found.</AlertTitle>
-                <NextLink href='/'>Go to home page</NextLink>
-              </Alert>
-            )}
-          </Container>
-        )}
+        <DataGrid
+          {...defaultProps}
+          rows={data?.docs || []}
+          loading={isFetching}
+          columns={columns}
+          onRowClick={(row) => router.push(`/orders/${row.id}`)}
+          rowCount={data?.totalDocs}
+        />
       </Box>
     </Layout>
   );
 };
 
-export default Index;
+export default Orders;
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  return {
+    props: {
+      page: Number(query.page) || 1,
+      limit: Number(query.limit) || 10,
+      field: query.field || 'createdAt',
+      sort: query.sort || 'desc',
+    },
+  };
+};

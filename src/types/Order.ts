@@ -31,7 +31,7 @@ export interface Order {
   };
   isDelivered: boolean;
   isPaid: boolean;
-  paidAt: Date;
+  paidAt: Date | string;
   createdAt: Date;
   updatedAt: Date;
 }
