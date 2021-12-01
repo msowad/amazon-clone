@@ -1,5 +1,7 @@
 import AddToCart from '@/src/components/AddToCart';
 import { Layout } from '@/src/components/Layout';
+import PaginationLink from '@/src/components/PaginationLink';
+import { PaginatedResponse } from '@/src/types/PaginatedResponse';
 import { Product } from '@/src/types/Product';
 import axios from '@/src/utils/axios';
 import {
@@ -9,19 +11,22 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  Pagination,
+  PaginationItem,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/system';
-import type { NextPage } from 'next';
+import { Box, styled } from '@mui/system';
+import type { GetServerSideProps, NextPage } from 'next';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import React from 'react';
 
-const Home: NextPage<{ products: Product[] }> = ({ products }) => {
+const Home: NextPage<{ data: PaginatedResponse<Product[]> }> = ({ data }) => {
+  console.log(data);
   return (
     <Layout>
       <StyledGrid container spacing={3}>
-        {products?.map((product) => (
+        {data.docs?.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product._id}>
             <Card elevation={1}>
               <NextLink href={`/products/${product.slug}`} passHref>
@@ -54,21 +59,42 @@ const Home: NextPage<{ products: Product[] }> = ({ products }) => {
           </Grid>
         ))}
       </StyledGrid>
+      <Box marginTop={5} display='flex' justifyContent='center'>
+        <Pagination
+          count={data.totalPages}
+          size='large'
+          renderItem={(item) => (
+            <PaginationItem
+              component={PaginationLink}
+              href={`/${item.page === 1 ? '' : `?page=${item.page}`}`}
+              {...item}
+            />
+          )}
+        />
+      </Box>
     </Layout>
   );
 };
 
 export default Home;
 
-export async function getServerSideProps() {
-  const { data } = await axios.get('http://localhost:3000/api/products');
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const page = Number(query.page) || 1;
+  const limit = 20;
+  const field = 'createdAt';
+  const sort = 'desc';
+  const search = '';
+
+  const { data } = await axios.get(
+    `/products?page=${page}&limit=${limit}&field=${field}&sort=${sort}&search=${search}`
+  );
 
   return {
     props: {
-      products: data,
+      data,
     },
   };
-}
+};
 
 const StyledGrid = styled(Grid)(() => ({
   '.image-container': {
