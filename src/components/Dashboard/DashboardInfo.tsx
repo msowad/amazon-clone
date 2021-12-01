@@ -9,6 +9,8 @@ interface Props {
   prependAction?: React.ReactNode;
   linkText?: string;
   link?: string;
+  mb?: number;
+  mt?: number;
 }
 
 const DashboardInfo: React.FC<Props> = ({
@@ -17,11 +19,14 @@ const DashboardInfo: React.FC<Props> = ({
   link,
   linkText,
   prependAction,
+  mb = 5,
+  mt = 0,
 }) => {
   return (
     <Box
       display='flex'
-      marginBottom={5}
+      marginBottom={mb}
+      marginTop={mt}
       justifyContent='space-between'
       alignItems='center'
     >
