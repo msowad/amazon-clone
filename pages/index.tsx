@@ -22,7 +22,6 @@ import NextLink from 'next/link';
 import React from 'react';
 
 const Home: NextPage<{ data: PaginatedResponse<Product[]> }> = ({ data }) => {
-  console.log(data);
   return (
     <Layout>
       <StyledGrid container spacing={3}>

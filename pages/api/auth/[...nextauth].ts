@@ -10,13 +10,12 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    async session({ session, token }) {
-      session.user = {
-        id: token.sub,
-        name: token.name,
-        email: token.email,
-        image: token.picture,
-      };
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user = token.user;
       return session;
     },
   },
@@ -28,12 +27,12 @@ export default NextAuth({
         const user = await UserModel.findOne({ email });
         if (user) {
           const isValid = await bcrypt.compare(password, user.password);
-          console.log(isValid);
           if (isValid) {
             return {
               id: user.id,
               email: user.email,
               name: user.name,
+              isAdmin: user.isAdmin,
             };
           }
         }

@@ -1,7 +1,5 @@
-import { AccountCircle, HistoryRounded } from '@mui/icons-material';
+import { AccountCircle, Dashboard, HistoryRounded } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import { Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -13,10 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/dist/client/router';
+import NextLink from 'next/link';
 import { useSnackbar } from 'notistack';
 import React from 'react';
-import NextLink from 'next/link';
-import { useRouter } from 'next/dist/client/router';
 
 interface Props {
   session: Session;
@@ -110,6 +108,19 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
           </MenuItem>
         </NextLink>
         <Divider />
+        {session.user.isAdmin && (
+          <>
+            <NextLink href='/dashboard' passHref>
+              <MenuItem>
+                <ListItemIcon>
+                  <Dashboard fontSize='small' />
+                </ListItemIcon>
+                Dashboard
+              </MenuItem>
+            </NextLink>
+            <Divider />
+          </>
+        )}
         <MenuItem onClick={handleSignOut}>
           <ListItemIcon>
             <Logout fontSize='small' />
