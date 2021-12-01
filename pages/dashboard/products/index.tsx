@@ -1,25 +1,19 @@
 import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
+import useDataGrid, {
+  actions,
+  createdAt,
+  CustomDataGridProps,
+  id,
+} from '@/src/hooks/useDataGrid';
 import { useGetProductsQuery } from '@/src/services/products';
-import { AddCircle, Edit } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import {
-  DataGrid,
-  GridColDef,
-  GridFilterModel,
-  GridSortItem,
-  GridSortModel,
-  GridToolbar,
-  GridValueGetterParams,
-} from '@mui/x-data-grid';
-import moment from 'moment';
+import { AddCircle } from '@mui/icons-material';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import NextImage from 'next/image';
-import NextLink from 'next/link';
-import { useState } from 'react';
 
 const columns: GridColDef[] = [
-  { field: '_id', headerName: 'ID', flex: 1, minWidth: 100 },
+  id,
   {
     field: 'name',
     headerName: 'Name',
@@ -80,117 +74,32 @@ const columns: GridColDef[] = [
       return `${params.value} (${params.row.numReviews})`;
     },
   },
-  {
-    field: 'createdAt',
-    headerName: 'Created At',
-    headerAlign: 'right',
-    align: 'right',
-    flex: 1,
-    minWidth: 80,
-    valueGetter: (params: GridValueGetterParams) => {
-      return `${moment(params.value).format('DD MMM YY')}`;
-    },
-  },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    flex: 1,
-    minWidth: 50,
-    align: 'right',
-    headerAlign: 'right',
-    filterable: false,
-    sortable: false,
-    renderCell: (params: GridValueGetterParams) => {
-      return (
-        <NextLink
-          href='/dashboard/products/[id]/edit'
-          as={`/dashboard/products/${params.row._id}/edit`}
-          passHref
-        >
-          <IconButton size='small'>
-            <Edit fontSize='small' />
-          </IconButton>
-        </NextLink>
-      );
-    },
-  },
+  createdAt,
+  actions({ url: '/dashboard/products' }),
 ];
 
-interface Props {
-  page: number;
-  limit: number;
-  field: string;
-  sort: 'desc' | 'asc';
-}
-
-const Products: NextPage<Props> = ({ page, limit, sort, field }) => {
-  const [pageSize, setPageSize] = useState(limit);
-  const [currentPage, setCurrentPage] = useState(page - 1);
-  const [sortModel, setSortModel] = useState<GridSortItem>({
-    field,
-    sort,
-  });
+const Products: NextPage<CustomDataGridProps> = (props) => {
   const router = useRouter();
+  const { defaultProps } = useDataGrid(props);
 
-  const { data, isFetching } = useGetProductsQuery({
-    limit,
-    page,
-    field,
-    sort,
-  });
-
-  const changeRouter = () =>
-    router.push(
-      `?limit=${pageSize}&page=${currentPage + 1}&field=${
-        sortModel?.field || 'createdAt'
-      }&sort=${sortModel?.sort || 'desc'}`
-    );
-
-  const handlePageSizeChange = (pageSize: number) => {
-    setPageSize(pageSize);
-    changeRouter();
-  };
-
-  const handleCurrentPageChange = (currentPage: number) => {
-    setCurrentPage(currentPage);
-    changeRouter();
-  };
-
-  const handleSortModelChange = (sortModel: GridSortModel) => {
-    setSortModel(sortModel[0]);
-    changeRouter();
-  };
+  const { data, isFetching } = useGetProductsQuery(props);
 
   return (
     <DashboardLayout title='Products'>
       <DashboardInfo
-        title=' Products'
+        title='Products'
         icon={<AddCircle />}
         link='/dashboard/products/create'
         linkText='Add product'
       />
 
       <DataGrid
+        {...defaultProps}
         rows={data?.docs || []}
         loading={isFetching}
         columns={columns}
         onRowClick={(row) => router.push(`/dashboard/products/${row.id}/edit`)}
-        disableSelectionOnClick
-        pageSize={pageSize}
-        page={currentPage}
-        onPageChange={handleCurrentPageChange}
-        rowsPerPageOptions={[10, 20, 50, 100]}
-        onPageSizeChange={handlePageSizeChange}
-        autoHeight
-        getRowId={(row) => row._id}
         rowCount={data?.totalDocs}
-        pagination
-        paginationMode='server'
-        onSortModelChange={handleSortModelChange}
-        sortingMode='server'
-        components={{
-          Toolbar: GridToolbar,
-        }}
       />
     </DashboardLayout>
   );
@@ -201,10 +110,11 @@ export default Products;
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
     props: {
-      page: Number(query?.page) || 1,
-      limit: Number(query?.limit) || 10,
-      field: query?.field || 'createdAt',
-      sort: query?.sort || 'desc',
+      page: Number(query.page) || 1,
+      limit: Number(query.limit) || 10,
+      field: query.field || 'createdAt',
+      sort: query.sort || 'desc',
+      search: query.search || '',
     },
   };
 };

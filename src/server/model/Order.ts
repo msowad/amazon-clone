@@ -1,5 +1,5 @@
 import { Order } from '@/src/types/Order';
-import mongoose from 'mongoose';
+import mongoose, { PaginateModel } from 'mongoose';
 
 const OrderSchema = new mongoose.Schema<Order>(
   {
@@ -104,6 +104,9 @@ const OrderSchema = new mongoose.Schema<Order>(
   { timestamps: true }
 );
 
-export const OrderModel =
-  mongoose.models.Order ||
-  mongoose.model<Order & mongoose.Document>('Order', OrderSchema);
+export const OrderModel: PaginateModel<Order> =
+  (mongoose.models.Order as PaginateModel<Order>) ||
+  (mongoose.model<Order & mongoose.Document>(
+    'Order',
+    OrderSchema
+  ) as PaginateModel<Order>);

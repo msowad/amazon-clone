@@ -1,4 +1,4 @@
-import { ordersApi } from '@/src/services/getOrders';
+import { ordersApi } from '@/src/services/orders';
 import { productsApi } from '@/src/services/products';
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './cart';

@@ -1,7 +1,7 @@
 import { PaymentMethod } from '@/src/app/cart';
 import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
-import { useGetOrderDetailsQuery } from '@/src/services/getOrders';
+import { useGetOrderDetailsQuery } from '@/src/services/orders';
 import axios from '@/src/utils/axios';
 import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
 import { ErrorOutlineRounded } from '@mui/icons-material';
@@ -134,7 +134,7 @@ const Order: React.FC<Props> = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {order.items.map(item => (
+                          {order.items.map((item) => (
                             <TableRow key={item._id as string}>
                               <TableCell>
                                 <NextImage

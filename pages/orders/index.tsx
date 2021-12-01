@@ -1,6 +1,6 @@
 import Breadcrumb from '@/src/components/Breadcrumb';
 import { Layout } from '@/src/components/Layout';
-import { useGetOrdersQuery } from '@/src/services/getOrders';
+import { useGetOrdersQuery } from '@/src/services/orders';
 import { ErrorOutlineRounded } from '@mui/icons-material';
 import { Alert, AlertTitle, CircularProgress, Container } from '@mui/material';
 import { Box } from '@mui/system';
@@ -74,13 +74,13 @@ const Index: React.FC<Props> = () => {
         {orders?.length ? (
           <DataGrid
             rows={orders}
-            onRowClick={row => {
+            onRowClick={(row) => {
               router.push(`/orders/${row.id}`);
             }}
             columns={columns}
             disableSelectionOnClick
             pageSize={5}
-            getRowId={row => row._id}
+            getRowId={(row) => row._id}
             rowsPerPageOptions={[5]}
           />
         ) : (

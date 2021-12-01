@@ -8,6 +8,7 @@ const createRequest = (url: string) => ({ url: url });
 export const ordersApi = createApi({
   reducerPath: 'ordersApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
+  tagTypes: ['Orders'],
   endpoints: (builder) => ({
     getOrders: builder.query<Order[], {}>({
       query: () => createRequest(`/orders`),
