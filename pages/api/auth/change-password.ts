@@ -33,7 +33,7 @@ handler.post(async (req, res) => {
 
           res.status(200).json({
             status: 'success',
-            user: { email: updatedUser.email, password: newPassword },
+            user: { email: updatedUser?.email, password: newPassword },
           });
         } else {
           res.status(400).json({ success: false, message: 'Url expired' });
