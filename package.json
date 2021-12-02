@@ -34,6 +34,7 @@
     "cloudinary": "^1.27.1",
     "formidable": "^2.0.1",
     "formik": "^2.2.9",
+    "ioredis": "^4.28.2",
     "js-cookie": "^3.0.1",
     "micro": "^9.3.4",
     "moment": "^2.29.1",
@@ -50,7 +51,6 @@
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",
     "react-redux": "^7.2.6",
-    "redis": "^3.1.2",
     "slugify": "^1.6.3",
     "stripe": "^8.191.0",
     "yup": "^0.32.11"
@@ -62,6 +62,7 @@
     "@swc/core": "^1.2.113",
     "@types/bcryptjs": "^2.4.2",
     "@types/formidable": "^2.0.0",
+    "@types/ioredis": "^4.28.1",
     "@types/js-cookie": "^3.0.0",
     "@types/micro": "^7.3.6",
     "@types/mongoose-paginate-v2": "^1.4.0",

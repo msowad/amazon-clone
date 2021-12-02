@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { createClient } from 'redis';
+import Redis from 'ioredis';
 
 type connectionType = { isConnected?: boolean };
 
@@ -36,11 +36,7 @@ const disconnect = async () => {
   }
 };
 
-const redisClient = createClient({
-  host: process.env.REDIS_HOST,
-  port: Number(process.env.REDIS_PORT),
-  password: process.env.REDIS_PASSWORD,
-});
+const redisClient = new Redis(process.env.REDIS_CONNECTION_URL);
 
 const db = { connect, disconnect, redisClient };
 

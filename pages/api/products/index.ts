@@ -2,6 +2,7 @@ import db from '@/src/server/db';
 import { ProductModel } from '@/src/server/model/Product';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
+import Redis from 'ioredis';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
