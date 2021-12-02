@@ -2,7 +2,7 @@ import db from '@/src/server/db';
 import { ExtendedReq, isAuth } from '@/src/server/middleware/isAuth';
 import { OrderModel } from '@/src/server/model/Order';
 import { Order } from '@/src/types/Order';
-import { FilterQuery } from 'mongoose';
+import { Condition, FilterQuery } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -19,7 +19,11 @@ handler.get(async (req, res) => {
   await db.connect();
   const data = await OrderModel.paginate(
     {
-      user: req.user.id,
+      user: req.user.id as Condition<{
+        _id: string;
+        name: string;
+        email: string;
+      }>,
     },
     {
       page,
