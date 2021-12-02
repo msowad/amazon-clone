@@ -70,7 +70,7 @@ const Confirm: React.FC<Props> = ({
   };
 
   return (
-    <Layout>
+    <Layout title='Confirm order'>
       <Box sx={{ mb: 4 }}>
         <CheckoutStepper activeStep={3} enableHref />
       </Box>
@@ -155,7 +155,7 @@ const Confirm: React.FC<Props> = ({
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {cartItems.map(item => (
+                        {cartItems.map((item) => (
                           <TableRow key={item._id}>
                             <TableCell>
                               <NextImage

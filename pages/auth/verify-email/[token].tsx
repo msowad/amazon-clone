@@ -14,7 +14,7 @@ interface Props {
 
 const VerifyEmail: React.FC<Props> = ({ data, error, loggedIn }) => {
   return (
-    <Layout>
+    <Layout title='Verify email'>
       <Container maxWidth='xs'>
         {error && (
           <Alert severity='error'>

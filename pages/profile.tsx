@@ -64,7 +64,7 @@ const Profile: React.FC<Props> = ({ session }) => {
   };
 
   return (
-    <Layout>
+    <Layout title='Profile'>
       <FormWrapper title='Update profile information' icon={<AccountBox />}>
         <Formik
           validationSchema={validationSchema}
@@ -172,13 +172,13 @@ export default Profile;
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
 
-  if(!session) {
+  if (!session) {
     return {
       redirect: {
         destination: '/auth/login',
         permanent: false,
       },
-    }
+    };
   }
 
   return {

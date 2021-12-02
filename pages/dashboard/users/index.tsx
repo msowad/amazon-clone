@@ -55,7 +55,7 @@ const Users: NextPage<CustomDataGridProps> = (props) => {
   const { data, isFetching } = useGetUsersQuery(props);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Users'>
       <DashboardInfo title='Users' />
 
       <DataGrid

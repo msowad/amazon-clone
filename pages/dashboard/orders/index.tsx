@@ -69,7 +69,7 @@ const Orders: NextPage<CustomDataGridProps> = (props) => {
   const { data, isFetching } = useGetOrdersQuery(props);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Orders'>
       <DashboardInfo title='Orders' />
 
       <DataGrid

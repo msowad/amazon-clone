@@ -33,7 +33,7 @@ const Edit: NextPage<Props> = ({ initialValues }) => {
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Edit product'>
       <DashboardInfo
         title='Edit Product'
         icon={<AllOutSharp />}

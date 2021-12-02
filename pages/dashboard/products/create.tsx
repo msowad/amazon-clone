@@ -21,7 +21,7 @@ const Create: NextPage<Props> = () => {
   const [addProduct] = useAddProductMutation();
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Create product'>
       <DashboardInfo
         title='Create New Product'
         icon={<AllOutSharp />}

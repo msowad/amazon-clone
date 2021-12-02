@@ -49,7 +49,7 @@ const Order: NextPage<Props> = () => {
     useUpdateDeliveryStatusMutation();
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Order details'>
       <DashboardInfo
         title='Order details'
         icon={<AllOutSharp />}
