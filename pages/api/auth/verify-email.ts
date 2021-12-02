@@ -21,7 +21,7 @@ handler.post(async (req, res) => {
         await db.connect();
         await UserModel.findByIdAndUpdate(userId, {
           emailVerified: true,
-          emailVerifiedAt: new Date().toISOString(),
+          emailVerifiedAt: new Date(),
         });
         await db.disconnect();
         res.status(200).json({
