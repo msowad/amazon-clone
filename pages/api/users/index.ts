@@ -1,9 +1,12 @@
 import db from '@/src/server/db';
+import { isAdmin } from '@/src/server/middleware/isAdmin';
 import { UserModel } from '@/src/server/model/User';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.use(isAdmin);
 
 handler.get(async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page as string) : 1;

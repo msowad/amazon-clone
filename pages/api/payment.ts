@@ -1,11 +1,14 @@
 import db from '@/src/server/db';
 import { stripe } from '@/src/server/lib/stripe';
+import { isAuth } from '@/src/server/middleware/isAuth';
 import { OrderModel } from '@/src/server/model/Order';
 import { Order } from '@/src/types/Order';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.use(isAuth);
 
 handler.post(async (req, res) => {
   const { orderId } = req.body;
@@ -28,7 +31,7 @@ handler.post(async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: order.items.map(item => ({
+      line_items: order.items.map((item) => ({
         quantity: item.quantity,
         price_data: {
           currency: 'usd',

@@ -32,6 +32,10 @@ export const ordersApi = createApi({
       query: ({ id }) => createRequest(`/${id}`),
       providesTags: ['Orders'],
     }),
+    getOrderDetailsForAdmin: builder.query<Order, { id: string }>({
+      query: ({ id }) => createRequest(`/admin/${id}`),
+      providesTags: ['Orders'],
+    }),
     updatePaymentStatus: builder.mutation<any, { id: string }>({
       query: (body) => ({
         url: `/update/payment`,
@@ -56,4 +60,5 @@ export const {
   useGetOrderDetailsQuery,
   useUpdatePaymentStatusMutation,
   useUpdateDeliveryStatusMutation,
+  useGetOrderDetailsForAdminQuery,
 } = ordersApi;

@@ -6,8 +6,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import slugify from 'slugify';
 import cloudinary from 'cloudinary';
+import { isAdmin } from '@/src/server/middleware/isAdmin';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.use(isAdmin);
 
 interface FieldType {
   name: string;

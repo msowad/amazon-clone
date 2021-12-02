@@ -1,5 +1,6 @@
 import db from '@/src/server/db';
 import { uploader } from '@/src/server/lib/uploader';
+import { isAdmin } from '@/src/server/middleware/isAdmin';
 import { ProductModel } from '@/src/server/model/Product';
 import formidable from 'formidable';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -7,6 +8,8 @@ import nc from 'next-connect';
 import slugify from 'slugify';
 
 const handler = nc<NextApiRequest, NextApiResponse>();
+
+handler.use(isAdmin);
 
 handler.post(async (req, res) => {
   const form = new formidable.IncomingForm();

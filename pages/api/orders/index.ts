@@ -1,14 +1,13 @@
 import db from '@/src/server/db';
-import { ExtendedReq, isAuth } from '@/src/server/middleware/isAuth';
+import { isAdmin } from '@/src/server/middleware/isAdmin';
 import { OrderModel } from '@/src/server/model/Order';
-import { Order } from '@/src/types/Order';
-import { FilterQuery } from 'mongoose';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { ExtendedReq } from '@/src/types/ExtendedReq';
+import type { NextApiResponse } from 'next';
 import nc from 'next-connect';
 
-const handler = nc<ExtendedReq & NextApiRequest, NextApiResponse>();
+const handler = nc<ExtendedReq, NextApiResponse>();
 
-handler.use(isAuth);
+handler.use(isAdmin);
 
 handler.get(async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page as string) : 1;

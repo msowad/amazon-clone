@@ -1,8 +1,7 @@
 import db from '@/src/server/db';
 import { ExtendedReq, isAuth } from '@/src/server/middleware/isAuth';
 import { OrderModel } from '@/src/server/model/Order';
-import { Order } from '@/src/types/Order';
-import { Condition, FilterQuery } from 'mongoose';
+import { Condition } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 

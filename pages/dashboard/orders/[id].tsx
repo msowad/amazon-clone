@@ -1,7 +1,7 @@
 import { PaymentMethod } from '@/src/app/cart';
 import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
 import {
-  useGetOrderDetailsQuery,
+  useGetOrderDetailsForAdminQuery,
   useUpdateDeliveryStatusMutation,
   useUpdatePaymentStatusMutation,
 } from '@/src/services/orders';
@@ -39,7 +39,7 @@ interface Props {
 
 const Order: NextPage<Props> = () => {
   const router = useRouter();
-  const { isLoading, data: order } = useGetOrderDetailsQuery({
+  const { isLoading, data: order } = useGetOrderDetailsForAdminQuery({
     id: router.query.id as string,
   });
   const [updatePaymentStatus, { isLoading: updatingStatus }] =
