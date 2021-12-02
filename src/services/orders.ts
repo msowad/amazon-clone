@@ -23,7 +23,9 @@ export const ordersApi = createApi({
       }
     >({
       query: ({ page, limit, field, sort, user = false }) =>
-        `/?page=${page}&limit=${limit}&field=${field}&sort=${sort}&user=${user}`,
+        user
+          ? '/user'
+          : '' + `?page=${page}&limit=${limit}&field=${field}&sort=${sort}`,
       providesTags: ['Orders'],
     }),
     getOrderDetails: builder.query<Order, { id: string }>({

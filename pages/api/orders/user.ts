@@ -18,7 +18,9 @@ handler.get(async (req, res) => {
 
   await db.connect();
   const data = await OrderModel.paginate(
-    {},
+    {
+      user: req.user.id,
+    },
     {
       page,
       limit,
