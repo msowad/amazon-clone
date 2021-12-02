@@ -39,6 +39,7 @@ const disconnect = async () => {
 const redisClient = createClient({
   host: process.env.REDIS_HOST,
   port: Number(process.env.REDIS_PORT),
+  password: process.env.REDIS_PASSWORD,
 });
 
 const db = { connect, disconnect, redisClient };
