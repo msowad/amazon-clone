@@ -7,7 +7,7 @@
 
 ### <a href="https://nextjs-amazon-clone.herokuapp.com" target="_blank">Live site</a>
 
-## Amazon clone using NextJS, MongoDB, Redis, Material UI and Stripe
+## Amazon clone using NextJS, MongoDB, Redis, Material UI, and Stripe
 
 ### Run this project
 
