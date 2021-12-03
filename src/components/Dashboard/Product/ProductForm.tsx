@@ -57,9 +57,12 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
         if (data.error?.data?.message) {
           enqueueSnackbar(data.error.data.message, { variant: 'error' });
         } else if (data.data?.success === true) {
-          enqueueSnackbar('Product updated successfully', {
-            variant: 'success',
-          });
+          enqueueSnackbar(
+            `Product ${router.query.id ? 'updated' : 'created'} successfully`,
+            {
+              variant: 'success',
+            }
+          );
           router.push('/dashboard/products');
         } else {
           enqueueSnackbar('Something went wrong', { variant: 'error' });
