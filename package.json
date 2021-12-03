@@ -8,6 +8,9 @@
     "lint": "next lint",
     "commit": "git-cz"
   },
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
