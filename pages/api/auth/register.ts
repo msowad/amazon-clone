@@ -60,6 +60,7 @@ export default async function handler(
         success: true,
         data: user,
       });
+      return;
     }
   }
 

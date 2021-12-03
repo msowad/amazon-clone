@@ -25,7 +25,7 @@ handler.get(async (req, res) => {
   const totalUsers = await UserModel.countDocuments();
 
   res.json({
-    totalSell: totalPrice[0].total,
+    totalSell: totalPrice[0]?.total || 0,
     totalOrders,
     totalUsersPlaceOrder,
     totalUsers,
