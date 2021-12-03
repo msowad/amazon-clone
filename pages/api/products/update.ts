@@ -50,6 +50,7 @@ handler.post(async (req, res) => {
       });
     } else {
       try {
+        await db.connect();
         const product = await ProductModel.findById(id);
         let result = null;
         const updateArr = {
@@ -79,7 +80,6 @@ handler.post(async (req, res) => {
           );
         }
 
-        await db.connect();
         await product?.update(
           result
             ? {

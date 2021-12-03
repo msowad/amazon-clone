@@ -24,6 +24,7 @@ handler.get(async (req, res) => {
   const totalUsersPlaceOrder = await (await OrderModel.distinct('user')).length;
   const totalUsers = await UserModel.countDocuments();
 
+  await db.disconnect();
   res.json({
     totalSell: totalPrice[0]?.total || 0,
     totalOrders,
