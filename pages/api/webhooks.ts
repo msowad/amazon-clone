@@ -1,14 +1,14 @@
-import db from '@/src/server/db';
-import { stripe } from '@/src/server/lib/stripe';
-import { OrderModel } from '@/src/server/model/Order';
-import { buffer } from 'micro';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { stripe } from "@/src/server/lib/stripe";
+import { OrderModel } from "@/src/server/model/Order";
+import { buffer } from "micro";
+import type { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
-  const sig = req.headers['stripe-signature'] as string;
+  const sig = req.headers["stripe-signature"] as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
   const buf = await buffer(req);
 
@@ -22,7 +22,7 @@ handler.post(async (req, res) => {
   }
 
   switch (event.type) {
-    case 'payment_intent.succeeded':
+    case "payment_intent.succeeded":
       const paymentIntent = event.data.object as {
         metadata: { order_id: string };
       };

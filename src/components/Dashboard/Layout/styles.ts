@@ -1,53 +1,53 @@
-import { styled } from '@mui/material';
+import { styled } from "@mui/material";
 
 const drawerWidth = 200;
 
-export const StyledLayout = styled('div')(({ theme }) => ({
-  display: 'flex',
-  '.appBar': {
+export const StyledLayout = styled("div")(({ theme }) => ({
+  display: "flex",
+  ".appBar": {
     zIndex: theme.zIndex.drawer - 1,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       zIndex: theme.zIndex.drawer + 1,
     },
     backgroundColor:
-      theme.palette.mode === 'light'
+      theme.palette.mode === "light"
         ? theme.palette.primary.main
         : theme.palette.background.paper,
-    '.link': {
+    ".link": {
       color: theme.palette.getContrastText(
-        theme.palette.mode === 'light'
+        theme.palette.mode === "light"
           ? theme.palette.primary.main
           : theme.palette.background.paper
       ),
     },
   },
-  '.drawer': {
+  ".drawer": {
     flexShrink: 0,
     width: drawerWidth,
   },
-  '.drawerPaper': {
+  ".drawerPaper": {
     width: drawerWidth,
   },
-  '.menuButton': {
+  ".menuButton": {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
-  '.toolbar': {
+  ".toolbar": {
     ...theme.mixins.toolbar,
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
-  '.main': {
+  ".main": {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
   main: {
     paddingTop: 70,
   },
-  '.footer-text': {
+  ".footer-text": {
     marginTop: theme.spacing(12),
     color: theme.palette.text.secondary,
   },

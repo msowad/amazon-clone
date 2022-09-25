@@ -1,5 +1,5 @@
-import { blueGrey, red, yellow } from '@mui/material/colors';
-import { createTheme, PaletteOptions } from '@mui/material/styles';
+import { blueGrey, red, yellow } from "@mui/material/colors";
+import { createTheme, PaletteOptions } from "@mui/material/styles";
 
 export const theme = (darkMode: boolean) =>
   createTheme({
@@ -10,25 +10,25 @@ export const theme = (darkMode: boolean) =>
     components: {
       MuiLink: {
         defaultProps: {
-          color: 'inherit',
+          color: "inherit",
         },
       },
       MuiTextField: {
         defaultProps: {
-          variant: 'filled',
-          color: darkMode ? 'secondary' : 'primary',
+          variant: "filled",
+          color: darkMode ? "secondary" : "primary",
         },
       },
       MuiCheckbox: {
         defaultProps: {
-          color: darkMode ? 'secondary' : 'primary',
+          color: darkMode ? "secondary" : "primary",
         },
       },
     },
   });
 
 export const lightPalette: PaletteOptions = {
-  mode: 'light',
+  mode: "light",
   primary: {
     light: blueGrey[600],
     main: blueGrey[800],
@@ -46,7 +46,7 @@ export const lightPalette: PaletteOptions = {
 };
 
 export const darkPalette: PaletteOptions = {
-  mode: 'dark',
+  mode: "dark",
   primary: {
     light: blueGrey[50],
     main: blueGrey[100],
@@ -62,9 +62,9 @@ export const darkPalette: PaletteOptions = {
     paper: blueGrey[800],
   },
   text: {
-    primary: '#ffffff',
-    secondary: '#ffffff',
-    disabled: '#ffffff',
+    primary: "#ffffff",
+    secondary: "#ffffff",
+    disabled: "#ffffff",
   },
   error: {
     main: red[300],

@@ -1,24 +1,24 @@
-import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
+import { DashboardInfo, DashboardLayout } from "@/src/components/Dashboard";
 import useDataGrid, {
   createdAt,
   CustomDataGridProps,
   id,
-} from '@/src/hooks/useDataGrid';
-import { useGetOrdersQuery } from '@/src/services/orders';
-import { useGetOverviewQuery } from '@/src/services/sell';
-import { AllOutSharp } from '@mui/icons-material';
+} from "@/src/hooks/useDataGrid";
+import { useGetOrdersQuery } from "@/src/services/orders";
+import { useGetOverviewQuery } from "@/src/services/sell";
+import { AllOutSharp } from "@mui/icons-material";
 import {
   Card,
   CardContent,
   CircularProgress,
   Grid,
   Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import moment from 'moment';
-import { NextPage } from 'next';
-import { useRouter } from 'next/dist/client/router';
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import moment from "moment";
+import { NextPage } from "next";
+import { useRouter } from "next/dist/client/router";
 
 interface Props {
   //
@@ -26,37 +26,37 @@ interface Props {
 
 const columns: GridColDef[] = [
   {
-    field: '_id',
-    headerName: 'ID',
+    field: "_id",
+    headerName: "ID",
     flex: 1,
     minWidth: 100,
     sortable: false,
   },
   {
-    field: 'paidAt',
-    headerName: 'Paid At',
+    field: "paidAt",
+    headerName: "Paid At",
     flex: 1,
     minWidth: 80,
     valueGetter: (params: GridValueGetterParams) => {
       return params.value
-        ? `${moment(params.value).format('DD MMM YY')}`
-        : 'Not paid';
+        ? `${moment(params.value).format("DD MMM YY")}`
+        : "Not paid";
     },
 
     sortable: false,
   },
   {
-    field: 'isDelivered',
-    headerName: 'Delivered',
+    field: "isDelivered",
+    headerName: "Delivered",
     width: 50,
     flex: 1,
-    type: 'boolean',
+    type: "boolean",
 
     sortable: false,
   },
   {
-    field: 'items-count',
-    headerName: 'Items count',
+    field: "items-count",
+    headerName: "Items count",
     flex: 1,
     minWidth: 100,
     valueGetter: (params: GridValueGetterParams) => params.row.items.length,
@@ -64,8 +64,8 @@ const columns: GridColDef[] = [
     sortable: false,
   },
   {
-    field: 'items-price',
-    headerName: 'Price',
+    field: "items-price",
+    headerName: "Price",
     flex: 1,
     minWidth: 100,
     valueGetter: (params: GridValueGetterParams) => params.row.price.items,
@@ -73,8 +73,8 @@ const columns: GridColDef[] = [
     sortable: false,
   },
   {
-    field: 'total-price',
-    headerName: 'Total Price',
+    field: "total-price",
+    headerName: "Total Price",
     flex: 1,
     minWidth: 100,
     valueGetter: (params: GridValueGetterParams) => params.row.price.total,
@@ -82,24 +82,24 @@ const columns: GridColDef[] = [
     sortable: false,
   },
   {
-    field: 'paymentMethod',
-    headerName: 'Payment Method',
+    field: "paymentMethod",
+    headerName: "Payment Method",
     flex: 1,
-    align: 'right',
-    headerAlign: 'right',
+    align: "right",
+    headerAlign: "right",
     minWidth: 100,
 
     sortable: false,
   },
   {
-    field: 'createdAt',
-    headerName: 'Created At',
-    headerAlign: 'right',
-    align: 'right',
+    field: "createdAt",
+    headerName: "Created At",
+    headerAlign: "right",
+    align: "right",
     flex: 1,
     minWidth: 80,
     valueGetter: (params: GridValueGetterParams) => {
-      return `${moment(params.value).format('DD MMM YY')}`;
+      return `${moment(params.value).format("DD MMM YY")}`;
     },
     sortable: false,
   },
@@ -107,11 +107,11 @@ const columns: GridColDef[] = [
 
 const Index: NextPage<Props> = () => {
   const orderParams: CustomDataGridProps = {
-    field: 'createdAt',
+    field: "createdAt",
     limit: 5,
     page: 1,
-    sort: 'desc',
-    search: '',
+    sort: "desc",
+    search: "",
   };
 
   const router = useRouter();
@@ -121,10 +121,10 @@ const Index: NextPage<Props> = () => {
 
   return (
     <DashboardLayout>
-      <DashboardInfo title='Overview' />
+      <DashboardInfo title="Overview" />
 
       {overviewLoading && (
-        <Box textAlign='center' paddingTop={5} paddingBottom={10}>
+        <Box textAlign="center" paddingTop={5} paddingBottom={10}>
           <CircularProgress />
         </Box>
       )}
@@ -133,13 +133,13 @@ const Index: NextPage<Props> = () => {
           <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
-                <Typography variant='h6'>Total Sales</Typography>
-                <Typography variant='h3' gutterBottom>
+                <Typography variant="h6">Total Sales</Typography>
+                <Typography variant="h3" gutterBottom>
                   ${overview.totalSell}
                 </Typography>
-                <Typography variant='subtitle1'>
+                <Typography variant="subtitle1">
                   Total {overview.totalOrders} order
-                  {overview.totalOrders > 1 && 's'}
+                  {overview.totalOrders > 1 && "s"}
                 </Typography>
               </CardContent>
             </Card>
@@ -147,14 +147,14 @@ const Index: NextPage<Props> = () => {
           <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
-                <Typography variant='h6'>Order Placed</Typography>
-                <Typography variant='h3' gutterBottom>
+                <Typography variant="h6">Order Placed</Typography>
+                <Typography variant="h3" gutterBottom>
                   {overview.totalUsersPlaceOrder} user
-                  {overview.totalUsersPlaceOrder > 1 && 's'}
+                  {overview.totalUsersPlaceOrder > 1 && "s"}
                 </Typography>
-                <Typography variant='subtitle1'>
+                <Typography variant="subtitle1">
                   Total {overview.totalUsers} User
-                  {overview.totalUsers === 1 ? '' : 's'}
+                  {overview.totalUsers === 1 ? "" : "s"}
                 </Typography>
               </CardContent>
             </Card>
@@ -165,9 +165,9 @@ const Index: NextPage<Props> = () => {
       <DashboardInfo
         mt={5}
         mb={5}
-        title='Latest orders'
-        link='/dashboard/orders'
-        linkText='view all orders'
+        title="Latest orders"
+        link="/dashboard/orders"
+        linkText="view all orders"
         icon={<AllOutSharp />}
       />
       <DataGrid

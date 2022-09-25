@@ -1,8 +1,8 @@
-import db from '@/src/server/db';
-import { isAdmin } from '@/src/server/middleware/isAdmin';
-import { OrderModel } from '@/src/server/model/Order';
-import { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { isAdmin } from "@/src/server/middleware/isAdmin";
+import { OrderModel } from "@/src/server/model/Order";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
@@ -20,7 +20,7 @@ handler.post(async (req, res) => {
   await db.disconnect();
   res.json({
     success: true,
-    message: 'Delivery status updated',
+    message: "Delivery status updated",
   });
 });
 

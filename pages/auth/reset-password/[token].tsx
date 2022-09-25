@@ -1,31 +1,31 @@
-import FormWrapper from '@/src/components/FormWrapper';
-import { Layout } from '@/src/components/Layout';
-import axios from '@/src/utils/axios';
-import { LockOutlined } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { TextField } from '@mui/material';
-import { Form, Formik } from 'formik';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/dist/client/router';
-import { useSnackbar } from 'notistack';
-import React from 'react';
-import * as yup from 'yup';
+import FormWrapper from "@/src/components/FormWrapper";
+import { Layout } from "@/src/components/Layout";
+import axios from "@/src/utils/axios";
+import { LockOutlined } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { TextField } from "@mui/material";
+import { Form, Formik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/dist/client/router";
+import { useSnackbar } from "notistack";
+import React from "react";
+import * as yup from "yup";
 
 interface Props {
   //
 }
 
 const validationSchema = yup.object({
-  newPassword: yup.string().required('Password is required'),
+  newPassword: yup.string().required("Password is required"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('newPassword'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
 const initialValues = {
-  newPassword: '',
-  confirmPassword: '',
+  newPassword: "",
+  confirmPassword: "",
 };
 
 const ResetPassword: React.FC<Props> = () => {
@@ -34,38 +34,38 @@ const ResetPassword: React.FC<Props> = () => {
 
   const handleSubmit = async (values: any, setErrors: any) => {
     try {
-      const { data } = await axios.post('/auth/change-password', {
+      const { data } = await axios.post("/auth/change-password", {
         ...values,
         token: router.query.token,
       });
 
       if (data.user) {
-        const result: any = await signIn('credentials', {
+        const result: any = await signIn("credentials", {
           redirect: false,
           email: data.user.email,
           password: data.user.password,
         });
         if (result?.error) {
           enqueueSnackbar(result.error, {
-            variant: 'error',
+            variant: "error",
           });
         } else {
-          enqueueSnackbar('Password changed successfully', {
-            variant: 'success',
+          enqueueSnackbar("Password changed successfully", {
+            variant: "success",
           });
-          router.push('/');
+          router.push("/");
         }
       }
     } catch (error: any) {
       enqueueSnackbar(error.response.data.message || error.message, {
-        variant: 'error',
+        variant: "error",
       });
     }
   };
 
   return (
-    <Layout title='Change password'>
-      <FormWrapper title='Change password' icon={<LockOutlined />}>
+    <Layout title="Change password">
+      <FormWrapper title="Change password" icon={<LockOutlined />}>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
@@ -84,28 +84,28 @@ const ResetPassword: React.FC<Props> = () => {
           }) => (
             <Form onSubmit={handleSubmit} noValidate>
               <TextField
-                margin='normal'
+                margin="normal"
                 autoFocus
                 fullWidth
                 required
-                name='newPassword'
-                label='New Password'
-                variant='filled'
+                name="newPassword"
+                label="New Password"
+                variant="filled"
                 value={values.newPassword}
                 onChange={handleChange}
-                type='password'
+                type="password"
                 error={touched.newPassword && Boolean(errors.newPassword)}
                 helperText={touched.newPassword && errors.newPassword}
               />
               <TextField
-                margin='normal'
+                margin="normal"
                 fullWidth
                 required
-                name='confirmPassword'
-                label='Confirm Password'
-                variant='filled'
+                name="confirmPassword"
+                label="Confirm Password"
+                variant="filled"
                 value={values.confirmPassword}
-                type='password'
+                type="password"
                 onChange={handleChange}
                 error={
                   touched.confirmPassword && Boolean(errors.confirmPassword)
@@ -114,10 +114,10 @@ const ResetPassword: React.FC<Props> = () => {
               />
               <LoadingButton
                 loading={isSubmitting}
-                type='submit'
+                type="submit"
                 fullWidth
-                color='primary'
-                variant='contained'
+                color="primary"
+                variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 change password

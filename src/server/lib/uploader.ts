@@ -1,5 +1,5 @@
-import cloudinary from 'cloudinary';
-import { initCloudinary } from './cloudinary';
+import cloudinary from "cloudinary";
+import { initCloudinary } from "./cloudinary";
 
 export const uploader = async (
   path: string,

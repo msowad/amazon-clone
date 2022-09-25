@@ -1,32 +1,32 @@
-import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
+import { DashboardInfo, DashboardLayout } from "@/src/components/Dashboard";
 import useDataGrid, {
   createdAt,
   CustomDataGridProps,
   id,
-} from '@/src/hooks/useDataGrid';
-import { useGetUsersQuery } from '@/src/services/users';
-import { Link, Tooltip, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { GetServerSideProps, NextPage } from 'next';
+} from "@/src/hooks/useDataGrid";
+import { useGetUsersQuery } from "@/src/services/users";
+import { Link, Tooltip, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GetServerSideProps, NextPage } from "next";
 
 const columns: GridColDef[] = [
   id,
   {
-    field: 'name',
-    headerName: 'Name',
+    field: "name",
+    headerName: "Name",
     flex: 1,
     minWidth: 100,
   },
   {
-    field: 'email',
-    headerName: 'Email',
+    field: "email",
+    headerName: "Email",
     flex: 1,
     minWidth: 200,
     renderCell: (cell) => (
-      <Tooltip title={cell.row.emailVerified ? 'Verified' : 'Unverified'}>
+      <Tooltip title={cell.row.emailVerified ? "Verified" : "Unverified"}>
         <Link
           sx={{
-            color: cell.row.emailVerified ? 'success.main' : 'warning.main',
+            color: cell.row.emailVerified ? "success.main" : "warning.main",
           }}
           href={`mailto:${cell.value}`}
         >
@@ -36,13 +36,13 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'isAdmin',
-    headerName: 'Role',
+    field: "isAdmin",
+    headerName: "Role",
     flex: 1,
     minWidth: 20,
     renderCell: (cell) => (
-      <Typography sx={{ color: cell.value ? 'success.main' : 'info.main' }}>
-        {cell.value ? 'Admin' : 'User'}
+      <Typography sx={{ color: cell.value ? "success.main" : "info.main" }}>
+        {cell.value ? "Admin" : "User"}
       </Typography>
     ),
   },
@@ -55,8 +55,8 @@ const Users: NextPage<CustomDataGridProps> = (props) => {
   const { data, isFetching } = useGetUsersQuery(props);
 
   return (
-    <DashboardLayout title='Users'>
-      <DashboardInfo title='Users' />
+    <DashboardLayout title="Users">
+      <DashboardInfo title="Users" />
 
       <DataGrid
         {...defaultProps}
@@ -76,9 +76,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     props: {
       page: Number(query.page) || 1,
       limit: Number(query.limit) || 10,
-      field: query.field || 'createdAt',
-      sort: query.sort || 'desc',
-      search: query.search || '',
+      field: query.field || "createdAt",
+      sort: query.sort || "desc",
+      search: query.search || "",
     },
   };
 };

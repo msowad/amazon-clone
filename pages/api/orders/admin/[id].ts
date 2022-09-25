@@ -1,8 +1,8 @@
-import db from '@/src/server/db';
-import { isAdmin } from '@/src/server/middleware/isAdmin';
-import { OrderModel } from '@/src/server/model/Order';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { isAdmin } from "@/src/server/middleware/isAdmin";
+import { OrderModel } from "@/src/server/model/Order";
+import type { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 

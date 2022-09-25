@@ -1,13 +1,13 @@
-import db from '@/src/server/db';
-import { isAuth } from '@/src/server/middleware/isAuth';
-import { OrderModel } from '@/src/server/model/Order';
-import { SHIPPING_PRICE, TAX_RATE } from '@/src/utils/constants';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { Session } from 'next-auth';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { isAuth } from "@/src/server/middleware/isAuth";
+import { OrderModel } from "@/src/server/model/Order";
+import { SHIPPING_PRICE, TAX_RATE } from "@/src/utils/constants";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-auth";
+import nc from "next-connect";
 
 interface ExtendedReq {
-  user: Session['user'];
+  user: Session["user"];
 }
 
 const handler = nc<NextApiRequest, NextApiResponse>({

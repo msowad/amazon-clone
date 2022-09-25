@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 interface OverviewResponse {
   totalSell: number;
@@ -8,16 +8,16 @@ interface OverviewResponse {
 }
 
 export const sellApi = createApi({
-  reducerPath: 'sellApi',
+  reducerPath: "sellApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') +
-      '/sell',
+      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") +
+      "/sell",
   }),
-  tagTypes: ['Sell'],
+  tagTypes: ["Sell"],
   endpoints: (build) => ({
     getOverview: build.query<OverviewResponse, void>({
-      query: () => 'overview',
+      query: () => "overview",
     }),
   }),
 });

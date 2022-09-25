@@ -1,15 +1,15 @@
-import { PaginatedResponse } from '@/src/types/PaginatedResponse';
-import { User } from '@/src/types/User';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { PaginatedResponse } from "@/src/types/PaginatedResponse";
+import { User } from "@/src/types/User";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 export const usersApi = createApi({
-  reducerPath: 'usersApi',
+  reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') +
-      '/users',
+      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") +
+      "/users",
   }),
-  tagTypes: ['Users'],
+  tagTypes: ["Users"],
   endpoints: (build) => ({
     getUsers: build.query<
       PaginatedResponse<User[]>,
@@ -23,7 +23,7 @@ export const usersApi = createApi({
     >({
       query: ({ page, limit, field, sort, search }) =>
         `/?page=${page}&limit=${limit}&field=${field}&sort=${sort}&search=${search}`,
-      providesTags: ['Users'],
+      providesTags: ["Users"],
     }),
   }),
 });

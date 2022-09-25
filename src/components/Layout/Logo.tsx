@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import { styled } from '@mui/system';
+import React from "react";
+import Image from "next/image";
+import { styled } from "@mui/system";
 
 interface Props {
   large?: boolean;
@@ -11,10 +11,10 @@ const Logo: React.FC<Props> = ({ large }) => {
     <ImageContainer width={large ? 125 : 90} height={large ? 45 : 29}>
       <Image
         priority
-        src='/amazon-light.png'
-        alt='Amazon logo'
-        layout='fill'
-        objectFit='contain'
+        src="/amazon-light.png"
+        alt="Amazon logo"
+        layout="fill"
+        objectFit="contain"
       />
     </ImageContainer>
   );
@@ -22,9 +22,9 @@ const Logo: React.FC<Props> = ({ large }) => {
 
 export default Logo;
 
-const ImageContainer = styled('div')<{ width: number; height: number }>(
+const ImageContainer = styled("div")<{ width: number; height: number }>(
   ({ width, height }) => ({
-    position: 'relative',
+    position: "relative",
     width,
     height,
   })

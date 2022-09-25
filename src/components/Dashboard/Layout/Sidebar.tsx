@@ -6,7 +6,7 @@ import {
   Inbox,
   Mail,
   Sell,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Divider,
   Drawer,
@@ -16,10 +16,10 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-} from '@mui/material';
-import React, { Fragment } from 'react';
-import NextLink from 'next/link';
-import { useRouter } from 'next/dist/client/router';
+} from "@mui/material";
+import React, { Fragment } from "react";
+import NextLink from "next/link";
+import { useRouter } from "next/dist/client/router";
 
 interface Props {
   open: boolean;
@@ -28,47 +28,47 @@ interface Props {
 
 const primaryLinks = [
   {
-    href: '/dashboard',
-    label: 'Dashboard',
+    href: "/dashboard",
+    label: "Dashboard",
     icon: <DashboardRounded />,
   },
   {
-    href: '/dashboard/products',
-    label: 'Products',
+    href: "/dashboard/products",
+    label: "Products",
     icon: <Collections />,
   },
   {
-    href: '/dashboard/orders',
-    label: 'Orders',
+    href: "/dashboard/orders",
+    label: "Orders",
     icon: <Sell />,
   },
 ];
 
 const secondaryLinks = [
   {
-    href: '/dashboard/users',
-    label: 'Users',
+    href: "/dashboard/users",
+    label: "Users",
     icon: <Group />,
   },
 ];
 
 const Sidebar: React.FC<Props> = ({ open, toggleDrawer }) => {
   const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const router = useRouter();
 
   return (
     <Drawer
-      className='drawer'
-      variant={isMdUp ? 'permanent' : 'temporary'}
+      className="drawer"
+      variant={isMdUp ? "permanent" : "temporary"}
       classes={{
-        paper: 'drawerPaper',
+        paper: "drawerPaper",
       }}
-      anchor='left'
+      anchor="left"
       open={open}
       onClose={toggleDrawer}
     >
-      <div className='toolbar' />
+      <div className="toolbar" />
       <Divider />
       <List>
         {[primaryLinks, secondaryLinks].map((links, index) => (
@@ -78,7 +78,7 @@ const Sidebar: React.FC<Props> = ({ open, toggleDrawer }) => {
                 <ListItem
                   selected={router.pathname === link.href}
                   dense
-                  component='a'
+                  component="a"
                   button
                 >
                   <ListItemIcon>{link.icon}</ListItemIcon>

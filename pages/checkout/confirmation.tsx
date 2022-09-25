@@ -3,13 +3,13 @@ import {
   PaymentMethod,
   resetCart,
   ShippingDetails,
-} from '@/src/app/cart';
-import CheckoutStepper from '@/src/components/CheckoutStepper';
-import { Layout } from '@/src/components/Layout';
-import axios from '@/src/utils/axios';
-import { SHIPPING_PRICE, TAX_RATE } from '@/src/utils/constants';
-import { getPaymentMethodLabel } from '@/src/utils/getPaymentMethodLabel';
-import { Edit } from '@mui/icons-material';
+} from "@/src/app/cart";
+import CheckoutStepper from "@/src/components/CheckoutStepper";
+import { Layout } from "@/src/components/Layout";
+import axios from "@/src/utils/axios";
+import { SHIPPING_PRICE, TAX_RATE } from "@/src/utils/constants";
+import { getPaymentMethodLabel } from "@/src/utils/getPaymentMethodLabel";
+import { Edit } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -25,15 +25,15 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/dist/client/router';
-import NextImage from 'next/image';
-import NextLink from 'next/link';
-import NProgress from 'nprogress';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/dist/client/router";
+import NextImage from "next/image";
+import NextLink from "next/link";
+import NProgress from "nprogress";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 interface Props {
   cartItems: CartItem[];
@@ -59,7 +59,7 @@ const Confirm: React.FC<Props> = ({
 
   const handleOrder = async () => {
     NProgress.start();
-    const { data } = await axios.post('/orders/create', {
+    const { data } = await axios.post("/orders/create", {
       cartItems,
       shippingDetails,
       paymentMethod,
@@ -70,13 +70,13 @@ const Confirm: React.FC<Props> = ({
   };
 
   return (
-    <Layout title='Confirm order'>
+    <Layout title="Confirm order">
       <Box sx={{ mb: 4 }}>
         <CheckoutStepper activeStep={3} enableHref />
       </Box>
       <Grid container spacing={3} sx={{ marginTop: 5 }}>
         <Grid item xs={12}>
-          <Typography variant='h4' gutterBottom>
+          <Typography variant="h4" gutterBottom>
             Confirm order
           </Typography>
         </Grid>
@@ -85,29 +85,29 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box display='flex' justifyContent='space-between'>
-                    <Typography variant='h5' gutterBottom>
+                  <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h5" gutterBottom>
                       Shipping details
                     </Typography>
-                    <NextLink href='/checkout' passHref>
+                    <NextLink href="/checkout" passHref>
                       <IconButton>
                         <Edit />
                       </IconButton>
                     </NextLink>
                   </Box>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     Name: {shippingDetails.name}
                   </Typography>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     Address: {shippingDetails.address}
                   </Typography>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     City: {shippingDetails.city}
                   </Typography>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     country: {shippingDetails.country}
                   </Typography>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     postal code: {shippingDetails.postalCode}
                   </Typography>
                 </CardContent>
@@ -116,17 +116,17 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box display='flex' justifyContent='space-between'>
-                    <Typography variant='h5' gutterBottom>
+                  <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h5" gutterBottom>
                       Payment details
                     </Typography>
-                    <NextLink href='/checkout/payment' passHref>
+                    <NextLink href="/checkout/payment" passHref>
                       <IconButton>
                         <Edit />
                       </IconButton>
                     </NextLink>
                   </Box>
-                  <Typography variant='body1' gutterBottom>
+                  <Typography variant="body1" gutterBottom>
                     Payment method: {getPaymentMethodLabel(paymentMethod)}
                   </Typography>
                 </CardContent>
@@ -135,11 +135,11 @@ const Confirm: React.FC<Props> = ({
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Box display='flex' justifyContent='space-between'>
-                    <Typography variant='h5' gutterBottom>
+                  <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h5" gutterBottom>
                       Order items
                     </Typography>
-                    <NextLink href='/cart' passHref>
+                    <NextLink href="/cart" passHref>
                       <IconButton>
                         <Edit />
                       </IconButton>
@@ -151,7 +151,7 @@ const Confirm: React.FC<Props> = ({
                         <TableRow>
                           <TableCell>Image</TableCell>
                           <TableCell>Name</TableCell>
-                          <TableCell align='right'>Total</TableCell>
+                          <TableCell align="right">Total</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -162,7 +162,7 @@ const Confirm: React.FC<Props> = ({
                                 src={item.image}
                                 width={86}
                                 height={86}
-                                objectFit='contain'
+                                objectFit="contain"
                                 alt={item.name}
                               />
                             </TableCell>
@@ -174,7 +174,7 @@ const Confirm: React.FC<Props> = ({
                                 <a>{item.name}</a>
                               </NextLink>
                             </TableCell>
-                            <TableCell align='right'>
+                            <TableCell align="right">
                               ${item.price * item.quantity}
                               <div>
                                 ${item.price} X {item.quantity}
@@ -194,7 +194,7 @@ const Confirm: React.FC<Props> = ({
           <Card>
             <List>
               <ListItem>
-                <Typography variant='h5'>Order Summary</Typography>
+                <Typography variant="h5">Order Summary</Typography>
               </ListItem>
               <ListItem>
                 <Grid container>
@@ -202,7 +202,7 @@ const Confirm: React.FC<Props> = ({
                     <Typography>Items:</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography align='right'>${itemsPrice}</Typography>
+                    <Typography align="right">${itemsPrice}</Typography>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -212,7 +212,7 @@ const Confirm: React.FC<Props> = ({
                     <Typography>Tax:</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography align='right'>${taxPrice}</Typography>
+                    <Typography align="right">${taxPrice}</Typography>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -222,7 +222,7 @@ const Confirm: React.FC<Props> = ({
                     <Typography>Shipping:</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography align='right'>${shippingPrice}</Typography>
+                    <Typography align="right">${shippingPrice}</Typography>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -234,7 +234,7 @@ const Confirm: React.FC<Props> = ({
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography align='right'>
+                    <Typography align="right">
                       <strong>${totalPrice}</strong>
                     </Typography>
                   </Grid>
@@ -243,8 +243,8 @@ const Confirm: React.FC<Props> = ({
               <ListItem>
                 <Button
                   onClick={handleOrder}
-                  variant='contained'
-                  color='primary'
+                  variant="contained"
+                  color="primary"
                   fullWidth
                 >
                   Place Order
@@ -264,7 +264,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!req.cookies.cartItems) {
     return {
       redirect: {
-        destination: '/cart',
+        destination: "/cart",
         permanent: false,
       },
     };
@@ -274,18 +274,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!req.cookies.shippingDetails) {
     return {
       redirect: {
-        destination: '/checkout',
+        destination: "/checkout",
         permanent: false,
       },
     };
   }
-  console.log('HAS SHIPPING DETAILS');
+  console.log("HAS SHIPPING DETAILS");
   const shippingDetails = JSON.parse(req.cookies.shippingDetails);
 
   if (!req.cookies.paymentMethod) {
     return {
       redirect: {
-        destination: '/checkout/payment',
+        destination: "/checkout/payment",
         permanent: false,
       },
     };

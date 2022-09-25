@@ -1,9 +1,9 @@
-import db from '@/src/server/db';
-import { ExtendedReq, isAuth } from '@/src/server/middleware/isAuth';
-import { OrderModel } from '@/src/server/model/Order';
-import { Condition } from 'mongoose';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { ExtendedReq, isAuth } from "@/src/server/middleware/isAuth";
+import { OrderModel } from "@/src/server/model/Order";
+import { Condition } from "mongoose";
+import type { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 

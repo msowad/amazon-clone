@@ -4,11 +4,11 @@ import {
   selectTotalPrice,
   undoRemoveFromCart,
   updateQuantity,
-} from '@/src/app/cart';
-import Breadcrumb from '@/src/components/Breadcrumb';
-import { Layout } from '@/src/components/Layout';
-import { Product } from '@/src/types/Product';
-import { Close, ErrorOutlineRounded } from '@mui/icons-material';
+} from "@/src/app/cart";
+import Breadcrumb from "@/src/components/Breadcrumb";
+import { Layout } from "@/src/components/Layout";
+import { Product } from "@/src/types/Product";
+import { Close, ErrorOutlineRounded } from "@mui/icons-material";
 import {
   Alert,
   AlertTitle,
@@ -27,13 +27,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import NextLink from 'next/link';
-import { useSnackbar } from 'notistack';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@mui/material";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import NextLink from "next/link";
+import { useSnackbar } from "notistack";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Props {
   //
@@ -48,11 +48,11 @@ const Cart: React.FC<Props> = () => {
   const removeFromCartHandler = (product: Product) => {
     dispatch(removeFromCart(product));
     enqueueSnackbar(`"${product.name}" removed from cart`, {
-      variant: 'success',
+      variant: "success",
       action: (key) => (
         <>
           <Button
-            color='inherit'
+            color="inherit"
             onClick={() => {
               dispatch(undoRemoveFromCart(product._id));
               closeSnackbar(key);
@@ -62,9 +62,9 @@ const Cart: React.FC<Props> = () => {
           </Button>
           <IconButton
             onClick={() => closeSnackbar(key)}
-            key='close'
-            aria-label='close'
-            color='inherit'
+            key="close"
+            aria-label="close"
+            color="inherit"
           >
             <Close />
           </IconButton>
@@ -74,15 +74,15 @@ const Cart: React.FC<Props> = () => {
   };
 
   return (
-    <Layout title='Shopping cart'>
+    <Layout title="Shopping cart">
       <Breadcrumb
-        current='Shopping cart'
-        links={[{ href: '/', label: 'All products' }]}
+        current="Shopping cart"
+        links={[{ href: "/", label: "All products" }]}
       />
       {cartItems.length ? (
         <Grid container spacing={3} sx={{ marginTop: 5 }}>
           <Grid item xs={12}>
-            <Typography variant='h4' gutterBottom>
+            <Typography variant="h4" gutterBottom>
               Shopping cart
             </Typography>
           </Grid>
@@ -107,7 +107,7 @@ const Cart: React.FC<Props> = () => {
                           src={item.image}
                           width={86}
                           height={86}
-                          objectFit='contain'
+                          objectFit="contain"
                           alt={item.name}
                         />
                       </TableCell>
@@ -153,12 +153,12 @@ const Cart: React.FC<Props> = () => {
           <Grid item md={3} xs={12}>
             <Card>
               <CardContent>
-                <Alert severity='info' sx={{ marginBottom: 2 }}>
+                <Alert severity="info" sx={{ marginBottom: 2 }}>
                   <AlertTitle>Total</AlertTitle>
                   <Typography>${totalPrice}</Typography>
                 </Alert>
-                <NextLink passHref href='/checkout'>
-                  <Button fullWidth color='secondary' variant='contained'>
+                <NextLink passHref href="/checkout">
+                  <Button fullWidth color="secondary" variant="contained">
                     Checkout
                   </Button>
                 </NextLink>
@@ -167,14 +167,14 @@ const Cart: React.FC<Props> = () => {
           </Grid>
         </Grid>
       ) : (
-        <Container maxWidth='sm' sx={{ marginTop: 5 }}>
+        <Container maxWidth="sm" sx={{ marginTop: 5 }}>
           <Alert
-            severity='error'
+            severity="error"
             elevation={3}
-            icon={<ErrorOutlineRounded fontSize='large' />}
+            icon={<ErrorOutlineRounded fontSize="large" />}
           >
             <AlertTitle>No product in cart</AlertTitle>
-            <NextLink href='/'> Continue shopping</NextLink>
+            <NextLink href="/"> Continue shopping</NextLink>
           </Alert>
         </Container>
       )}

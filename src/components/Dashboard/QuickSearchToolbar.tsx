@@ -1,12 +1,12 @@
-import { Search } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
-import { Box } from '@mui/system';
+import { Search } from "@mui/icons-material";
+import { IconButton, TextField } from "@mui/material";
+import { Box } from "@mui/system";
 import {
   GridToolbarColumnsButton,
   GridToolbarDensitySelector,
   GridToolbarExport,
-} from '@mui/x-data-grid';
-import React from 'react';
+} from "@mui/x-data-grid";
+import React from "react";
 
 interface Props {
   onChange: () => void;
@@ -23,9 +23,9 @@ const QuickSearchToolbar: React.FC<Props> = ({
 }) => {
   return (
     <Box
-      display='flex'
-      justifyContent='space-between'
-      alignItems='center'
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
       padding={1}
     >
       <div>
@@ -35,13 +35,13 @@ const QuickSearchToolbar: React.FC<Props> = ({
       </div>
       {!disableSearch && (
         <TextField
-          variant='outlined'
-          size='small'
-          placeholder='Search…'
+          variant="outlined"
+          size="small"
+          placeholder="Search…"
           value={value}
           onChange={onChange}
           onKeyPress={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               onSearch();
             }
           }}
@@ -49,11 +49,11 @@ const QuickSearchToolbar: React.FC<Props> = ({
             endAdornment: (
               <IconButton
                 onClick={onSearch}
-                title='Clear'
-                aria-label='Clear'
-                size='small'
+                title="Clear"
+                aria-label="Clear"
+                size="small"
               >
-                <Search fontSize='small' />
+                <Search fontSize="small" />
               </IconButton>
             ),
           }}

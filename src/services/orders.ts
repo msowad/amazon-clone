@@ -1,16 +1,16 @@
-import { Order } from '@/src/types/Order';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { PaginatedResponse } from '../types/PaginatedResponse';
+import { Order } from "@/src/types/Order";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { PaginatedResponse } from "../types/PaginatedResponse";
 
 const baseUrl =
-  (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') + '/orders';
+  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") + "/orders";
 
 const createRequest = (url: string) => ({ url: url });
 
 export const ordersApi = createApi({
-  reducerPath: 'ordersApi',
+  reducerPath: "ordersApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
-  tagTypes: ['Orders'],
+  tagTypes: ["Orders"],
   endpoints: (builder) => ({
     getOrders: builder.query<
       PaginatedResponse<Order[]>,
@@ -24,33 +24,33 @@ export const ordersApi = createApi({
     >({
       query: ({ page, limit, field, sort, user = false }) =>
         user
-          ? '/user'
-          : '' + `?page=${page}&limit=${limit}&field=${field}&sort=${sort}`,
-      providesTags: ['Orders'],
+          ? "/user"
+          : "" + `?page=${page}&limit=${limit}&field=${field}&sort=${sort}`,
+      providesTags: ["Orders"],
     }),
     getOrderDetails: builder.query<Order, { id: string }>({
       query: ({ id }) => createRequest(`/${id}`),
-      providesTags: ['Orders'],
+      providesTags: ["Orders"],
     }),
     getOrderDetailsForAdmin: builder.query<Order, { id: string }>({
       query: ({ id }) => createRequest(`/admin/${id}`),
-      providesTags: ['Orders'],
+      providesTags: ["Orders"],
     }),
     updatePaymentStatus: builder.mutation<any, { id: string }>({
       query: (body) => ({
         url: `/update/payment`,
-        method: 'POST',
+        method: "POST",
         body,
       }),
-      invalidatesTags: (result) => [{ type: 'Orders', id: result?._id }],
+      invalidatesTags: (result) => [{ type: "Orders", id: result?._id }],
     }),
     updateDeliveryStatus: builder.mutation<any, { id: string }>({
       query: (body) => ({
         url: `/update/delivery`,
-        method: 'POST',
+        method: "POST",
         body,
       }),
-      invalidatesTags: (result) => [{ type: 'Orders', id: result?._id }],
+      invalidatesTags: (result) => [{ type: "Orders", id: result?._id }],
     }),
   }),
 });

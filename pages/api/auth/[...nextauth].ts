@@ -1,9 +1,9 @@
 // @ts-nocheck
-import db from '@/src/server/db';
-import { UserModel } from '@/src/server/model/User';
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
+import db from "@/src/server/db";
+import { UserModel } from "@/src/server/model/User";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 export default NextAuth({
   session: {
@@ -36,7 +36,7 @@ export default NextAuth({
             };
           }
         }
-        throw new Error('Enter valid email and password');
+        throw new Error("Enter valid email and password");
       },
     }),
   ],
@@ -46,7 +46,7 @@ export default NextAuth({
     encryption: true,
   },
   pages: {
-    signin: '/auth/login',
-    signup: '/auth/register',
+    signin: "/auth/login",
+    signup: "/auth/register",
   },
 });

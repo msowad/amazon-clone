@@ -1,23 +1,23 @@
-import { PaymentMethod, updatePaymentMethod } from '@/src/app/cart';
-import CheckoutStepper from '@/src/components/CheckoutStepper';
-import FormWrapper from '@/src/components/FormWrapper';
-import { Layout } from '@/src/components/Layout';
-import { MonetizationOn } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
+import { PaymentMethod, updatePaymentMethod } from "@/src/app/cart";
+import CheckoutStepper from "@/src/components/CheckoutStepper";
+import FormWrapper from "@/src/components/FormWrapper";
+import { Layout } from "@/src/components/Layout";
+import { MonetizationOn } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   Button,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
-import { useRouter } from 'next/dist/client/router';
-import NextLink from 'next/link';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 interface Props {
   cachedPaymentMethod: PaymentMethod | null;
@@ -25,7 +25,7 @@ interface Props {
 
 const Payment: React.FC<Props> = ({ cachedPaymentMethod }) => {
   const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>(
-    cachedPaymentMethod || 'stripe'
+    cachedPaymentMethod || "stripe"
   );
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,49 +33,49 @@ const Payment: React.FC<Props> = ({ cachedPaymentMethod }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updatePaymentMethod(paymentMethod));
-    router.push('/checkout/confirmation');
+    router.push("/checkout/confirmation");
   };
 
   return (
-    <Layout title='Choose payment method'>
+    <Layout title="Choose payment method">
       <Box sx={{ mb: 4 }}>
         <CheckoutStepper activeStep={2} enableHref />
       </Box>
-      <FormWrapper title='Select payment method' icon={<MonetizationOn />}>
+      <FormWrapper title="Select payment method" icon={<MonetizationOn />}>
         <form onSubmit={handleSubmit} noValidate>
           <Box sx={{ mb: 2 }}>
-            <FormControl component='fieldset'>
+            <FormControl component="fieldset">
               <RadioGroup
-                aria-label='payment method'
+                aria-label="payment method"
                 value={paymentMethod}
-                name='paymentMethod'
+                name="paymentMethod"
                 onChange={(e) =>
                   setPaymentMethod(e.target.value as PaymentMethod)
                 }
               >
                 <FormControlLabel
-                  value='stripe'
+                  value="stripe"
                   control={<Radio />}
-                  label='Stripe'
+                  label="Stripe"
                 />
                 <FormControlLabel
-                  value='cod'
+                  value="cod"
                   control={<Radio />}
-                  label='Cash on delivery'
+                  label="Cash on delivery"
                 />
               </RadioGroup>
             </FormControl>
           </Box>
           <LoadingButton
-            type='submit'
+            type="submit"
             fullWidth
-            color='primary'
-            variant='contained'
+            color="primary"
+            variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Confirm
           </LoadingButton>
-          <NextLink href='/checkout' passHref>
+          <NextLink href="/checkout" passHref>
             <Button fullWidth>Edit shipping details</Button>
           </NextLink>
         </form>
@@ -93,7 +93,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!cartItems.length) {
     return {
       redirect: {
-        destination: '/cart',
+        destination: "/cart",
         permanent: true,
       },
     };
@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!session) {
     return {
       redirect: {
-        destination: '/auth/login?redirect=checkout',
+        destination: "/auth/login?redirect=checkout",
         permanent: true,
       },
     };

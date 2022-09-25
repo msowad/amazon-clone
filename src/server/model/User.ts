@@ -1,6 +1,6 @@
-import { User } from '@/src/types/User';
-import mongoose, { PaginateModel } from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
+import { User } from "@/src/types/User";
+import mongoose, { PaginateModel } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const UserSchema = new mongoose.Schema<User>(
   {
@@ -38,6 +38,6 @@ UserSchema.plugin(mongoosePaginate);
 export const UserModel: PaginateModel<User> =
   (mongoose.models.User as PaginateModel<User>) ||
   (mongoose.model<User & mongoose.Document>(
-    'User',
+    "User",
     UserSchema
   ) as PaginateModel<User>);

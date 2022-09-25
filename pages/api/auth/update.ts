@@ -1,10 +1,10 @@
-import db from '@/src/server/db';
-import { secureAuth } from '@/src/server/middleware/secureAuth';
-import { UserModel } from '@/src/server/model/User';
-import { ExtendedReq } from '@/src/types/ExtendedReq';
-import bcrypt from 'bcryptjs';
-import type { NextApiResponse } from 'next';
-import nc from 'next-connect';
+import db from "@/src/server/db";
+import { secureAuth } from "@/src/server/middleware/secureAuth";
+import { UserModel } from "@/src/server/model/User";
+import { ExtendedReq } from "@/src/types/ExtendedReq";
+import bcrypt from "bcryptjs";
+import type { NextApiResponse } from "next";
+import nc from "next-connect";
 
 const handler = nc<ExtendedReq, NextApiResponse>();
 
@@ -35,19 +35,19 @@ handler.post(async (req, res) => {
           await db.disconnect();
           res.status(400).json({
             success: false,
-            message: 'Password is incorrect',
-            field: 'password',
+            message: "Password is incorrect",
+            field: "password",
           });
         }
       } else {
         await db.disconnect();
-        res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: "User not found" });
       }
     } else {
-      res.status(400).json({ message: 'password not match' });
+      res.status(400).json({ message: "password not match" });
     }
   } else {
-    res.status(400).send({ message: 'All fields are required.' });
+    res.status(400).send({ message: "All fields are required." });
   }
 });
 

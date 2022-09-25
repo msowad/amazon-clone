@@ -1,41 +1,41 @@
-import FormWrapper from '@/src/components/FormWrapper';
-import { Layout } from '@/src/components/Layout';
-import axios from '@/src/utils/axios';
-import { GroupAdd } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { Grid, Link, TextField } from '@mui/material';
-import { Form, Formik } from 'formik';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/dist/client/router';
-import NextLink from 'next/link';
-import React from 'react';
-import * as yup from 'yup';
+import FormWrapper from "@/src/components/FormWrapper";
+import { Layout } from "@/src/components/Layout";
+import axios from "@/src/utils/axios";
+import { GroupAdd } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { Grid, Link, TextField } from "@mui/material";
+import { Form, Formik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
+import React from "react";
+import * as yup from "yup";
 
 interface Props {
   //
 }
 
 const validationSchema = yup.object({
-  name: yup.string().required('Name is required'),
+  name: yup.string().required("Name is required"),
   email: yup
     .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
+    .email("Enter a valid email")
+    .required("Email is required"),
   password: yup
     .string()
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
 const initialValues = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const Register: React.FC<Props> = () => {
@@ -44,8 +44,8 @@ const Register: React.FC<Props> = () => {
 
   const handleRegister = async (values: any, setErrors: any) => {
     try {
-      await axios.post('/auth/register', values);
-      const result: any = await signIn('credentials', {
+      await axios.post("/auth/register", values);
+      const result: any = await signIn("credentials", {
         redirect: false,
         ...values,
       });
@@ -55,7 +55,7 @@ const Register: React.FC<Props> = () => {
           password: result.error,
         });
       } else {
-        router.push(redirect ? '/' + redirect : '/');
+        router.push(redirect ? "/" + redirect : "/");
       }
     } catch (error: any) {
       const { field, message } = error.response.data;
@@ -66,8 +66,8 @@ const Register: React.FC<Props> = () => {
   };
 
   return (
-    <Layout title='Register'>
-      <FormWrapper title='Create new account' icon={<GroupAdd />}>
+    <Layout title="Register">
+      <FormWrapper title="Create new account" icon={<GroupAdd />}>
         <Formik
           validationSchema={validationSchema}
           initialValues={initialValues}
@@ -86,51 +86,51 @@ const Register: React.FC<Props> = () => {
           }) => (
             <Form onSubmit={handleSubmit} noValidate>
               <TextField
-                margin='normal'
+                margin="normal"
                 fullWidth
                 required
-                name='name'
-                label='Full name'
+                name="name"
+                label="Full name"
                 value={values.name}
-                variant='filled'
+                variant="filled"
                 onChange={handleChange}
                 error={touched.name && Boolean(errors.name)}
                 helperText={touched.name && errors.name}
                 autoFocus
               />
               <TextField
-                margin='normal'
+                margin="normal"
                 fullWidth
                 required
-                name='email'
-                variant='filled'
-                label='Email'
+                name="email"
+                variant="filled"
+                label="Email"
                 value={values.email}
                 onChange={handleChange}
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
               />
               <TextField
-                margin='normal'
+                margin="normal"
                 fullWidth
                 required
-                name='password'
-                variant='filled'
-                label='Password'
-                type='password'
+                name="password"
+                variant="filled"
+                label="Password"
+                type="password"
                 value={values.password}
                 onChange={handleChange}
                 error={touched.password && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
               />
               <TextField
-                margin='normal'
+                margin="normal"
                 fullWidth
                 required
-                name='confirmPassword'
-                variant='filled'
-                label='Confirm Password'
-                type='password'
+                name="confirmPassword"
+                variant="filled"
+                label="Confirm Password"
+                type="password"
                 value={values.confirmPassword}
                 onChange={handleChange}
                 error={
@@ -140,18 +140,18 @@ const Register: React.FC<Props> = () => {
               />
               <LoadingButton
                 loading={isSubmitting}
-                type='submit'
+                type="submit"
                 fullWidth
-                color='primary'
-                variant='contained'
+                color="primary"
+                variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Register
               </LoadingButton>
               <Grid container>
                 <Grid item>
-                  <NextLink href='/auth/login' passHref>
-                    <Link variant='body2'>Already have an account? Login</Link>
+                  <NextLink href="/auth/login" passHref>
+                    <Link variant="body2">Already have an account? Login</Link>
                   </NextLink>
                 </Grid>
               </Grid>

@@ -1,28 +1,28 @@
-import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
+import { DashboardInfo, DashboardLayout } from "@/src/components/Dashboard";
 import useDataGrid, {
   actions,
   createdAt,
   CustomDataGridProps,
   id,
-} from '@/src/hooks/useDataGrid';
-import { useGetProductsQuery } from '@/src/services/products';
-import { AddCircle } from '@mui/icons-material';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { GetServerSideProps, NextPage } from 'next';
-import { useRouter } from 'next/dist/client/router';
-import NextImage from 'next/image';
+} from "@/src/hooks/useDataGrid";
+import { useGetProductsQuery } from "@/src/services/products";
+import { AddCircle } from "@mui/icons-material";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/dist/client/router";
+import NextImage from "next/image";
 
 const columns: GridColDef[] = [
   id,
   {
-    field: 'name',
-    headerName: 'Name',
+    field: "name",
+    headerName: "Name",
     flex: 1,
     minWidth: 120,
   },
   {
-    field: 'image',
-    headerName: 'Image',
+    field: "image",
+    headerName: "Image",
     flex: 1,
     minWidth: 80,
     sortable: false,
@@ -32,42 +32,42 @@ const columns: GridColDef[] = [
           src={params.value}
           width={80}
           height={40}
-          objectFit='contain'
+          objectFit="contain"
         />
       );
     },
   },
   {
-    field: 'price',
-    headerName: 'Price',
+    field: "price",
+    headerName: "Price",
     flex: 1,
     minWidth: 60,
-    type: 'number',
-    align: 'left',
-    headerAlign: 'left',
+    type: "number",
+    align: "left",
+    headerAlign: "left",
   },
   {
-    field: 'countInStock',
-    headerName: 'Stock',
+    field: "countInStock",
+    headerName: "Stock",
     flex: 1,
     minWidth: 50,
-    type: 'number',
+    type: "number",
   },
   {
-    field: 'category',
-    headerName: 'Category',
+    field: "category",
+    headerName: "Category",
     flex: 1,
     minWidth: 100,
   },
   {
-    field: 'brand',
-    headerName: 'Brand',
+    field: "brand",
+    headerName: "Brand",
     flex: 1,
     minWidth: 100,
   },
   {
-    field: 'rating',
-    headerName: 'Rating',
+    field: "rating",
+    headerName: "Rating",
     flex: 1,
     minWidth: 60,
     valueGetter: (params: GridValueGetterParams) => {
@@ -75,7 +75,7 @@ const columns: GridColDef[] = [
     },
   },
   createdAt,
-  actions({ url: '/dashboard/products' }),
+  actions({ url: "/dashboard/products" }),
 ];
 
 const Products: NextPage<CustomDataGridProps> = (props) => {
@@ -85,12 +85,12 @@ const Products: NextPage<CustomDataGridProps> = (props) => {
   const { data, isFetching } = useGetProductsQuery(props);
 
   return (
-    <DashboardLayout title='Products'>
+    <DashboardLayout title="Products">
       <DashboardInfo
-        title='Products'
+        title="Products"
         icon={<AddCircle />}
-        link='/dashboard/products/create'
-        linkText='Add product'
+        link="/dashboard/products/create"
+        linkText="Add product"
       />
 
       <DataGrid
@@ -112,9 +112,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     props: {
       page: Number(query.page) || 1,
       limit: Number(query.limit) || 10,
-      field: query.field || 'createdAt',
-      sort: query.sort || 'desc',
-      search: query.search || '',
+      field: query.field || "createdAt",
+      sort: query.sort || "desc",
+      search: query.search || "",
     },
   };
 };

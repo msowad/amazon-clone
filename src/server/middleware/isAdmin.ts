@@ -1,9 +1,9 @@
-import { ExtendedReq } from '@/src/types/ExtendedReq';
-import { NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
-import { NextHandler } from 'next-connect';
-import db from '@/src/server/db';
-import { UserModel } from '@/src/server/model/User';
+import { ExtendedReq } from "@/src/types/ExtendedReq";
+import { NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
+import { NextHandler } from "next-connect";
+import db from "@/src/server/db";
+import { UserModel } from "@/src/server/model/User";
 
 export async function isAdmin(
   req: ExtendedReq,
@@ -12,7 +12,7 @@ export async function isAdmin(
 ) {
   const session = await getSession({ req });
   if (!session) {
-    return next({ status: 401, message: 'Unauthenticated' });
+    return next({ status: 401, message: "Unauthenticated" });
   }
 
   await db.connect();
@@ -20,7 +20,7 @@ export async function isAdmin(
   await db.disconnect();
 
   if (!user || !user.isAdmin) {
-    return next({ statusCode: 401, message: 'Not authorized' });
+    return next({ statusCode: 401, message: "Not authorized" });
   }
 
   req.user = user;

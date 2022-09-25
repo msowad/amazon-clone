@@ -1,11 +1,11 @@
-import Dropzone from '@/src/components/Dropzone';
-import { LoadingButton } from '@mui/lab';
-import { Grid, TextField } from '@mui/material';
-import { Form as FormikForm, Formik } from 'formik';
-import { useRouter } from 'next/dist/client/router';
-import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
-import * as yup from 'yup';
+import Dropzone from "@/src/components/Dropzone";
+import { LoadingButton } from "@mui/lab";
+import { Grid, TextField } from "@mui/material";
+import { Form as FormikForm, Formik } from "formik";
+import { useRouter } from "next/dist/client/router";
+import { useSnackbar } from "notistack";
+import React, { useState } from "react";
+import * as yup from "yup";
 
 interface Props {
   initialValues: {
@@ -21,12 +21,12 @@ interface Props {
 }
 
 const validationSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  description: yup.string().required('Description is required'),
-  price: yup.number().required('Price is required'),
-  countInStock: yup.number().required('Stock is required'),
-  category: yup.string().required('Category is required'),
-  brand: yup.string().required('Brand is required'),
+  name: yup.string().required("Name is required"),
+  description: yup.string().required("Description is required"),
+  price: yup.number().required("Price is required"),
+  countInStock: yup.number().required("Stock is required"),
+  category: yup.string().required("Category is required"),
+  brand: yup.string().required("Brand is required"),
 });
 
 const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
@@ -40,32 +40,32 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
       initialValues={initialValues}
       onSubmit={async (values, { setSubmitting }) => {
         if (!file && !router.query.id) {
-          enqueueSnackbar('Please select a file', { variant: 'error' });
+          enqueueSnackbar("Please select a file", { variant: "error" });
           setSubmitting(false);
           return;
         }
         const formData = new FormData();
-        file && formData.append('image', file);
-        router.query.id && formData.append('id', router.query.id as string);
-        formData.append('name', values.name);
-        formData.append('description', values.description);
-        formData.append('price', String(values.price));
-        formData.append('countInStock', String(values.countInStock));
-        formData.append('category', values.category);
-        formData.append('brand', values.brand);
+        file && formData.append("image", file);
+        router.query.id && formData.append("id", router.query.id as string);
+        formData.append("name", values.name);
+        formData.append("description", values.description);
+        formData.append("price", String(values.price));
+        formData.append("countInStock", String(values.countInStock));
+        formData.append("category", values.category);
+        formData.append("brand", values.brand);
         const data: any = await handleSubmit(formData);
         if (data.error?.data?.message) {
-          enqueueSnackbar(data.error.data.message, { variant: 'error' });
+          enqueueSnackbar(data.error.data.message, { variant: "error" });
         } else if (data.data?.success === true) {
           enqueueSnackbar(
-            `Product ${router.query.id ? 'updated' : 'created'} successfully`,
+            `Product ${router.query.id ? "updated" : "created"} successfully`,
             {
-              variant: 'success',
+              variant: "success",
             }
           );
-          router.push('/dashboard/products');
+          router.push("/dashboard/products");
         } else {
-          enqueueSnackbar('Something went wrong', { variant: 'error' });
+          enqueueSnackbar("Something went wrong", { variant: "error" });
         }
         setSubmitting(false);
       }}
@@ -84,9 +84,9 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <TextField
                 fullWidth
                 required
-                name='name'
-                label='Full name'
-                variant='filled'
+                name="name"
+                label="Full name"
+                variant="filled"
                 autoFocus
                 value={values.name}
                 onChange={handleChange}
@@ -98,9 +98,9 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <TextField
                 fullWidth
                 required
-                name='category'
-                label='Category'
-                variant='filled'
+                name="category"
+                label="Category"
+                variant="filled"
                 value={values.category}
                 onChange={handleChange}
                 error={touched.category && Boolean(errors.category)}
@@ -111,9 +111,9 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <TextField
                 fullWidth
                 required
-                name='brand'
-                label='Brand'
-                variant='filled'
+                name="brand"
+                label="Brand"
+                variant="filled"
                 value={values.brand}
                 onChange={handleChange}
                 error={touched.brand && Boolean(errors.brand)}
@@ -124,10 +124,10 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <TextField
                 fullWidth
                 required
-                name='price'
-                label='Price'
-                variant='filled'
-                type='number'
+                name="price"
+                label="Price"
+                variant="filled"
+                type="number"
                 value={values.price}
                 onChange={handleChange}
                 error={touched.price && Boolean(errors.price)}
@@ -138,10 +138,10 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <TextField
                 fullWidth
                 required
-                name='countInStock'
-                label='Stock'
-                variant='filled'
-                type='number'
+                name="countInStock"
+                label="Stock"
+                variant="filled"
+                type="number"
                 value={values.countInStock}
                 onChange={handleChange}
                 error={touched.countInStock && Boolean(errors.countInStock)}
@@ -154,9 +154,9 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
                 required
                 multiline
                 rows={4}
-                name='description'
-                label='Description'
-                variant='filled'
+                name="description"
+                label="Description"
+                variant="filled"
                 value={values.description}
                 onChange={handleChange}
                 error={touched.description && Boolean(errors.description)}
@@ -174,11 +174,11 @@ const ProductForm: React.FC<Props> = ({ initialValues, handleSubmit }) => {
               <LoadingButton
                 loading={isSubmitting}
                 fullWidth
-                type='submit'
-                color='primary'
-                variant='contained'
+                type="submit"
+                color="primary"
+                variant="contained"
               >
-                {router.query.id ? 'Update product' : 'Add product'}
+                {router.query.id ? "Update product" : "Add product"}
               </LoadingButton>
             </Grid>
           </Grid>

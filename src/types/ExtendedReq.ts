@@ -1,6 +1,6 @@
-import { NextApiRequest } from 'next';
-import { Session } from 'next-auth';
+import { NextApiRequest } from "next";
+import { Session } from "next-auth";
 
 export interface ExtendedReq extends NextApiRequest {
-  user: Session['user'];
+  user: Session["user"];
 }

@@ -1,32 +1,32 @@
-import { DashboardInfo, DashboardLayout } from '@/src/components/Dashboard';
-import ProductForm from '@/src/components/Dashboard/Product/ProductForm';
-import { useAddProductMutation } from '@/src/services/products';
-import { AllOutSharp } from '@mui/icons-material';
-import { NextPage } from 'next';
+import { DashboardInfo, DashboardLayout } from "@/src/components/Dashboard";
+import ProductForm from "@/src/components/Dashboard/Product/ProductForm";
+import { useAddProductMutation } from "@/src/services/products";
+import { AllOutSharp } from "@mui/icons-material";
+import { NextPage } from "next";
 
 interface Props {
   //
 }
 
 const initialValues = {
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   price: 0,
   countInStock: 0,
-  category: '',
-  brand: '',
+  category: "",
+  brand: "",
 };
 
 const Create: NextPage<Props> = () => {
   const [addProduct] = useAddProductMutation();
 
   return (
-    <DashboardLayout title='Create product'>
+    <DashboardLayout title="Create product">
       <DashboardInfo
-        title='Create New Product'
+        title="Create New Product"
         icon={<AllOutSharp />}
-        link='/dashboard/products'
-        linkText='All products'
+        link="/dashboard/products"
+        linkText="All products"
       />
       <ProductForm initialValues={initialValues} handleSubmit={addProduct} />
     </DashboardLayout>

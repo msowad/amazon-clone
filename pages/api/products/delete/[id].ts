@@ -1,10 +1,10 @@
-import db from '@/src/server/db';
-import { initCloudinary } from '@/src/server/lib/cloudinary';
-import { ProductModel } from '@/src/server/model/Product';
-import { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
-import cloudinary from 'cloudinary';
-import { isAdmin } from '@/src/server/middleware/isAdmin';
+import db from "@/src/server/db";
+import { initCloudinary } from "@/src/server/lib/cloudinary";
+import { ProductModel } from "@/src/server/model/Product";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
+import cloudinary from "cloudinary";
+import { isAdmin } from "@/src/server/middleware/isAdmin";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
@@ -24,7 +24,7 @@ handler.delete(async (req, res) => {
 
   res.send({
     success: true,
-    message: 'Product deleted successfully',
+    message: "Product deleted successfully",
   });
 });
 

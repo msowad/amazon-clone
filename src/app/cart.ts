@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
-import { Product } from '@/src/types/Product';
-import { RootState } from './store';
-import { COOKIES_DEFAULT_OPTIONS, MAX_SNACK } from '@/src/utils/constants';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { Product } from "@/src/types/Product";
+import { RootState } from "./store";
+import { COOKIES_DEFAULT_OPTIONS, MAX_SNACK } from "@/src/utils/constants";
 
 export type CartItem = Product & { quantity: number };
 export type ShippingDetails = {
@@ -13,7 +13,7 @@ export type ShippingDetails = {
   country: string;
 };
 
-export type PaymentMethod = 'stripe' | 'cod';
+export type PaymentMethod = "stripe" | "cod";
 
 interface CartState {
   cartItems: CartItem[];
@@ -24,17 +24,17 @@ interface CartState {
 const initialState: CartState = {
   cartItems: [],
   shippingDetails: {
-    name: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: '',
+    name: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "",
   },
-  paymentMethod: 'stripe',
+  paymentMethod: "stripe",
 };
 
 export const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
@@ -58,17 +58,17 @@ export const cartSlice = createSlice({
         }
       }
       Cookies.set(
-        'cartItems',
+        "cartItems",
         JSON.stringify(state.cartItems),
         COOKIES_DEFAULT_OPTIONS
       );
     },
     setCartFromCookies: (state) => {
-      if (Cookies.get('cartItems')) {
-        state.cartItems = JSON.parse(Cookies.get('cartItems')!);
+      if (Cookies.get("cartItems")) {
+        state.cartItems = JSON.parse(Cookies.get("cartItems")!);
       }
-      if (Cookies.get('shippingDetails')) {
-        state.shippingDetails = JSON.parse(Cookies.get('shippingDetails')!);
+      if (Cookies.get("shippingDetails")) {
+        state.shippingDetails = JSON.parse(Cookies.get("shippingDetails")!);
       }
     },
     removeFromCart: (state, action: PayloadAction<Product>) => {
@@ -80,15 +80,15 @@ export const cartSlice = createSlice({
         state.cartItems[productIndex].quantity;
       state.cartItems.splice(productIndex, 1);
       Cookies.set(
-        'cartItems',
+        "cartItems",
         JSON.stringify(state.cartItems),
         COOKIES_DEFAULT_OPTIONS
       );
-      const lastCartItems = Cookies.get('lastCartItems')
-        ? JSON.parse(Cookies.get('lastCartItems')!)
+      const lastCartItems = Cookies.get("lastCartItems")
+        ? JSON.parse(Cookies.get("lastCartItems")!)
         : [];
       Cookies.set(
-        'lastCartItems',
+        "lastCartItems",
         JSON.stringify([product, ...lastCartItems.slice(0, MAX_SNACK - 1)]),
         COOKIES_DEFAULT_OPTIONS
       );
@@ -108,14 +108,14 @@ export const cartSlice = createSlice({
       state.cartItems[productIndex].quantity = quantity;
       state.cartItems[productIndex].countInStock -= quantityDiff;
       Cookies.set(
-        'cartItems',
+        "cartItems",
         JSON.stringify(state.cartItems),
         COOKIES_DEFAULT_OPTIONS
       );
     },
     undoRemoveFromCart: (state, action: PayloadAction<string>) => {
-      if (Cookies.get('lastCartItems')) {
-        const lastCartItems = JSON.parse(Cookies.get('lastCartItems')!);
+      if (Cookies.get("lastCartItems")) {
+        const lastCartItems = JSON.parse(Cookies.get("lastCartItems")!);
         const product = lastCartItems.find(
           (p: Product) => p._id === action.payload
         );
@@ -130,7 +130,7 @@ export const cartSlice = createSlice({
             state.cartItems[productIndex].quantity++;
           }
           Cookies.set(
-            'cartItems',
+            "cartItems",
             JSON.stringify(state.cartItems),
             COOKIES_DEFAULT_OPTIONS
           );
@@ -141,7 +141,7 @@ export const cartSlice = createSlice({
       const { name, address, city, postalCode, country } = action.payload;
       if (name && address && city && postalCode && country) {
         Cookies.set(
-          'shippingDetails',
+          "shippingDetails",
           JSON.stringify(action.payload),
           COOKIES_DEFAULT_OPTIONS
         );
@@ -149,13 +149,13 @@ export const cartSlice = createSlice({
       }
     },
     updatePaymentMethod: (state, action: PayloadAction<PaymentMethod>) => {
-      Cookies.set('paymentMethod', action.payload, COOKIES_DEFAULT_OPTIONS);
+      Cookies.set("paymentMethod", action.payload, COOKIES_DEFAULT_OPTIONS);
       state.paymentMethod = action.payload;
     },
     resetCart: (state) => {
       state.cartItems = [];
-      Cookies.remove('cartItems');
-      Cookies.remove('lastCartItems');
+      Cookies.remove("cartItems");
+      Cookies.remove("lastCartItems");
     },
   },
 });

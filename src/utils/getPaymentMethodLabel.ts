@@ -1,5 +1,5 @@
-import { PaymentMethod } from '../app/cart';
-import { PAYMENT_METHODS } from './constants';
+import { PaymentMethod } from "../app/cart";
+import { PAYMENT_METHODS } from "./constants";
 
 export const getPaymentMethodLabel = (
   paymentMethod: PaymentMethod

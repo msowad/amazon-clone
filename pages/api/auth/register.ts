@@ -1,10 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcryptjs';
-import { UserModel } from '@/src/server/model/User';
-import db from '@/src/server/db';
-import crypto from 'crypto';
-import { EMAIL_VERIFICATION_PREFIX } from '@/src/server/constants';
-import { sendEmailVerificationMail } from '@/src/server/mail/sendEmailVerificationMail';
+import type { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcryptjs";
+import { UserModel } from "@/src/server/model/User";
+import db from "@/src/server/db";
+import crypto from "crypto";
+import { EMAIL_VERIFICATION_PREFIX } from "@/src/server/constants";
+import { sendEmailVerificationMail } from "@/src/server/mail/sendEmailVerificationMail";
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,7 +15,7 @@ export default async function handler(
   if (!name || !email || !password) {
     res.status(400).json({
       success: false,
-      message: 'Please enter all fields',
+      message: "Please enter all fields",
     });
   } else {
     await db.connect();
@@ -23,8 +23,8 @@ export default async function handler(
       await db.disconnect();
       res.status(400).json({
         success: false,
-        message: 'Email already exists',
-        field: 'email',
+        message: "Email already exists",
+        field: "email",
       });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,16 +39,16 @@ export default async function handler(
         if (err) {
           res.status(500).json({ error: err.message });
         } else {
-          const token = buffer.toString('hex');
+          const token = buffer.toString("hex");
           const encryptedToken = crypto
-            .createHash('sha256')
+            .createHash("sha256")
             .update(token)
-            .digest('hex');
+            .digest("hex");
 
           await db.redisClient.set(
             EMAIL_VERIFICATION_PREFIX + encryptedToken,
             user.id,
-            'EX',
+            "EX",
             20 * 60
           ); // 20 minutes
 
@@ -64,5 +64,5 @@ export default async function handler(
     }
   }
 
-  res.status(200).json({ name: 'John Doe' });
+  res.status(200).json({ name: "John Doe" });
 }

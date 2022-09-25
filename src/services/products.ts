@@ -1,15 +1,15 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { PaginatedResponse } from '../types/PaginatedResponse';
-import { Product } from '@/src/types/Product';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { PaginatedResponse } from "../types/PaginatedResponse";
+import { Product } from "@/src/types/Product";
 
 export const productsApi = createApi({
-  reducerPath: 'productsApi',
+  reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api') +
-      '/products',
+      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") +
+      "/products",
   }),
-  tagTypes: ['Products'],
+  tagTypes: ["Products"],
   endpoints: (build) => ({
     getProducts: build.query<
       PaginatedResponse<Product[]>,
@@ -27,35 +27,35 @@ export const productsApi = createApi({
         results
           ? [
               ...results.docs.map(({ _id }) => ({
-                type: 'Products' as const,
+                type: "Products" as const,
                 id: _id,
               })),
-              'Products',
+              "Products",
             ]
-          : ['Products'],
+          : ["Products"],
     }),
     addProduct: build.mutation<Product, FormData>({
       query: (body) => ({
-        url: '/create',
-        method: 'POST',
+        url: "/create",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['Products'],
+      invalidatesTags: ["Products"],
     }),
     updateProduct: build.mutation<Product, FormData>({
       query: (body) => ({
         url: `update`,
-        method: 'POST',
+        method: "POST",
         body,
       }),
-      invalidatesTags: (result) => [{ type: 'Products', id: result?._id }],
+      invalidatesTags: (result) => [{ type: "Products", id: result?._id }],
     }),
     deleteProduct: build.mutation<any, { id: string }>({
       query: (body) => ({
         url: `delete/${body.id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: (result) => [{ type: 'Products', id: result?._id }],
+      invalidatesTags: (result) => [{ type: "Products", id: result?._id }],
     }),
   }),
 });

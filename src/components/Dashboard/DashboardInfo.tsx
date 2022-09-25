@@ -1,7 +1,7 @@
-import { Button, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import NextLink from 'next/link';
-import React from 'react';
+import { Button, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import NextLink from "next/link";
+import React from "react";
 
 interface Props {
   title: string;
@@ -24,13 +24,13 @@ const DashboardInfo: React.FC<Props> = ({
 }) => {
   return (
     <Box
-      display='flex'
+      display="flex"
       marginBottom={mb}
       marginTop={mt}
-      justifyContent='space-between'
-      alignItems='center'
+      justifyContent="space-between"
+      alignItems="center"
     >
-      <Typography component='h2' variant='h5' gutterBottom>
+      <Typography component="h2" variant="h5" gutterBottom>
         {title}
       </Typography>
       <div>
@@ -39,9 +39,9 @@ const DashboardInfo: React.FC<Props> = ({
           <NextLink href={link} passHref>
             <Button
               startIcon={icon}
-              color='primary'
-              variant='contained'
-              size='small'
+              color="primary"
+              variant="contained"
+              size="small"
             >
               {linkText}
             </Button>

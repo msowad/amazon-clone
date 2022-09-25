@@ -1,20 +1,20 @@
-import { AccountCircle, Dashboard, HistoryRounded } from '@mui/icons-material';
-import Logout from '@mui/icons-material/Logout';
-import { Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
-import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/dist/client/router';
-import NextLink from 'next/link';
-import { useSnackbar } from 'notistack';
-import React from 'react';
+import { AccountCircle, Dashboard, HistoryRounded } from "@mui/icons-material";
+import Logout from "@mui/icons-material/Logout";
+import { Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
+import { useSnackbar } from "notistack";
+import React from "react";
 
 interface Props {
   session: Session;
@@ -35,18 +35,18 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
 
   const handleSignOut = () => {
     signOut({ redirect: false });
-    router.push('/');
-    enqueueSnackbar('You have been signed out.', {
-      variant: 'success',
+    router.push("/");
+    enqueueSnackbar("You have been signed out.", {
+      variant: "success",
     });
   };
 
   return (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title='Account settings'>
-          <IconButton onClick={handleClick} size='small'>
-            <Avatar sx={{ width: 32, height: 32, color: '#333' }}>
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        <Tooltip title="Account settings">
+          <IconButton onClick={handleClick} size="small">
+            <Avatar sx={{ width: 32, height: 32, color: "#333" }}>
               {session.user?.name?.charAt(0)}
             </Avatar>
           </IconButton>
@@ -60,49 +60,49 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
-            '& .MuiAvatar-root': {
+            "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            '&:before': {
+            "&:before": {
               content: '""',
-              display: 'block',
-              position: 'absolute',
+              display: "block",
+              position: "absolute",
               top: 0,
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <Box paddingX={2} paddingBottom={1}>
-          <Typography variant='subtitle1'>{session.user?.name}</Typography>
-          <Typography variant='subtitle2'>{session.user?.email}</Typography>
+          <Typography variant="subtitle1">{session.user?.name}</Typography>
+          <Typography variant="subtitle2">{session.user?.email}</Typography>
         </Box>
         <Divider sx={{ mb: 1 }} />
-        <NextLink href='/profile' passHref>
+        <NextLink href="/profile" passHref>
           <MenuItem>
             <ListItemIcon>
-              <AccountCircle fontSize='small' />
+              <AccountCircle fontSize="small" />
             </ListItemIcon>
             Profile
           </MenuItem>
         </NextLink>
-        <NextLink href='/orders' passHref>
+        <NextLink href="/orders" passHref>
           <MenuItem>
             <ListItemIcon>
-              <HistoryRounded fontSize='small' />
+              <HistoryRounded fontSize="small" />
             </ListItemIcon>
             Order History
           </MenuItem>
@@ -110,10 +110,10 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
         <Divider />
         {session.user.isAdmin && (
           <>
-            <NextLink href='/dashboard' passHref>
+            <NextLink href="/dashboard" passHref>
               <MenuItem>
                 <ListItemIcon>
-                  <Dashboard fontSize='small' />
+                  <Dashboard fontSize="small" />
                 </ListItemIcon>
                 Dashboard
               </MenuItem>
@@ -123,7 +123,7 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
         )}
         <MenuItem onClick={handleSignOut}>
           <ListItemIcon>
-            <Logout fontSize='small' />
+            <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

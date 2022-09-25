@@ -1,12 +1,12 @@
-import { Order } from '@/src/types/Order';
-import mongoose, { PaginateModel } from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
+import { Order } from "@/src/types/Order";
+import mongoose, { PaginateModel } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const OrderSchema = new mongoose.Schema<Order>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     items: {
@@ -14,7 +14,7 @@ const OrderSchema = new mongoose.Schema<Order>(
         {
           _id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product',
+            ref: "Product",
             required: true,
           },
           name: {
@@ -110,6 +110,6 @@ OrderSchema.plugin(mongoosePaginate);
 export const OrderModel: PaginateModel<Order> =
   (mongoose.models.Order as PaginateModel<Order>) ||
   (mongoose.model<Order & mongoose.Document>(
-    'Order',
+    "Order",
     OrderSchema
   ) as PaginateModel<Order>);

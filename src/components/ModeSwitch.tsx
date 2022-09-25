@@ -1,8 +1,8 @@
-import { selectColorMode, setMode, toggleMode } from '@/src/app/colorMode';
-import { DarkMode, LightMode } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { selectColorMode, setMode, toggleMode } from "@/src/app/colorMode";
+import { DarkMode, LightMode } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Props {
   //
@@ -20,7 +20,7 @@ const ModeSwitch: React.FC<Props> = () => {
     <IconButton
       sx={{ ml: 1 }}
       onClick={() => dispatch(toggleMode())}
-      className='link'
+      className="link"
     >
       {darkMode ? <LightMode /> : <DarkMode />}
     </IconButton>

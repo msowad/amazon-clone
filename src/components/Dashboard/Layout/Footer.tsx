@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import { Typography } from "@mui/material";
+import React from "react";
 
 interface Props {
   //
@@ -7,7 +7,7 @@ interface Props {
 
 const Footer: React.FC<Props> = () => {
   return (
-    <Typography textAlign='center' variant='body1' className='footer-text'>
+    <Typography textAlign="center" variant="body1" className="footer-text">
       All rights reserved. Next.js amazon clone.
     </Typography>
   );

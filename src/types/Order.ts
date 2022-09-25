@@ -10,7 +10,7 @@ interface OrderItem {
 export interface Order {
   _id: string;
   items: OrderItem[];
-  paymentMethod: 'stripe' | 'cod';
+  paymentMethod: "stripe" | "cod";
   shippingDetails: {
     name: string;
     address: string;

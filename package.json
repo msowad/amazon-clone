@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\""
   },
   "cacheDirectories": [
     ".next/cache"
@@ -77,6 +78,7 @@
     "commitizen": "^4.2.4",
     "eslint": "7",
     "eslint-config-next": "12.0.3",
+    "prettier": "^2.7.1",
     "typescript": "4.4.4"
   }
 }

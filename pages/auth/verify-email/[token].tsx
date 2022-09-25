@@ -1,10 +1,10 @@
-import { Layout } from '@/src/components/Layout';
-import axios from '@/src/utils/axios';
-import { Alert, AlertTitle, Container, Typography } from '@mui/material';
-import { GetServerSideProps } from 'next';
-import React from 'react';
-import NextLink from 'next/link';
-import { getSession } from 'next-auth/react';
+import { Layout } from "@/src/components/Layout";
+import axios from "@/src/utils/axios";
+import { Alert, AlertTitle, Container, Typography } from "@mui/material";
+import { GetServerSideProps } from "next";
+import React from "react";
+import NextLink from "next/link";
+import { getSession } from "next-auth/react";
 
 interface Props {
   data: { success: boolean; message: string };
@@ -14,23 +14,23 @@ interface Props {
 
 const VerifyEmail: React.FC<Props> = ({ data, error, loggedIn }) => {
   return (
-    <Layout title='Verify email'>
-      <Container maxWidth='xs'>
+    <Layout title="Verify email">
+      <Container maxWidth="xs">
         {error && (
-          <Alert severity='error'>
+          <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
             {error}
           </Alert>
         )}
         {data.success && (
-          <Alert severity='success'>
+          <Alert severity="success">
             <AlertTitle>{data.message}</AlertTitle>
             {loggedIn ? (
-              <NextLink href='/' passHref>
+              <NextLink href="/" passHref>
                 <a>Go to home page</a>
               </NextLink>
             ) : (
-              <NextLink href='/auth/login' passHref>
+              <NextLink href="/auth/login" passHref>
                 <a>Login now</a>
               </NextLink>
             )}
@@ -49,10 +49,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const session = await getSession({ req });
 
-  let props = { data: {}, error: '', loggedIn: session?.user !== null };
+  let props = { data: {}, error: "", loggedIn: session?.user !== null };
 
   try {
-    const { data } = await axios.post('/auth/verify-email', {
+    const { data } = await axios.post("/auth/verify-email", {
       token: query.token,
     });
     props.data = data;

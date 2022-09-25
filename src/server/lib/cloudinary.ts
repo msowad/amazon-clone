@@ -1,4 +1,4 @@
-import cloudinary from 'cloudinary';
+import cloudinary from "cloudinary";
 
 export const initCloudinary = () =>
   cloudinary.v2.config({

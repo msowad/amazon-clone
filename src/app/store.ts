@@ -1,10 +1,10 @@
-import { ordersApi } from '@/src/services/orders';
-import { productsApi } from '@/src/services/products';
-import { usersApi } from '@/src/services/users';
-import { configureStore } from '@reduxjs/toolkit';
-import { sellApi } from '../services/sell';
-import cartReducer from './cart';
-import colorModeReducer from './colorMode';
+import { ordersApi } from "@/src/services/orders";
+import { productsApi } from "@/src/services/products";
+import { usersApi } from "@/src/services/users";
+import { configureStore } from "@reduxjs/toolkit";
+import { sellApi } from "../services/sell";
+import cartReducer from "./cart";
+import colorModeReducer from "./colorMode";
 
 export const store = configureStore({
   reducer: {

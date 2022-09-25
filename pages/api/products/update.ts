@@ -1,12 +1,12 @@
-import db from '@/src/server/db';
-import { uploader } from '@/src/server/lib/uploader';
-import { ProductModel } from '@/src/server/model/Product';
-import formidable from 'formidable';
-import { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
-import slugify from 'slugify';
-import cloudinary from 'cloudinary';
-import { isAdmin } from '@/src/server/middleware/isAdmin';
+import db from "@/src/server/db";
+import { uploader } from "@/src/server/lib/uploader";
+import { ProductModel } from "@/src/server/model/Product";
+import formidable from "formidable";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
+import slugify from "slugify";
+import cloudinary from "cloudinary";
+import { isAdmin } from "@/src/server/middleware/isAdmin";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
@@ -46,7 +46,7 @@ handler.post(async (req, res) => {
     ) {
       res.status(400).json({
         success: false,
-        message: 'Missing required fields',
+        message: "Missing required fields",
       });
     } else {
       try {
@@ -70,13 +70,13 @@ handler.post(async (req, res) => {
 
           result = await uploader(
             (files.image as any).filepath,
-            'next-e-commerce/products',
+            "next-e-commerce/products",
             [
-              { width: 350, height: 300, crop: 'limit' },
-              { quality: 'auto' },
-              { fetch_format: 'auto' },
+              { width: 350, height: 300, crop: "limit" },
+              { quality: "auto" },
+              { fetch_format: "auto" },
             ],
-            ['jpg', 'png', 'jpeg']
+            ["jpg", "png", "jpeg"]
           );
         }
 
@@ -93,7 +93,7 @@ handler.post(async (req, res) => {
 
         res.json({
           success: true,
-          message: 'Product updated successfully',
+          message: "Product updated successfully",
         });
       } catch (err: any) {
         res.status(500).json({

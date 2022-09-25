@@ -1,6 +1,6 @@
-import { Avatar, Container, styled, Typography } from '@mui/material';
-import { Box, Breakpoint } from '@mui/system';
-import React from 'react';
+import { Avatar, Container, styled, Typography } from "@mui/material";
+import { Box, Breakpoint } from "@mui/system";
+import React from "react";
 
 interface Props {
   title: string;
@@ -11,19 +11,19 @@ interface Props {
 const FormWrapper: React.FC<Props> = ({
   title,
   children,
-  maxWidth = 'xs',
+  maxWidth = "xs",
   icon,
 }) => {
   return (
-    <Container component='main' maxWidth={maxWidth}>
+    <Container component="main" maxWidth={maxWidth}>
       <StyledBox>
         {icon && (
-          <Avatar sx={{ m: 1, bgcolor: 'primary.light' }}>{icon}</Avatar>
+          <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>{icon}</Avatar>
         )}
         <Typography
           sx={{ marginTop: icon ? 0 : 1 }}
-          component='h1'
-          variant='h5'
+          component="h1"
+          variant="h5"
         >
           {title}
         </Typography>
@@ -36,10 +36,10 @@ const FormWrapper: React.FC<Props> = ({
 export default FormWrapper;
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   backgroundColor: theme.palette.background.paper,
-  padding: '20px',
-  borderRadius: '5px',
+  padding: "20px",
+  borderRadius: "5px",
 }));

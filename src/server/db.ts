@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import Redis from 'ioredis';
+import mongoose from "mongoose";
+import Redis from "ioredis";
 
 type connectionType = { isConnected?: boolean };
 
@@ -7,13 +7,13 @@ const connection: connectionType = {};
 
 const connect = async () => {
   if (connection.isConnected) {
-    console.log('Mongoose is already connected');
+    console.log("Mongoose is already connected");
     return;
   }
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState === 1;
     if (connection.isConnected) {
-      console.log('Mongoose is already connected');
+      console.log("Mongoose is already connected");
       return;
     }
     await mongoose.disconnect();
@@ -27,11 +27,11 @@ const connect = async () => {
 
 const disconnect = async () => {
   if (connection.isConnected) {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       await mongoose.disconnect();
       connection.isConnected = false;
     } else {
-      console.log('DB is not disconnected');
+      console.log("DB is not disconnected");
     }
   }
 };
