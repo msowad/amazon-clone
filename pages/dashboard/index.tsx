@@ -138,8 +138,8 @@ const Index: NextPage<Props> = () => {
                   ${overview.totalSell}
                 </Typography>
                 <Typography variant="subtitle1">
-                  Total {overview.totalOrders} order
-                  {overview.totalOrders > 1 && "s"}
+                  Total order
+                  {overview.totalOrders > 1 && "s"}: {overview.totalOrders}
                 </Typography>
               </CardContent>
             </Card>
@@ -147,14 +147,14 @@ const Index: NextPage<Props> = () => {
           <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
-                <Typography variant="h6">Order Placed</Typography>
+                <Typography variant="h6">Order Placed By</Typography>
                 <Typography variant="h3" gutterBottom>
                   {overview.totalUsersPlaceOrder} user
                   {overview.totalUsersPlaceOrder > 1 && "s"}
                 </Typography>
                 <Typography variant="subtitle1">
-                  Total {overview.totalUsers} User
-                  {overview.totalUsers === 1 ? "" : "s"}
+                  Total User
+                  {overview.totalUsers === 1 ? "" : "s"}: {overview.totalUsers}
                 </Typography>
               </CardContent>
             </Card>
