@@ -11,7 +11,7 @@ handler.use(seedDummyData);
 
 handler.get(async (req, res) => {
   await db.connect();
-  await UserModel.deleteMany();
+  // await UserModel.deleteMany();
   await UserModel.insertMany(data.users);
   await db.disconnect();
   res.send({ message: "user seeded successfully" });
