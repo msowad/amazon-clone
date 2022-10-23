@@ -5,10 +5,10 @@ import { useGetOrderDetailsQuery } from "@/src/services/orders";
 import axios from "@/src/utils/axios";
 import { getPaymentMethodLabel } from "@/src/utils/getPaymentMethodLabel";
 import { ErrorOutlineRounded } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   AlertTitle,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -28,7 +28,7 @@ import { useRouter } from "next/dist/client/router";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import { useSnackbar } from "notistack";
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {}
 
@@ -38,14 +38,23 @@ const Order: React.FC<Props> = () => {
   const { isLoading, data: order } = useGetOrderDetailsQuery({
     id: router.query.id as string,
   });
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const handlePayment = async () => {
-    const { data } = await axios.post("/payment", { orderId: order?._id });
-    if (data.success) {
-      window.location.href = data.url;
-    } else {
-      enqueueSnackbar("Unable to process payment", { variant: "error" });
+    setIsPaymentLoading(true);
+    try {
+      const { data } = await axios.post("/payment", { orderId: order?._id });
+      if (data.success) {
+        window.location.href = data.url;
+      } else {
+        enqueueSnackbar("Unable to process payment", { variant: "error" });
+      }
+    } catch (e: any) {
+      enqueueSnackbar(e?.message || "Unable to process payment", {
+        variant: "error",
+      });
     }
+    setIsPaymentLoading(false);
   };
 
   return (
@@ -226,14 +235,15 @@ const Order: React.FC<Props> = () => {
               </List>
               {!order.isPaid && order.paymentMethod !== "cod" && (
                 <CardContent>
-                  <Button
+                  <LoadingButton
                     onClick={handlePayment}
                     color="secondary"
                     fullWidth
                     variant="contained"
+                    loading={isPaymentLoading}
                   >
                     pay now
-                  </Button>
+                  </LoadingButton>
                 </CardContent>
               )}
             </Card>
