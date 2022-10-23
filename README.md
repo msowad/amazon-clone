@@ -9,6 +9,22 @@
 
 ## Amazon clone using NextJS, MongoDB, Redis, Material UI, and Stripe
 
+### Features
+    1. View products
+    2. Add product to card
+    3. Place order
+    4. Checkout
+    5. Complete payment
+    6. View orders
+    7. Dashboard
+        1. View overview and latest orders
+        2. CRUD products
+        3. View orders and update status
+        4. View users
+    8. UI
+        1. Material UI
+        2. Dark mode
+
 ### Run this project
 
 In the project directory, you can run:
