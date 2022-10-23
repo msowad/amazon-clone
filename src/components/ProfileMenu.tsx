@@ -108,8 +108,8 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
           </MenuItem>
         </NextLink>
         <Divider />
-        {session.user.isAdmin && (
-          <>
+        {session?.user?.isAdmin && (
+          <span>
             <NextLink href="/dashboard" passHref>
               <MenuItem>
                 <ListItemIcon>
@@ -119,7 +119,7 @@ const ProfileMenu: React.FC<Props> = ({ session }) => {
               </MenuItem>
             </NextLink>
             <Divider />
-          </>
+          </span>
         )}
         <MenuItem onClick={handleSignOut}>
           <ListItemIcon>

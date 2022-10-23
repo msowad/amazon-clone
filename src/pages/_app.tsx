@@ -9,15 +9,22 @@ import { SnackbarProvider } from "notistack";
 import * as React from "react";
 import { Provider } from "react-redux";
 import "@/src/styles/globals.css";
+import { Session } from "next-auth";
 
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  session?: Session;
 }
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    session,
+    pageProps,
+  } = props;
 
   return (
     <CacheProvider value={emotionCache}>
@@ -33,7 +40,7 @@ export default function MyApp(props: MyAppProps) {
             horizontal: "right",
           }}
         >
-          <SessionProvider>
+          <SessionProvider session={session} refetchInterval={5 * 60}>
             <Component {...pageProps} />
           </SessionProvider>
         </SnackbarProvider>

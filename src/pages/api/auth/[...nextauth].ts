@@ -1,27 +1,36 @@
-// @ts-nocheck
 import db from "@/src/server/db";
 import { UserModel } from "@/src/server/model/User";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import nextAuth from "next-auth";
 
-export default NextAuth({
-  session: {
-    jwt: true,
-  },
+export const nextAuthOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       user && (token.user = user);
       return token;
     },
     session: async ({ session, token }) => {
-      session.user = token.user;
+      session.user = token.user as any;
       return session;
     },
   },
   providers: [
     Credentials({
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "Enter your email",
+        },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("Enter valid email and password");
+        }
         const { email, password } = credentials;
         await db.connect();
         const user = await UserModel.findOne({ email });
@@ -40,13 +49,16 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
-    encryption: true,
+    maxAge: 15 * 24 * 30 * 60,
   },
   pages: {
-    signin: "/auth/login",
-    signup: "/auth/register",
+    signIn: "/auth/login",
+    newUser: "/auth/register",
   },
-});
+};
+
+export default NextAuth(nextAuthOptions);
