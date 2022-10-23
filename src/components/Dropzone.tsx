@@ -15,7 +15,7 @@ const Dropzone: React.FC<Props> = ({ file, setFile, error, previousFile }) => {
 
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
     multiple: false,
-    accept: "image/jpeg, image/png",
+    accept: "image/jpeg, image/png, image/jpg, image/webp",
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {

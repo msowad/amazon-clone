@@ -33,12 +33,8 @@ handler.post(async (req, res) => {
         const result = await uploader(
           (files.image as any).filepath,
           "next-e-commerce/products",
-          [
-            { width: 350, height: 300, crop: "limit" },
-            { quality: "auto" },
-            { fetch_format: "auto" },
-          ],
-          ["jpg", "png", "jpeg"]
+          [{ quality: "auto" }, { fetch_format: "auto" }],
+          ["jpg", "png", "jpeg", "webp"]
         );
 
         await db.connect();
