@@ -5,7 +5,7 @@ export default withAuth({
     authorized: ({ token, req }) => {
       const pathname = req.nextUrl.pathname;
       const user = token?.user as any;
-      console.log({ token });
+
       if (pathname.includes("/dashboard") && !user?.isAdmin) {
         return false;
       }

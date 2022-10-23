@@ -3,6 +3,7 @@ import Breadcrumb from "@/src/components/Breadcrumb";
 import { Layout } from "@/src/components/Layout";
 import { Product } from "@/src/types/Product";
 import axios from "@/src/utils/axios";
+import { productImageProps } from "@/src/utils/product-image-props";
 import { ErrorOutlineRounded } from "@mui/icons-material";
 import {
   Alert,
@@ -55,11 +56,8 @@ const Product: NextPage<Props> = ({ product }) => {
             <Grid item xs={12} sm={8} md={4}>
               <Image
                 src={product.image}
-                width={640}
-                height={640}
-                layout="responsive"
-                objectFit="contain"
                 alt={product.name}
+                {...productImageProps}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
