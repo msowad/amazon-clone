@@ -1,6 +1,7 @@
 import FormWrapper from "@/src/components/FormWrapper";
 import { Layout } from "@/src/components/Layout";
 import axios from "@/src/utils/axios";
+import { guestRoute } from "@/src/utils/guestRoute";
 import { LockOutlined } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
@@ -9,6 +10,16 @@ import { GetServerSideProps } from "next";
 import { useSnackbar } from "notistack";
 import React from "react";
 import * as yup from "yup";
+
+export const getServerSideProps: GetServerSideProps = guestRoute(
+  async ({ query, req }) => {
+    return {
+      props: {
+        email: query.email || "",
+      },
+    };
+  }
+);
 
 interface Props {
   email: string;
@@ -97,14 +108,3 @@ const ForgotPassword: React.FC<Props> = ({ email }) => {
 };
 
 export default ForgotPassword;
-
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  req,
-}) => {
-  return {
-    props: {
-      email: query.email,
-    },
-  };
-};

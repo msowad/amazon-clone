@@ -1,6 +1,7 @@
 import FormWrapper from "@/src/components/FormWrapper";
 import { Layout } from "@/src/components/Layout";
 import axios from "@/src/utils/axios";
+import { guestRoute } from "@/src/utils/guestRoute";
 import { GroupAdd } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Grid, Link, TextField } from "@mui/material";
@@ -11,9 +12,9 @@ import NextLink from "next/link";
 import React from "react";
 import * as yup from "yup";
 
-interface Props {
-  //
-}
+export const getServerSideProps = guestRoute(async () => {
+  return { props: {} };
+});
 
 const validationSchema = yup.object({
   name: yup.string().required("Name is required"),
@@ -38,7 +39,7 @@ const initialValues = {
   confirmPassword: "",
 };
 
-const Register: React.FC<Props> = () => {
+const Register: React.FC = () => {
   const router = useRouter();
   const { redirect } = router.query;
 

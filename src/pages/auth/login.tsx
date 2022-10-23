@@ -1,5 +1,6 @@
 import FormWrapper from "@/src/components/FormWrapper";
 import { Layout } from "@/src/components/Layout";
+import { guestRoute } from "@/src/utils/guestRoute";
 import { LockOutlined } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Link, TextField } from "@mui/material";
@@ -10,9 +11,9 @@ import NextLink from "next/link";
 import React from "react";
 import * as yup from "yup";
 
-interface Props {
-  //
-}
+export const getServerSideProps = guestRoute(async () => {
+  return { props: {} };
+});
 
 const validationSchema = yup.object({
   email: yup
@@ -27,7 +28,7 @@ const initialValues = {
   password: "",
 };
 
-const Login: React.FC<Props> = () => {
+const Login: React.FC = () => {
   const router = useRouter();
   const { redirect } = router.query;
 

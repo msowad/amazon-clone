@@ -1,6 +1,7 @@
 import FormWrapper from "@/src/components/FormWrapper";
 import { Layout } from "@/src/components/Layout";
 import axios from "@/src/utils/axios";
+import { guestRoute } from "@/src/utils/guestRoute";
 import { LockOutlined } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
@@ -11,9 +12,9 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import * as yup from "yup";
 
-interface Props {
-  //
-}
+export const getServerSideProps = guestRoute(async () => {
+  return { props: {} };
+});
 
 const validationSchema = yup.object({
   newPassword: yup.string().required("Password is required"),
@@ -28,7 +29,7 @@ const initialValues = {
   confirmPassword: "",
 };
 
-const ResetPassword: React.FC<Props> = () => {
+const ResetPassword: React.FC = () => {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
