@@ -55,6 +55,7 @@
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",
     "react-redux": "^7.2.6",
+    "sharp": "^0.31.1",
     "slugify": "^1.6.3",
     "stripe": "^8.191.0",
     "yup": "^0.32.11"
