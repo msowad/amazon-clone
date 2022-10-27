@@ -6,8 +6,8 @@ export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") +
-      "/products",
+      (process.env.NEXT_PUBLIC_API_URL ||
+        "https://amazon-clone.up.railway.app/api") + "/products",
   }),
   tagTypes: ["Products"],
   endpoints: (build) => ({

@@ -6,7 +6,7 @@ export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") +
+      (process.env.NEXT_PUBLIC_API_URL || "https://amazon-clone.up.railway.app/api") +
       "/users",
   }),
   tagTypes: ["Users"],

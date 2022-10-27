@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PaginatedResponse } from "../types/PaginatedResponse";
 
 const baseUrl =
-  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api") + "/orders";
+  (process.env.NEXT_PUBLIC_API_URL ||
+    "https://amazon-clone.up.railway.app/api") + "/orders";
 
 const createRequest = (url: string) => ({ url: url });
 
