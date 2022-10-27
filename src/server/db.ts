@@ -36,7 +36,7 @@ const disconnect = async () => {
   }
 };
 
-const redisClient = new Redis(process.env.REDIS_CONNECTION_URL);
+const redisClient = new Redis(process.env.REDIS_URL);
 
 const db = { connect, disconnect, redisClient };
 
